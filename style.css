@@ -1,0 +1,33 @@
+html {
+    scroll-behavior: smooth;
+}
+
+#backtotop {
+    position: fixed;
+    bottom: 40px;
+    right: 15px;
+    font-size: 1.5em;
+    padding: 5px;
+    border-radius: 50%;
+    background: darkslategray;
+    z-index: 1000;
+}
+
+@media (max-width: 991px) {
+    section {
+        flex-direction: column;
+    }
+
+    .form {
+        flex-direction: column;
+    }
+
+    #contact ul li {
+        font-size: 3rem;
+        display: inline;
+    }
+
+    form {
+        width: 100% !important;
+    }
+}
