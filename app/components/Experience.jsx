@@ -34,10 +34,11 @@ const experienceData = [
 
 export default function Experience() {
   return (
-    <div className="px-20 w-full min-h-screen">
-      <h1 className="my-16 text-6xl font-bold text-center text-blue-950">
+    <div className="px-20 w-full min-h-screen" id="experience">
+      <h1 className="mt-16 mb-3 text-6xl font-bold text-center text-blue-950">
         Experience
       </h1>
+      <div className="mx-auto mb-16 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
       <div className="w-full">
         <h3 className="text-3xl font-bold text-left">
           Intern at Gauge RO - India&apos;s smartest water purifier

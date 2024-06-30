@@ -8,7 +8,8 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-body {
+* {
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
@@ -29,4 +30,32 @@ body {
   100% {
     rotate: -15deg;
   }
+}
+
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.scroll-fade {
+  animation: fadeinout linear;
+  animation-timeline: view();
+}
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  padding: 20px 0px;
+  flex: 0 0 auto;
 }

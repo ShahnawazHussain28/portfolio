@@ -6,12 +6,12 @@ import { FaReact } from "react-icons/fa6";
 
 export default function Hello() {
   return (
-    <div className="grid grid-cols-2 w-full min-h-screen">
+    <div className="grid grid-cols-2 w-full min-h-screen" id="hello">
       <div className="flex justify-end items-center">
         <div className="w-min">
           <h1 className="text-7xl font-bold">Hello,</h1>
           <h2 className="text-7xl font-bold">
-            <span className="mr-5">I'm</span>
+            <span className="mr-5">I&apos;m</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
               Shahnawaz
             </span>
