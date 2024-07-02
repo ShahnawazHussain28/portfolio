@@ -133,8 +133,8 @@ export default function Skills() {
   ]);
 
   return (
-    <div className="px-20 pt-28 w-full" id="skills">
-      <h1 className="mt-5 mb-3 text-6xl font-bold text-center text-blue-950">
+    <div className="px-5 pt-28 w-full md:px-20" id="skills">
+      <h1 className="mt-5 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950">
         Skills
       </h1>
       <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
@@ -148,16 +148,16 @@ export default function Skills() {
               <Link
                 href={icon.link}
                 key={index}
-                className="w-52 h-52 rounded-xl embla__slide group"
+                className="w-24 h-24 rounded-xl sm:w-36 sm:h-36 md:w-52 md:h-52 embla__slide group"
               >
                 <Image
                   src={icon.icon}
                   alt="html"
                   width={400}
                   height={400}
-                  className="mx-auto w-40 h-40 transition group-hover:-translate-y-12"
+                  className="mx-auto w-16 h-16 transition sm:w-28 sm:h-28 md:w-40 md:h-40 group-hover:-translate-y-12"
                 />
-                <p className="-mt-5 text-3xl font-bold text-center opacity-0 transition group-hover:opacity-100">
+                <p className="-mt-5 text-lg font-bold text-center opacity-0 transition md:text-3xl group-hover:opacity-100">
                   {icon.name}
                 </p>
               </Link>

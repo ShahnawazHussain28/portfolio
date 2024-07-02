@@ -36,13 +36,13 @@ const projectImages = [
 export default function Projects() {
   return (
     <div className="relative w-full" id="projects">
-      <h1 className="mt-5 mb-3 text-6xl font-bold text-center text-blue-950">
+      <h1 className="mt-20 mb-3 text-4xl font-bold text-center md:mt-5 md:text-6xl text-blue-950">
         Personal Projects
       </h1>
       <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
       <p className="text-center">Check out the projects that I have done.</p>
       <div
-        className="absolute left-1/2 mt-6 h-[95%] -translate-x-1/2 w-[4px] z-50"
+        className="absolute left-10 md:left-1/2 mt-6 h-[95%] -translate-x-1/2 w-[4px] z-50"
         style={{
           backgroundImage:
             "linear-gradient(180deg, transparent 0%, #364385 10%, #364385 90%, transparent 100%)",
@@ -51,16 +51,16 @@ export default function Projects() {
       {projectImages.map((data, index) => (
         <div
           key={index}
-          className="grid relative grid-cols-2 my-10 w-full h-max"
+          className="grid relative grid-cols-1 gap-5 my-20 mr-5 ml-20 md:grid-cols-2 md:gap-0 md:my-10 md:ml-0 w-fit h-max"
         >
-          <div className="flex relative flex-col justify-center items-end text-right scroll-fade">
-            <div className="px-10 w-4/5 bg-[#eff8ff]">
-              <h3 className="text-3xl font-bold">{data.title}</h3>
-              <p className="">{data.desc}</p>
+          <div className="flex relative flex-col justify-center items-start pr-5 md:items-end md:px-10 md:text-right scroll-fade">
+            <div className="md:w-4/5 bg-[#eff8ff]">
+              <h3 className="text-xl font-bold md:text-3xl">{data.title}</h3>
+              <p className="text-sm md:text-base">{data.desc}</p>
             </div>
             <Link
               href={data.to}
-              className="py-1 px-5 mt-2 mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition"
+              className="py-1 px-5 mt-2 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition"
             >
               View Project
             </Link>
@@ -70,13 +70,13 @@ export default function Projects() {
             alt="project"
             height={500}
             width={300}
-            className="object-cover rounded-lg border-indigo-500 translate-x-10 cursor-pointer w-[300] h-[500] scroll-fade aspect-[9_/_16] shadow-[0_0_10px_3px_gray]"
+            className="object-cover rounded-lg border-indigo-500 cursor-pointer md:translate-x-10 h-[500] scroll-fade aspect-[9_/_16] shadow-[0_0_10px_3px_gray] max-w-[300]"
             style={{ backgroundPosition: "right", backgroundSize: "cover" }}
           />
-          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-black rounded-full -translate-x-1/2 shadow-[0_0_0_3px_white] z-[55]"></div>
+          <div className="absolute -left-10 top-1/2 w-4 h-4 bg-black rounded-full -translate-x-1/2 md:left-1/2 md:translate-x-0.5 shadow-[0_0_0_3px_white] z-[55]"></div>
         </div>
       ))}
-      <button className="py-2 text-lg px-5 mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2">
+      <button className="py-2 text-base md:text-lg px-5 md:mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2">
         View Other Projects
       </button>
     </div>
