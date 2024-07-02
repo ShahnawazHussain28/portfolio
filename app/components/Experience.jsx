@@ -1,30 +1,34 @@
 import Image from "next/image";
 import React from "react";
+import ecommerce from "@/public/screenshots/ecommerce-short.png";
+import consumerapp from "@/public/screenshots/consumerapp-short.png";
+import technicianapp from "@/public/screenshots/pegapp-short.png";
+import testingapp from "@/public/screenshots/testing-short.jpg";
 
 const experienceData = [
   {
-    image: "https://placehold.co/600x400/png",
+    image: ecommerce,
     title: "Ecommerce Website",
     role: "Full Stack",
     desc: "Building a fully functional Ecommerce website containing landing page, blogs, about, contact and purchase functionality of Gauge RO.",
     tech: ["NextJS", "TailwindCSS", "NodeJS", "Strapi"],
   },
   {
-    image: "https://placehold.co/600x400/png",
+    image: consumerapp,
     title: "Consumer App (PWA)",
     role: "Frontend",
     desc: "Developed a PWA for customers where they can view the purifier's data, operate the RO remotely and perform complex troubleshooting steps.",
     tech: ["NextJS", "ReactJS", "TailwindCSS"],
   },
   {
-    image: "https://placehold.co/600x400/png",
+    image: technicianapp,
     title: "Technician App (PWA)",
     role: "Frontend",
     desc: "Developed a PWA for the technicians and team members where they can view and manage their team members and their assigned tasks",
     tech: ["NextJS", "ReactJS", "TailwindCSS"],
   },
   {
-    image: "https://placehold.co/600x400/png",
+    image: testingapp,
     title: "Automated Integration Testing",
     role: "Full Stack",
     desc: "A complete testing environment for the Smart RO. It contains the flow of every possible failure. It saved us 5 hours of manual testing per day.",
@@ -54,7 +58,7 @@ export default function Experience() {
                 height={200}
                 width={300}
                 alt="project"
-                className="w-full"
+                className="object-cover w-full aspect-video"
               />
               <div className="px-5 pt-3 pb-5 w-fit">
                 <p className="mb-3 text-xl font-semibold text-gray-800">
