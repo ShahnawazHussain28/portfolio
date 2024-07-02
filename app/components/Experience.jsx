@@ -4,6 +4,7 @@ import ecommerce from "@/public/screenshots/ecommerce-short.png";
 import consumerapp from "@/public/screenshots/consumerapp-short.png";
 import technicianapp from "@/public/screenshots/pegapp-short.png";
 import testingapp from "@/public/screenshots/testing-short.jpg";
+import Link from "next/link";
 
 const experienceData = [
   {
@@ -12,6 +13,7 @@ const experienceData = [
     role: "Full Stack",
     desc: "Building a fully functional Ecommerce website containing landing page, blogs, about, contact and purchase functionality of Gauge RO.",
     tech: ["NextJS", "TailwindCSS", "NodeJS", "Strapi"],
+    to: "/projects/gauge-website",
   },
   {
     image: consumerapp,
@@ -49,7 +51,8 @@ export default function Experience() {
         </h3>
         <div className="grid grid-cols-4 gap-5 my-8 w-full">
           {experienceData.map((data, index) => (
-            <div
+            <Link
+              href={data.to ?? "/"}
               key={index}
               className="overflow-hidden rounded-lg shadow-lg transition cursor-pointer hover:shadow-2xl bg-[#eff8ff]"
             >
@@ -77,7 +80,7 @@ export default function Experience() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
