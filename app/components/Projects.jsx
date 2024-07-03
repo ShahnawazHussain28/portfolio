@@ -14,6 +14,12 @@ const projectImages = [
     to: "/projects/circuitsim",
   },
   {
+    image: "https://placehold.co/300x500/0000ff/white/png",
+    title: "Smart WhatsApp Bot",
+    desc: "Meet your all-in-one WhatsApp sidekick! This AI bot answers questions, finds images, translates languages, discovers music, and solves math problems using Google and DuckDuckGo.",
+    to: "/projects/whatsappbot",
+  },
+  {
     image: unfairchat,
     title: "Unfair Chat",
     desc: "Chat with friends & see their online status, but with a twist! Unfair Chat lets you peek at who they're talking to (and maybe what they're typing ). Just for laughs!",
@@ -24,12 +30,6 @@ const projectImages = [
     title: "The Squid Game",
     desc: "A game made with Unity. It is created after the famous Squid Game web series. It's a 3D survival game where you are the Player456 and have to survive those 4 games to be the winner",
     to: "/projects/squidgame",
-  },
-  {
-    image: "https://placehold.co/300x500/0000ff/white/png",
-    title: "Smart WhatsApp Bot",
-    desc: "Meet your all-in-one WhatsApp sidekick! This AI bot answers questions, finds images, translates languages, discovers music, and solves math problems using Google and DuckDuckGo.",
-    to: "/projects/whatsappbot",
   },
 ];
 
@@ -76,9 +76,12 @@ export default function Projects() {
           <div className="absolute -left-10 top-1/2 w-4 h-4 bg-black rounded-full -translate-x-1/2 md:left-1/2 md:translate-x-0.5 shadow-[0_0_0_3px_white] z-[55]"></div>
         </div>
       ))}
-      <button className="py-2 text-base md:text-lg px-5 md:mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2">
+      <Link
+        href={"https://shahnawazhussain28.github.io/?gallery=true"}
+        className="py-2 text-base md:text-lg px-5 md:mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2"
+      >
         View Other Projects
-      </button>
+      </Link>
     </div>
   );
 }
