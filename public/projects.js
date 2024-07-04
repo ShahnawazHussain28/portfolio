@@ -50,6 +50,7 @@ export const projects = {
       "Unfair Chat is a full-featured chat app with a twist! Chat with friends, see their online status, and change your profile picture, all while having a little extra fun. This app lets you see who your friends are talking to, and even what they're typing... but hey, it's all just for laughs, right?",
     url: "https://unfairchat.onrender.com",
     github: "https://github.com/ShahnawazHussain28/unfair-chat-react/",
+    image: ["unfairchat-short.png"],
   },
   squidgame: {
     title: "Squid Game - Survival Island",

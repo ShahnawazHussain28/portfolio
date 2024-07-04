@@ -7,23 +7,25 @@ import { BsGlobe2 } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
 import { projects } from "@/public/projects";
+import Navbar from "@/app/components/Navbar";
 
 export default function Project() {
   const params = useParams();
   const data = projects[params.name];
   return (
     <div className="w-full">
+      <Navbar />
       <div className="flex flex-col items-center w-full">
-        <h2 className="mt-20 font-bold uppercase text-sky-500">
+        <h2 className="mt-20 text-sm font-bold uppercase md:text-base text-sky-500">
           Project Showcase
         </h2>
-        <h1 className="mt-5 font-serif text-6xl font-bold text-blue-950">
+        <h1 className="mt-5 font-serif text-3xl font-bold text-center md:text-6xl text-blue-950">
           {data.title}
         </h1>
-        <p className="mt-5 max-w-2xl leading-snug text-center text-blue-950">
+        <p className="mx-5 mt-5 max-w-2xl text-sm leading-snug text-center md:text-base text-blue-950">
           {data.description}
         </p>
-        <div className="flex gap-5 items-center mt-5">
+        <div className="grid grid-flow-col gap-2 place-items-center mt-5 sm:gap-5">
           {["url", "github", "youtube"].map(
             (key) =>
               data[key] && (
@@ -31,14 +33,14 @@ export default function Project() {
                   key={key}
                   href={data[key]}
                   target="_blank"
-                  className="flex gap-2 items-center py-2 px-5 text-white bg-gradient-to-br to-indigo-600 rounded transition-all hover:to-indigo-700 from-sky-500 shadow-indigo-500 hover:shadow-[2px_4px_7px_skyblue] hover:from-sky-600"
+                  className="flex gap-2 items-center py-2 px-2 text-sm text-white bg-gradient-to-br to-indigo-600 rounded transition-all sm:px-5 sm:text-base hover:to-indigo-700 from-sky-500 shadow-indigo-500 hover:shadow-[2px_4px_7px_skyblue] hover:from-sky-600"
                 >
                   {key === "url" ? (
-                    <BsGlobe2 className="text-3xl" />
+                    <BsGlobe2 className="text-2xl md:text-3xl" />
                   ) : key === "github" ? (
-                    <FaGithub className="text-3xl" />
+                    <FaGithub className="text-2xl md:text-3xl" />
                   ) : (
-                    <AiFillYoutube className="text-3xl" />
+                    <AiFillYoutube className="text-2xl md:text-3xl" />
                   )}
                   <span>
                     {key === "url"

@@ -12,22 +12,24 @@ export default function LetsWork() {
 
       <Link
         href={"mailto:shahnawazhussain2802@gmail.com"}
-        className="py-2 mt-10 px-8 rounded-full text-2xl font-semibold border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition"
+        className="py-2 mt-10 px-5 sm:px-8 rounded-full text-lg md:text-2xl font-semibold border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition"
       >
         Email me
       </Link>
-      <div className="flex gap-16 my-10">
+      <div className="flex gap-10 my-10 md:gap-16">
         <Link
           target="_blank"
           href="https://www.linkedin.com/in/shahnawaz-hussain-110919227/"
         >
-          <FaLinkedin className="text-8xl text-[#0077B5] hover:scale-105 transition" />
+          <FaLinkedin className="text-6xl md:text-8xl text-[#0077B5] hover:scale-105 transition" />
         </Link>
         <Link target="_blank" href="https://github.com/ShahnawazHussain28/">
-          <FaGithub className="text-8xl text-[#333] hover:scale-105 transition" />
+          <FaGithub className="text-6xl md:text-8xl text-[#333] hover:scale-105 transition" />
         </Link>
       </div>
-      <p className="mt-5 text-gray-500">shahnawazhussain2802@gmail.com</p>
+      <p className="mt-5 text-sm text-gray-500 md:text-base">
+        shahnawazhussain2802@gmail.com
+      </p>
     </div>
   );
 }
