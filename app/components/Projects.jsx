@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import circuitsim from "@/public/screenshots/circuitsim-short.png";
 import unfairchat from "@/public/screenshots/unfairchat-short.png";
 import squidgame from "@/public/screenshots/squidgame-short.png";
+import whatsy from "@/public/screenshots/whatsy-1.jpeg";
 import Link from "next/link";
+import observer from "../utils/intersectionObserver";
 
 const projectImages = [
   {
@@ -14,8 +16,8 @@ const projectImages = [
     to: "/projects/circuitsim",
   },
   {
-    image: "https://placehold.co/300x500/0000ff/white/png",
-    title: "Smart WhatsApp Bot",
+    image: whatsy,
+    title: "Whatsy (WhatsApp Bot)",
     desc: "Meet your all-in-one WhatsApp sidekick! This AI bot answers questions, finds images, translates languages, discovers music, and solves math problems using Google and DuckDuckGo.",
     to: "/projects/whatsappbot",
   },
@@ -34,13 +36,23 @@ const projectImages = [
 ];
 
 export default function Projects() {
+  useEffect(() => {
+    const observerElements = document.querySelectorAll(
+      ".translate-up,.fade-on-scroll,.translate-right-cascade",
+    );
+    observerElements.forEach((element) => {
+      observer.observe(element);
+    });
+  }, []);
   return (
     <div className="relative w-full" id="projects">
-      <h1 className="mt-20 mb-3 text-4xl font-bold text-center md:mt-5 md:text-6xl text-blue-950">
-        Personal Projects
-      </h1>
-      <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
-      <p className="text-center">Check out the projects that I have done.</p>
+      <div className="translate-up">
+        <h1 className="mt-20 mb-3 text-4xl font-bold text-center md:mt-5 md:text-6xl text-blue-950">
+          Personal Projects
+        </h1>
+        <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
+        <p className="text-center">Check out the projects that I have done.</p>
+      </div>
       <div
         className="absolute left-10 md:left-1/2 mt-6 h-[95%] -translate-x-1/2 w-[4px] z-50"
         style={{

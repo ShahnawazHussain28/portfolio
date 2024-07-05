@@ -1,10 +1,12 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import ecommerce from "@/public/screenshots/ecommerce-short.png";
 import consumerapp from "@/public/screenshots/consumerapp-short.png";
 import technicianapp from "@/public/screenshots/pegapp-short.png";
 import testingapp from "@/public/screenshots/testing-short.jpg";
 import Link from "next/link";
+import observer from "../utils/intersectionObserver";
 
 const experienceData = [
   {
@@ -42,12 +44,20 @@ const experienceData = [
 ];
 
 export default function Experience() {
+  useEffect(() => {
+    const observerElements = document.querySelectorAll(
+      ".translate-up,.fade-on-scroll,.translate-right-cascade",
+    );
+    observerElements.forEach((element) => {
+      observer.observe(element);
+    });
+  }, []);
   return (
     <div className="px-10 w-full min-h-screen xl:px-20" id="experience">
-      <h1 className="mt-16 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950">
+      <h1 className="mt-16 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950 translate-up">
         Experience
       </h1>
-      <div className="mx-auto mb-16 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
+      <div className="mx-auto mb-16 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px] translate-up"></div>
       <div className="w-full">
         <h3 className="text-xl font-bold text-left md:text-3xl">
           Intern at Gauge RO - India&apos;s smartest water purifier
@@ -57,7 +67,7 @@ export default function Experience() {
             <Link
               href={data.to ?? "/"}
               key={index}
-              className="overflow-hidden rounded-lg shadow-lg transition cursor-pointer hover:shadow-2xl bg-[#eff8ff]"
+              className="overflow-hidden rounded-lg shadow-lg transition cursor-pointer hover:shadow-2xl bg-[#eff8ff] translate-right-cascade"
             >
               <Image
                 src={data.image}

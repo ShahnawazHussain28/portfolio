@@ -23,6 +23,8 @@ import javaIcon from "@/public/logos/java-icon.svg";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
 import Link from "next/link";
+import observer from "../utils/intersectionObserver";
+import { useEffect } from "react";
 
 const icons = [
   {
@@ -131,16 +133,26 @@ export default function Skills() {
   const [emblaRef, _emblaApi] = useEmblaCarousel({ loop: true }, [
     AutoPlay({ playOnInit: true, stopOnInteraction: true, delay: 2000 }),
   ]);
+  useEffect(() => {
+    const observerElements = document.querySelectorAll(
+      ".translate-up,.fade-on-scroll,.translate-right-cascade",
+    );
+    observerElements.forEach((element) => {
+      observer.observe(element);
+    });
+  }, []);
 
   return (
     <div className="px-5 pt-28 w-full md:px-20" id="skills">
-      <h1 className="mt-5 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950">
-        Skills
-      </h1>
-      <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
-      <p className="text-center">
-        Here are some of the technologies I have worked with.
-      </p>
+      <div className="translate-up">
+        <h1 className="mt-5 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950">
+          Skills
+        </h1>
+        <div className="mx-auto mb-5 bg-gradient-to-r via-indigo-500 from-sky-300 to-sky-300 h-[6px] w-[80px]"></div>
+        <p className="text-center">
+          Here are some of the technologies I have worked with.
+        </p>
+      </div>
       <section className="py-10 mt-12 embla bg-[#eff8ff]">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">

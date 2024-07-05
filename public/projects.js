@@ -67,9 +67,16 @@ export const projects = {
     ],
   },
   whatsappbot: {
-    title: "Smart WhatsApp Bot",
+    title: "Whatsy - The Bot",
     description:
       "Introducing your ultimate WhatsApp sidekick! This AI bot answers questions, finds images, translates languages, discovers music, and solves complex math problems—all within WhatsApp. Powered by Google and DuckDuckGo, it brings everything you need right to your chat. Say goodbye to switching apps—this bot has you covered!",
     github: "https://github.com/ShahnawazHussain28/whatsapp-bot",
+    image: [
+      "whatsy-1.jpeg",
+      "whatsy-2.jpeg",
+      "whatsy-3.jpeg",
+      "whatsy-4.jpeg",
+      "whatsy-5.jpeg",
+    ],
   },
 };

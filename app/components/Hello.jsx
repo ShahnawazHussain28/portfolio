@@ -1,17 +1,26 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import profileImage from "@/public/profilepic.png";
 import { SiNextdotjs } from "react-icons/si";
 import { FaReact } from "react-icons/fa6";
+import observer from "../utils/intersectionObserver";
 
 export default function Hello() {
+  useEffect(() => {
+    const observerElements = document.querySelectorAll(".translate-up");
+    observerElements.forEach((element) => {
+      console.log(element);
+      observer.observe(element);
+    });
+  }, []);
   return (
     <div
       className="grid auto-rows-[minmax(100px,auto)] gap-10 w-full min-h-screen md:grid-cols-2"
       id="hello"
     >
       <div className="flex justify-center items-center pt-24 md:justify-end md:pt-0">
-        <div className="px-10 w-full sm:px-20 md:px-0 md:w-min">
+        <div className="px-10 w-full sm:px-20 md:px-0 md:w-min translate-up">
           <h1 className="text-4xl font-bold lg:text-6xl xl:text-7xl">Hello,</h1>
           <h2 className="text-4xl font-bold lg:text-6xl xl:text-7xl">
             <span className="mr-5">I&apos;m</span>

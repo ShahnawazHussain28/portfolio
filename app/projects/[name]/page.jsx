@@ -8,10 +8,20 @@ import { FaGithub } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
 import { projects } from "@/public/projects";
 import Navbar from "@/app/components/Navbar";
+import observer from "@/app/utils/intersectionObserver";
+import { useEffect } from "react";
 
 export default function Project() {
   const params = useParams();
   const data = projects[params.name];
+  useEffect(() => {
+    const observerElements = document.querySelectorAll(
+      ".translate-up,.fade-on-scroll,.translate-right-cascade",
+    );
+    observerElements.forEach((element) => {
+      observer.observe(element);
+    });
+  }, []);
   return (
     <div className="w-full">
       <Navbar />
@@ -19,12 +29,14 @@ export default function Project() {
         <h2 className="mt-20 text-sm font-bold uppercase md:text-base text-sky-500">
           Project Showcase
         </h2>
-        <h1 className="mt-5 font-serif text-3xl font-bold text-center md:text-6xl text-blue-950">
-          {data.title}
-        </h1>
-        <p className="mx-5 mt-5 max-w-2xl text-sm leading-snug text-center md:text-base text-blue-950">
-          {data.description}
-        </p>
+        <div className="translate-up">
+          <h1 className="mt-5 font-serif text-3xl font-bold text-center md:text-6xl text-blue-950">
+            {data.title}
+          </h1>
+          <p className="mx-5 mt-5 max-w-2xl text-sm leading-snug text-center md:text-base text-blue-950">
+            {data.description}
+          </p>
+        </div>
         <div className="grid grid-flow-col gap-2 place-items-center mt-5 sm:gap-5">
           {["url", "github", "youtube"].map(
             (key) =>
@@ -60,7 +72,7 @@ export default function Project() {
                   src={`/screenshots/${img}`}
                   alt="project"
                   key={index}
-                  className="rounded-lg max-w-[70%]"
+                  className="rounded-lg max-w-[90%] sm:max-w-[70%]"
                 />
               ))
             : data.image && (
