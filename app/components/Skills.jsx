@@ -23,7 +23,7 @@ import javaIcon from "@/public/logos/java-icon.svg";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
 import Link from "next/link";
-import observer from "../utils/intersectionObserver";
+// import observer from "../utils/intersectionObserver";
 import { useEffect } from "react";
 
 const icons = [
@@ -133,14 +133,14 @@ export default function Skills() {
   const [emblaRef, _emblaApi] = useEmblaCarousel({ loop: true }, [
     AutoPlay({ playOnInit: true, stopOnInteraction: true, delay: 2000 }),
   ]);
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(
-      ".translate-up,.fade-on-scroll,.translate-right-cascade",
-    );
-    observerElements.forEach((element) => {
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(
+  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
+  //   );
+  //   observerElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, []);
 
   return (
     <div className="px-5 pt-28 w-full md:px-20" id="skills">

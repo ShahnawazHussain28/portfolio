@@ -2,17 +2,17 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
-import observer from "../utils/intersectionObserver";
+// import observer from "../utils/intersectionObserver";
 
 export default function LetsWork() {
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(
-      ".translate-up,.fade-on-scroll,.translate-right-cascade",
-    );
-    observerElements.forEach((element) => {
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(
+  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
+  //   );
+  //   observerElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, []);
   return (
     <div className="flex flex-col items-center pb-60 mt-40 w-full" id="contact">
       <div className="translate-up">

@@ -4,16 +4,16 @@ import React, { useEffect } from "react";
 import profileImage from "@/public/profilepic.png";
 import { SiNextdotjs } from "react-icons/si";
 import { FaReact } from "react-icons/fa6";
-import observer from "../utils/intersectionObserver";
+// import observer from "../utils/intersectionObserver";
 
 export default function Hello() {
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(".translate-up");
-    observerElements.forEach((element) => {
-      console.log(element);
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(".translate-up");
+  //   observerElements.forEach((element) => {
+  //     console.log(element);
+  //     observer.observe(element);
+  //   });
+  // }, []);
   return (
     <div
       className="grid auto-rows-[minmax(100px,auto)] gap-10 w-full min-h-screen md:grid-cols-2"

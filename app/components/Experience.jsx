@@ -6,7 +6,7 @@ import consumerapp from "@/public/screenshots/consumerapp-short.png";
 import technicianapp from "@/public/screenshots/pegapp-short.png";
 import testingapp from "@/public/screenshots/testing-short.jpg";
 import Link from "next/link";
-import observer from "../utils/intersectionObserver";
+// import observer from "../utils/intersectionObserver";
 
 const experienceData = [
   {
@@ -44,14 +44,14 @@ const experienceData = [
 ];
 
 export default function Experience() {
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(
-      ".translate-up,.fade-on-scroll,.translate-right-cascade",
-    );
-    observerElements.forEach((element) => {
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(
+  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
+  //   );
+  //   observerElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, []);
   return (
     <div className="px-10 w-full min-h-screen xl:px-20" id="experience">
       <h1 className="mt-16 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950 translate-up">

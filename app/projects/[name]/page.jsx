@@ -8,20 +8,20 @@ import { FaGithub } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
 import { projects } from "@/public/projects";
 import Navbar from "@/app/components/Navbar";
-import observer from "@/app/utils/intersectionObserver";
+// import observer from "@/app/utils/intersectionObserver";
 import { useEffect } from "react";
 
 export default function Project() {
   const params = useParams();
   const data = projects[params.name];
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(
-      ".translate-up,.fade-on-scroll,.translate-right-cascade",
-    );
-    observerElements.forEach((element) => {
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(
+  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
+  //   );
+  //   observerElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, []);
   return (
     <div className="w-full">
       <Navbar />

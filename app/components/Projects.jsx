@@ -6,7 +6,7 @@ import unfairchat from "@/public/screenshots/unfairchat-short.png";
 import squidgame from "@/public/screenshots/squidgame-short.png";
 import whatsy from "@/public/screenshots/whatsy-1.jpeg";
 import Link from "next/link";
-import observer from "../utils/intersectionObserver";
+// import observer from "../utils/intersectionObserver";
 
 const projectImages = [
   {
@@ -36,14 +36,14 @@ const projectImages = [
 ];
 
 export default function Projects() {
-  useEffect(() => {
-    const observerElements = document.querySelectorAll(
-      ".translate-up,.fade-on-scroll,.translate-right-cascade",
-    );
-    observerElements.forEach((element) => {
-      observer.observe(element);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const observerElements = document.querySelectorAll(
+  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
+  //   );
+  //   observerElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, []);
   return (
     <div className="relative w-full" id="projects">
       <div className="translate-up">
@@ -90,7 +90,7 @@ export default function Projects() {
       ))}
       <Link
         href={"https://shahnawazhussain28.github.io/?gallery=true"}
-        className="py-2 text-base md:text-lg px-5 md:mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2"
+        className="py-2 text-base md:text-lg px-3 md:px-5 md:mr-10 rounded-full border-4 border-indigo-500 bg-[#eff8ff] hover:bg-indigo-500 hover:text-white transition absolute left-1/2 -translate-x-1/2"
       >
         View Other Projects
       </Link>
