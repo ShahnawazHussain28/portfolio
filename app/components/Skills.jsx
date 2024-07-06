@@ -23,8 +23,7 @@ import javaIcon from "@/public/logos/java-icon.svg";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
 import Link from "next/link";
-// import observer from "../utils/intersectionObserver";
-import { useEffect } from "react";
+import ScrollAnimation from "react-animate-on-scroll";
 
 const icons = [
   {
@@ -133,18 +132,10 @@ export default function Skills() {
   const [emblaRef, _emblaApi] = useEmblaCarousel({ loop: true }, [
     AutoPlay({ playOnInit: true, stopOnInteraction: true, delay: 2000 }),
   ]);
-  // useEffect(() => {
-  //   const observerElements = document.querySelectorAll(
-  //     ".translate-up,.fade-on-scroll,.translate-right-cascade",
-  //   );
-  //   observerElements.forEach((element) => {
-  //     observer.observe(element);
-  //   });
-  // }, []);
 
   return (
     <div className="px-5 pt-28 w-full md:px-20" id="skills">
-      <div className="translate-up">
+      <ScrollAnimation animateIn="fadeInUp" animateOnce>
         <h1 className="mt-5 mb-3 text-4xl font-bold text-center md:text-6xl text-blue-950">
           Skills
         </h1>
@@ -152,7 +143,7 @@ export default function Skills() {
         <p className="text-center">
           Here are some of the technologies I have worked with.
         </p>
-      </div>
+      </ScrollAnimation>
       <section className="py-10 mt-12 embla bg-[#eff8ff]">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">

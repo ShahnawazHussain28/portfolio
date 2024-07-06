@@ -2,13 +2,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import ScrollAnimation from "react-animate-on-scroll";
 import { AiFillYoutube } from "react-icons/ai";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export default function Navbar() {
   const pathname = usePathname();
   return (
-    <div
+    <ScrollAnimation
+      animateOnce
+      animateIn="fadeInDown"
+      offset={0}
+      duration={0.3}
       className={`fixed top-0 left-0 py-3 md:px-8 px-4 w-screen bg-[#eff8ff] border-b border-gray-400 flex justify-between z-[500] ${pathname === "/" ? "sm:justify-evenly" : ""}`}
     >
       <Link
@@ -41,6 +46,6 @@ export default function Navbar() {
           <AiFillYoutube className="text-3xl text-[#FF0000]" />
         </Link>
       </div>
-    </div>
+    </ScrollAnimation>
   );
 }
