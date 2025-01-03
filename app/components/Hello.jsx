@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import profileImage from "@/public/profilepic.png";
+import profileImage from "@/public/profilepic.jpg";
 import { SiNextdotjs } from "react-icons/si";
 import { FaReact } from "react-icons/fa6";
 import ScrollAnimation from "react-animate-on-scroll";
@@ -44,7 +44,14 @@ export default function Hello() {
         >
           <SiNextdotjs className="absolute top-0 left-0 text-6xl md:text-8xl animate-dangle" />
           <FaReact className="absolute right-0 bottom-1/2 text-6xl md:text-9xl animate-[spin_20s_linear_infinite]" />
-          <Image src={profileImage} alt="profile" width={400} height={400} />
+          <Image
+            src={profileImage}
+            alt="profile"
+            width={400}
+            height={400}
+            className="z-50 rounded-3xl w-[90%] h-[90%] max-w-[400px]"
+            style={{ boxShadow: "20px -20px 0px 0px rgba(200,200,255,0.8)" }}
+          />
         </ScrollAnimation>
       </div>
     </div>
