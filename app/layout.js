@@ -1,26 +1,24 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "animate.css/animate.compat.css";
+import SmoothScrollProvider from "./components/providers/SmoothScrollProvider";
+import CustomCursor from "./components/ui/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Shahnawaz Hussain - Stunning web developer",
+  title: "Shahnawaz Hussain - Full Stack Developer",
   description:
-    "A portfolio of Shahnawaz Hussain, an experienced, passionate and creative web developer.",
+    "Portfolio of Shahnawaz Hussain, a passionate full-stack web developer creating stunning, modern web experiences.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
-        <div
-          className="flex fixed justify-center items-center w-screen h-screen text-5xl font-extrabold text-[#eff8ff] bg-sky-100/50 xs:text-[4rem] z-[-50] sm:text-[6rem] md:text-[7rem] lg:text-[10rem] xl:text-[12rem]"
-          style={{ textShadow: "0 0px 1px #55f" }}
-        >
-          SHAHNAWAZ
-        </div>
-        {children}
+        <SmoothScrollProvider>
+          <CustomCursor />
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );
