@@ -1,4 +1,5 @@
 import Hero from './components/Hero/Hero';
+import Experience from './components/Experience/Experience';
 import profileImage from '@/public/profilepic.jpg';
 
 export default function Home() {
@@ -7,21 +8,10 @@ export default function Home() {
       {/* Hero Section */}
       <Hero profileImage={profileImage} />
 
-      {/* Placeholder sections for testing scroll */}
-      <section className="min-h-screen flex items-center justify-center bg-dark-secondary/50">
-        <div className="glass-dark p-12 rounded-3xl gradient-border-animated max-w-2xl mx-6">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">
-            Experience Section
-          </h2>
-          <p className="text-light-secondary mb-4">
-            This is where your work experience will go.
-          </p>
-          <p className="text-light-secondary">
-            Coming in Phase 3! 🚀
-          </p>
-        </div>
-      </section>
+      {/* Experience Section */}
+      <Experience />
 
+      {/* Placeholder sections for testing scroll */}
       <section className="min-h-screen flex items-center justify-center">
         <div className="text-center max-w-4xl mx-auto px-8">
           <h2 className="text-5xl font-bold mb-8">
@@ -32,6 +22,9 @@ export default function Home() {
           <p className="text-light-secondary">
             Your amazing projects will be showcased here with the bento grid layout.
           </p>
+          <p className="text-light-secondary mt-4">
+            Coming in Phase 4! 🚀
+          </p>
         </div>
       </section>
 
@@ -41,7 +34,7 @@ export default function Home() {
             Skills Section
           </h2>
           <p className="text-light-secondary">
-            Interactive skill constellation coming soon!
+            Interactive skill constellation coming in Phase 5!
           </p>
         </div>
       </section>
