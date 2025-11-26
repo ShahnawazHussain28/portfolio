@@ -9,7 +9,7 @@ function seededRandom(seed) {
 }
 
 // Single Hexagon Component
-function Hexagon({ q, r, skill, onHover, waveIntensity, gridConfig }) {
+function Hexagon({ q, r, skill, onHover, waveIntensity, gridConfig, animationDelay, isInView }) {
   const { size, cols, rows, offsetX, offsetY } = gridConfig;
 
   // Calculate position for rectangular honeycomb grid
@@ -42,6 +42,17 @@ function Hexagon({ q, r, skill, onHover, waveIntensity, gridConfig }) {
 
   return (
     <g transform={`translate(${x}, ${y})`}>
+      <motion.g
+        initial={{ opacity: 0, scale: 0 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+        transition={{
+          duration: 0.4,
+          delay: animationDelay,
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        }}
+      >
       {/* Glow effect (outer) */}
       <motion.path
         d={pathData}
@@ -106,11 +117,12 @@ function Hexagon({ q, r, skill, onHover, waveIntensity, gridConfig }) {
           </text>
         </g>
       )}
+      </motion.g>
     </g>
   );
 }
 
-export default function HexagonGrid({ skills = [] }) {
+export default function HexagonGrid({ skills = [], isInView = false }) {
   const [hoveredHex, setHoveredHex] = useState(null);
   const [waveMap, setWaveMap] = useState(new Map());
   const [screenSize, setScreenSize] = useState('desktop');
@@ -217,6 +229,23 @@ export default function HexagonGrid({ skills = [] }) {
     return map;
   }, [skills, cols, rows]); // Recalculate if skills or grid size changes
 
+  // Pre-calculate random delays for each hexagon (using seeded random for consistency)
+  const animationDelays = useMemo(() => {
+    const delays = new Map();
+    const totalHexagons = cols * rows;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const key = `${col},${row}`;
+        const seed = col * 100 + row * 7 + 42; // Unique seed for each hexagon
+        // Random delay between 0.8s and 2s for staggered pop-in
+        const delay = 0.8 + seededRandom(seed) * 1.2;
+        delays.set(key, delay);
+      }
+    }
+    return delays;
+  }, [cols, rows]);
+
   const hexagons = [];
 
   // Generate hexagons in rectangular pattern
@@ -225,6 +254,7 @@ export default function HexagonGrid({ skills = [] }) {
       const key = `${col},${row}`;
       const skill = skillMap.get(key) || null;
       const waveIntensity = waveMap.get(key) || 0;
+      const animationDelay = animationDelays.get(key) || 0;
 
       hexagons.push(
         <Hexagon
@@ -235,6 +265,8 @@ export default function HexagonGrid({ skills = [] }) {
           onHover={handleHover}
           waveIntensity={waveIntensity}
           gridConfig={gridConfig}
+          animationDelay={animationDelay}
+          isInView={isInView}
         />
       );
     }

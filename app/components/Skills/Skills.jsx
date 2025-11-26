@@ -54,16 +54,9 @@ export default function Skills() {
         </motion.div>
 
         {/* Hexagon Grid */}
-        <motion.div
-          className="relative h-[900px] md:h-[700px] lg:h-[800px]"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={
-            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
-          }
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <HexagonGrid skills={skills} />
-        </motion.div>
+        <div className="relative h-[900px] md:h-[700px] lg:h-[800px]">
+          <HexagonGrid skills={skills} isInView={isInView} />
+        </div>
       </div>
     </section>
   );
