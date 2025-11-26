@@ -100,6 +100,12 @@ export default function Projects() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState('All');
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  // Track when initial animation completes
+  if (isInView && !hasAnimated) {
+    setTimeout(() => setHasAnimated(true), 1500);
+  }
 
   const filteredProjects = activeCategory === 'All'
     ? projects
@@ -173,12 +179,12 @@ export default function Projects() {
               <motion.div
                 key={`${activeCategory}-${project.id}`}
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.8, y: hasAnimated ? 0 : 30 }}
+                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 30 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{
-                  duration: 0.3,
-                  delay: index * 0.05,
+                  duration: hasAnimated ? 0.3 : 0.4,
+                  delay: hasAnimated ? index * 0.05 : 1 + index * 0.1,
                   type: "spring",
                   stiffness: 300,
                   damping: 25,
