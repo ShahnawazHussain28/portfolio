@@ -2,6 +2,7 @@ import Hero from './components/Hero/Hero';
 import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import Skills from './components/Skills/Skills';
+import Contact from './components/Contact/Contact';
 import profileImage from '@/public/profilepic.jpg';
 
 export default function Home() {
@@ -18,6 +19,9 @@ export default function Home() {
 
       {/* Skills Section */}
       <Skills />
+
+      {/* Contact Section */}
+      <Contact />
     </main>
   );
 }
