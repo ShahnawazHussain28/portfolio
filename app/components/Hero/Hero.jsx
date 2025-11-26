@@ -7,7 +7,7 @@ import ScrollIndicator from '../ui/ScrollIndicator';
 
 export default function Hero({ profileImage }) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" id="home">
       {/* Animated background */}
       <AnimatedBackground />
 

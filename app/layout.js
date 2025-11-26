@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "./components/providers/SmoothScrollProvider";
+import Navbar from "./components/Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark">
       <body className={inter.className}>
         <SmoothScrollProvider>
+          <Navbar />
           {children}
         </SmoothScrollProvider>
       </body>
