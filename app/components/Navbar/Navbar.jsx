@@ -120,11 +120,15 @@ export default function Navbar() {
     const href = e.currentTarget.getAttribute("href");
     const target = document.querySelector(href);
 
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-
+    // Close mobile menu first
     setIsMobileMenuOpen(false);
+
+    // Scroll after a short delay to let menu close
+    setTimeout(() => {
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (
