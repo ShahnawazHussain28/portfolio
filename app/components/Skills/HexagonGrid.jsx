@@ -1,6 +1,6 @@
 "use client";
 import { motion } from 'framer-motion';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 
 // Seeded random number generator for consistent SSR/client values
 function seededRandom(seed) {
@@ -9,10 +9,8 @@ function seededRandom(seed) {
 }
 
 // Single Hexagon Component
-function Hexagon({ q, r, skill, onHover, waveIntensity }) {
-  const size = 90; // Hexagon size (increased from 80)
-  const height = size * 2;
-  const width = Math.sqrt(3) * size;
+function Hexagon({ q, r, skill, onHover, waveIntensity, gridConfig }) {
+  const { size, cols, rows, offsetX, offsetY } = gridConfig;
 
   // Calculate position for rectangular honeycomb grid
   // Offset every other row by half a hexagon width for honeycomb pattern
@@ -20,13 +18,11 @@ function Hexagon({ q, r, skill, onHover, waveIntensity }) {
   const hexHeight = size * 1.5;
 
   // Center the grid by calculating offsets
-  const cols = 15;
-  const rows = 8;
   const gridWidth = cols * hexWidth + (hexWidth / 2); // Extra half width for offset
   const gridHeight = rows * hexHeight + (size / 2); // Extra half size for top/bottom
 
-  const x = q * hexWidth + (r % 2) * (hexWidth / 2) - gridWidth / 2 + 100;
-  const y = r * hexHeight - gridHeight / 2 + 80;
+  const x = q * hexWidth + (r % 2) * (hexWidth / 2) - gridWidth / 2 + offsetX;
+  const y = r * hexHeight - gridHeight / 2 + offsetY;
 
   // Create hexagon path (rotated 90 degrees)
   const points = [];
@@ -117,6 +113,42 @@ function Hexagon({ q, r, skill, onHover, waveIntensity }) {
 export default function HexagonGrid({ skills = [] }) {
   const [hoveredHex, setHoveredHex] = useState(null);
   const [waveMap, setWaveMap] = useState(new Map());
+  const [screenSize, setScreenSize] = useState('desktop');
+
+  // Detect screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setScreenSize('mobile');
+      } else if (width < 1024) {
+        setScreenSize('tablet');
+      } else {
+        setScreenSize('desktop');
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Grid configuration based on screen size
+  const gridConfig = useMemo(() => {
+    if (screenSize === 'mobile') {
+      // 5 cols x 12 rows for mobile screens
+      return { cols: 5, rows: 12, size: 80, offsetX: 0, offsetY: 0 };
+    }
+    if (screenSize === 'tablet') {
+      // 8 cols x 8 rows for tablet (square-ish)
+      return { cols: 8, rows: 8, size: 80, offsetX: 0, offsetY: 0 };
+    }
+    return { cols: 15, rows: 8, size: 90, offsetX: 100, offsetY: 80 };
+  }, [screenSize]);
+
+  const isMobile = screenSize === 'mobile';
+
+  const { cols, rows } = gridConfig;
 
   // Calculate distance between two hexagons (offset coordinates)
   const hexDistance = (col1, row1, col2, row2) => {
@@ -156,10 +188,6 @@ export default function HexagonGrid({ skills = [] }) {
     setWaveMap(newWaveMap);
   }, []);
 
-  // Generate honeycomb grid in rectangular layout
-  const cols = 15; // Number of columns
-  const rows = 8; // Number of rows
-
   // Memoize skill distribution to prevent re-shuffling on every render
   const skillMap = useMemo(() => {
     const map = new Map();
@@ -187,7 +215,7 @@ export default function HexagonGrid({ skills = [] }) {
     });
 
     return map;
-  }, [skills]); // Only recalculate if skills array changes
+  }, [skills, cols, rows]); // Recalculate if skills or grid size changes
 
   const hexagons = [];
 
@@ -206,17 +234,42 @@ export default function HexagonGrid({ skills = [] }) {
           skill={skill}
           onHover={handleHover}
           waveIntensity={waveIntensity}
+          gridConfig={gridConfig}
         />
       );
     }
   }
+
+  // Calculate viewBox based on actual grid dimensions
+  const getViewBox = useMemo(() => {
+    const { size, cols, rows, offsetX, offsetY } = gridConfig;
+    const hexWidth = size * Math.sqrt(3);
+    const hexHeight = size * 1.5;
+
+    const gridWidth = cols * hexWidth + (hexWidth / 2);
+    const gridHeight = rows * hexHeight + (size / 2);
+
+    // Add padding around the grid
+    const padding = size;
+
+    const viewWidth = gridWidth + padding * 2;
+    const viewHeight = gridHeight + padding * 2;
+
+    const viewX = -gridWidth / 2 + offsetX - padding;
+    const viewY = -gridHeight / 2 + offsetY - padding;
+
+    return `${viewX} ${viewY} ${viewWidth} ${viewHeight}`;
+  }, [gridConfig]);
+
+  const viewBox = getViewBox;
+  console.log('viewBox:', viewBox, 'isMobile:', isMobile, 'gridConfig:', gridConfig);
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* SVG Container */}
       <svg
         className="w-full h-full cursor-pointer"
-        viewBox="-800 -600 1600 1200"
+        viewBox={viewBox}
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* Gradient definitions */}
