@@ -168,16 +168,17 @@ export default function Projects() {
 
         {/* Projects grid - Bento layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={`${activeCategory}-${project.id}`}
+                layout
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{
-                  duration: 0.4,
-                  delay: index * 0.1,
+                  duration: 0.3,
+                  delay: index * 0.05,
                   type: "spring",
                   stiffness: 300,
                   damping: 25,

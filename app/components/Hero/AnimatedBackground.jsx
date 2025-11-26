@@ -1,16 +1,24 @@
 "use client";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
+
+// Seeded random number generator for consistent SSR/client values
+function seededRandom(seed) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
 
 export default function AnimatedBackground() {
-  // Generate CSS particles - much lighter than canvas
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 20 + 15,
-    delay: Math.random() * 5,
-  }));
+  // Generate CSS particles with seeded random for hydration consistency
+  const particles = useMemo(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: `${Math.round(seededRandom(i * 1) * 100)}%`,
+      top: `${Math.round(seededRandom(i * 2 + 100) * 100)}%`,
+      size: Math.round(seededRandom(i * 3 + 200) * 3 + 1),
+      duration: Math.round(seededRandom(i * 4 + 300) * 20 + 15),
+      delay: Math.round(seededRandom(i * 5 + 400) * 5),
+    })), []);
 
   return (
     <div className="overflow-hidden absolute inset-0 -z-10">
