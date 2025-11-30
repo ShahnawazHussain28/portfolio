@@ -272,7 +272,7 @@ Multiple difficulty levels let beginners enjoy the game while experts can challe
 See who's online, who they're currently chatting with, and even watch as they type their messages in real-time. It's designed for close friend groups who want a more open and playful communication experience.
 
 Features include customizable profiles, group chats, emoji reactions, and a beautiful dark mode interface.`,
-    image: "/thumbnails/unfairchat.jpg",
+    image: null,
     images: [],
     youtubeId: null,
     technologies: ["React", "Socket.io", "Node.js", "MongoDB", "Express"],
@@ -341,6 +341,174 @@ Perfect for understanding recursive algorithms while creating stunning mathemati
     ],
     liveUrl: "https://shahnawazhussain28.github.io/fractaltree/",
     githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/fractaltree",
+    category: "Web",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "dino-game",
+    title: "Dino Game",
+    shortDescription: "Classic Chrome dinosaur game recreated for the web browser.",
+    description: "Play this classical Chrome dino game in this website. Jump over obstacles and see how far you can go!",
+    longDescription: `A faithful recreation of the beloved Chrome dinosaur game that appears when you're offline. This browser-based version lets you play anytime, anywhere.
+
+The game features the classic endless runner mechanics - jump over cacti and duck under pterodactyls as the speed progressively increases. Simple one-button controls make it accessible to everyone.
+
+Features include score tracking, increasing difficulty, and the same addictive gameplay that has entertained millions during internet outages.`,
+    image: "/thumbnails/dino.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "p5.js", "Game Physics"],
+    features: [
+      "Classic endless runner gameplay",
+      "Progressive difficulty",
+      "Score tracking",
+      "Simple one-button controls",
+      "Retro pixel art style",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/dinogame/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/dinogame",
+    category: "Game",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "decode-pattern",
+    title: "Decode Pattern",
+    shortDescription: "Test your pattern lock skills in this challenging puzzle game.",
+    description: "Do you think you are master of Pattern lock? Play this game and find out!",
+    longDescription: `A unique puzzle game that challenges your spatial memory and pattern recognition skills. Watch a pattern being drawn on a grid and try to replicate it exactly.
+
+The game progressively increases in difficulty, starting with simple patterns and evolving into complex multi-point sequences. It's a great way to train your visual memory and hand-eye coordination.
+
+Features multiple difficulty levels, pattern complexity progression, and score tracking to measure your improvement over time.`,
+    image: "/thumbnails/decodepattern.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "p5.js", "Canvas API"],
+    features: [
+      "Pattern memory challenge",
+      "Progressive difficulty",
+      "Visual pattern display",
+      "Score tracking",
+      "Multiple grid sizes",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/decodepattern/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/decodepattern",
+    category: "Game",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "digital-fireworks",
+    title: "Digital Fireworks",
+    shortDescription: "Launch beautiful fireworks and watch them explode in stunning particle effects.",
+    description: "Let's launch some fireworks and watch them even if it's not an occasion!",
+    longDescription: `A mesmerizing visual experience that simulates realistic firework explosions using particle physics. Click anywhere on the screen to launch fireworks and watch them burst into colorful particle showers.
+
+The simulation uses realistic physics for particle trajectories, gravity effects, and fade-out animations. Each firework creates hundreds of particles that scatter and fall naturally.
+
+Perfect for celebrations, relaxation, or just enjoying beautiful generative art. Features multiple firework types and customizable colors.`,
+    image: "/thumbnails/fireworks.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "p5.js", "Particle Systems"],
+    features: [
+      "Realistic particle physics",
+      "Click to launch fireworks",
+      "Multiple explosion patterns",
+      "Colorful visual effects",
+      "Gravity simulation",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/fireworks/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/fireworks",
+    category: "Web",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "matrix-solver",
+    title: "Matrix Solver",
+    shortDescription: "Solve matrix operations instantly - addition, multiplication, determinants, and more.",
+    description: "Tired of doing matrix problems? Here is the solution for all your matrix calculations.",
+    longDescription: `A comprehensive matrix calculator that handles all common matrix operations. Input your matrices and get instant results for addition, subtraction, multiplication, determinants, and more.
+
+The tool supports matrices of various sizes and provides step-by-step solutions to help you understand the calculation process. Perfect for students learning linear algebra or professionals who need quick matrix computations.
+
+Features include matrix inversion, transpose, determinant calculation, and support for different matrix dimensions.`,
+    image: "/thumbnails/matrixsolver.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "HTML5", "CSS3", "Linear Algebra"],
+    features: [
+      "Matrix addition & subtraction",
+      "Matrix multiplication",
+      "Determinant calculation",
+      "Matrix inversion",
+      "Transpose operations",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/matrixsolver/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/matrixsolver",
+    category: "Web",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "favicon-game",
+    title: "Favicon Game",
+    shortDescription: "A unique game that plays entirely in your browser's favicon - minimal graphics, maximum fun!",
+    description: "You'll see a completely new level of graphics experience - a game in 16x16 pixels!",
+    longDescription: `An experimental game that pushes the boundaries of where games can be played. The entire game runs in your browser's favicon - that tiny 16x16 pixel icon in your browser tab.
+
+This creative project demonstrates that games don't need high-resolution graphics to be engaging. Navigate through obstacles and challenges, all rendered in the smallest possible display space.
+
+A unique technical achievement that combines creativity with minimalist design, proving that fun gameplay can exist anywhere.`,
+    image: "/thumbnails/favicongame.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "HTML5", "Canvas API"],
+    features: [
+      "Game in browser favicon",
+      "16x16 pixel graphics",
+      "Unique gameplay concept",
+      "Minimalist design",
+      "Creative experimentation",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/favicongame/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/favicongame",
+    category: "Game",
+    featured: false,
+    year: "2021",
+    role: "Solo Developer",
+  },
+  {
+    slug: "circuit-generator",
+    title: "Circuit Generator",
+    shortDescription: "Generate digital circuits from boolean expressions using K-map solver.",
+    description: "Don't know how to make a circuit? Try this K-map solver to generate optimized circuits.",
+    longDescription: `A powerful tool for digital electronics that generates optimized circuit designs from boolean expressions. Input your truth table or boolean function and get the minimized circuit using Karnaugh map (K-map) techniques.
+
+The tool automatically simplifies boolean expressions and generates the corresponding logic gate circuit diagram. Perfect for students learning digital electronics or engineers optimizing circuit designs.
+
+Features include truth table input, K-map visualization, boolean expression simplification, and circuit diagram generation.`,
+    image: "/thumbnails/circuitgen.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["JavaScript", "p5.js", "Boolean Algebra"],
+    features: [
+      "K-map simplification",
+      "Truth table input",
+      "Boolean expression optimization",
+      "Circuit diagram generation",
+      "Multiple variable support",
+    ],
+    liveUrl: "https://shahnawazhussain28.github.io/circuitgen/",
+    githubUrl: "https://github.com/ShahnawazHussain28/ShahnawazHussain28.github.io/tree/main/circuitgen",
     category: "Web",
     featured: false,
     year: "2021",

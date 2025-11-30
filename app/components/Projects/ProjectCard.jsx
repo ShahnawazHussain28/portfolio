@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { HiOutlineCode } from "react-icons/hi";
 
 export default function ProjectCard({
   slug,
@@ -121,7 +122,7 @@ export default function ProjectCard({
               />
             ) : (
               <div className="flex justify-center items-center w-full h-full bg-gradient-to-br from-dark-accent to-dark-secondary">
-                <span className="text-6xl opacity-20">💻</span>
+                <HiOutlineCode className="w-16 h-16 text-light-primary/20" />
               </div>
             )}
 
