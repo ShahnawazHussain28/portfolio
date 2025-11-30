@@ -2,14 +2,14 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ProjectCard({
+  slug,
   title,
   description,
   image,
   technologies = [],
-  liveUrl,
-  githubUrl,
   category,
   featured = false,
 }) {
@@ -73,9 +73,10 @@ export default function ProjectCard({
   };
 
   return (
+    <Link href={`/projects/${slug}`}>
     <motion.div
       ref={cardRef}
-      className={`relative group cursor-pointer ${
+      className={`relative group cursor-pointer h-full ${
         featured ? 'col-span-1 md:col-span-2 row-span-2' : 'col-span-1'
       }`}
       onMouseMove={handleMouseMove}
@@ -189,35 +190,28 @@ export default function ProjectCard({
               </div>
             )}
 
-            {/* Links */}
-            <div className="flex gap-3">
-              {liveUrl && (
-                <motion.a
-                  href={liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-gradient-purple to-gradient-pink text-white hover:shadow-lg hover:shadow-gradient-purple/50 transition-shadow"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Live Demo
-                </motion.a>
-              )}
-              {githubUrl && (
-                <motion.a
-                  href={githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 text-sm font-medium rounded-lg glass border border-light-primary/20 text-light-primary hover:bg-white/10 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  GitHub
-                </motion.a>
-              )}
-            </div>
+            {/* View Project indicator */}
+            <motion.div
+              className="flex items-center gap-2 text-gradient-purple"
+              initial={{ x: 0 }}
+              animate={{ x: isHovered ? 5 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <span className="text-sm font-medium">View Project</span>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </motion.div>
           </motion.div>
 
           {/* Always visible title when not hovered */}
@@ -243,5 +237,6 @@ export default function ProjectCard({
         />
       </motion.div>
     </motion.div>
+    </Link>
   );
 }

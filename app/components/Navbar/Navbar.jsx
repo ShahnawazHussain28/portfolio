@@ -1,6 +1,8 @@
 "use client";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -102,6 +104,8 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
 
   // Background opacity based on scroll
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 1]);
@@ -147,44 +151,64 @@ export default function Navbar() {
       <nav className="relative container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            onClick={handleLinkClick}
-            className="text-2xl font-bold"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="gradient-text">SH</span>
-          </motion.a>
+          {isLandingPage ? (
+            <motion.a
+              href="#home"
+              onClick={handleLinkClick}
+              className="text-2xl font-bold"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="gradient-text">SH</span>
+            </motion.a>
+          ) : (
+            <Link href="/">
+              <motion.span
+                className="text-2xl font-bold gradient-text"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                SH
+              </motion.span>
+            </Link>
+          )}
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <NavLink key={link.name} link={link} onClick={handleLinkClick} />
-            ))}
-          </div>
+          {/* Desktop Navigation - Only on landing page */}
+          {isLandingPage && (
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <NavLink key={link.name} link={link} onClick={handleLinkClick} />
+              ))}
+            </div>
+          )}
 
-          {/* CTA Button */}
-          <motion.a
-            href="#contact"
-            onClick={handleLinkClick}
-            className="hidden md:block px-6 py-2 bg-gradient-to-r from-gradient-purple to-gradient-pink rounded-full text-white font-medium"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Let's Talk
-          </motion.a>
+          {/* CTA Button - Only on landing page */}
+          {isLandingPage && (
+            <motion.a
+              href="#contact"
+              onClick={handleLinkClick}
+              className="hidden md:block px-6 py-2 bg-gradient-to-r from-gradient-purple to-gradient-pink rounded-full text-white font-medium"
+              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Let's Talk
+            </motion.a>
+          )}
 
-          {/* Mobile Menu Button */}
-          <MobileMenuButton
-            isOpen={isMobileMenuOpen}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          />
+          {/* Mobile Menu Button - Only on landing page */}
+          {isLandingPage && (
+            <MobileMenuButton
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          )}
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <MobileMenu isOpen={isMobileMenuOpen} onLinkClick={handleLinkClick} />
+      {/* Mobile Menu - Only on landing page */}
+      {isLandingPage && (
+        <MobileMenu isOpen={isMobileMenuOpen} onLinkClick={handleLinkClick} />
+      )}
     </motion.header>
   );
 }
