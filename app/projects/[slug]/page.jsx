@@ -562,11 +562,6 @@ export default function ProjectPage() {
                   {project.year}
                 </span>
               )}
-              {project.role && (
-                <span className="px-4 py-1.5 text-sm font-medium rounded-full bg-white/10 backdrop-blur-md text-light-secondary hidden md:block">
-                  {project.role}
-                </span>
-              )}
             </motion.div>
 
             {/* Title */}
@@ -653,18 +648,31 @@ export default function ProjectPage() {
                 About This Project
               </h2>
               <div className="prose prose-lg prose-invert max-w-none">
-                {(project.longDescription || project.description).split('\n\n').map((paragraph, idx) => (
-                  <motion.p
-                    key={idx}
-                    className="text-light-secondary/80 leading-relaxed mb-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  >
-                    {paragraph}
-                  </motion.p>
-                ))}
+                {(project.longDescription || project.description).split('\n\n').map((paragraph, idx) => {
+                  // Parse **bold** markdown syntax
+                  const renderWithBold = (text) => {
+                    const parts = text.split(/(\*\*.*?\*\*)/g);
+                    return parts.map((part, i) => {
+                      if (part.startsWith('**') && part.endsWith('**')) {
+                        return <strong key={i} className="text-light-primary font-semibold">{part.slice(2, -2)}</strong>;
+                      }
+                      return part;
+                    });
+                  };
+
+                  return (
+                    <motion.p
+                      key={idx}
+                      className="text-light-secondary/80 leading-relaxed mb-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.1 }}
+                    >
+                      {renderWithBold(paragraph)}
+                    </motion.p>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -684,12 +692,6 @@ export default function ProjectPage() {
                     <div className="flex justify-between items-center py-3 border-b border-white/10">
                       <span className="text-light-secondary/60">Year</span>
                       <span className="text-light-primary font-medium">{project.year}</span>
-                    </div>
-                  )}
-                  {project.role && (
-                    <div className="flex justify-between items-center py-3 border-b border-white/10">
-                      <span className="text-light-secondary/60">Role</span>
-                      <span className="text-light-primary font-medium">{project.role}</span>
                     </div>
                   )}
                   <div className="flex justify-between items-center py-3 border-b border-white/10">

@@ -1,5 +1,40 @@
 export const projects = [
   {
+    slug: "nirvay-netra",
+    title: "Nirvay Netra",
+    shortDescription: "Autonomous IoT-based women's safety system with automatic threat detection and emergency alerts.",
+    description: "A fully automatic women's safety system using IoT wearables, Bluetooth connectivity, and real-time alert mechanisms.",
+    longDescription: `**Nirvay Netra** is a fully automatic women's safety system built using **IoT wearables**, **Bluetooth connectivity**, and **real-time alert mechanisms**. It eliminates the need for manual SOS activation, ensuring that help is triggered even when the user cannot reach their phone.
+
+The system uses a **pressure-sensitive wristband** to detect struggle, gripping, or abnormal force patterns, and a **microphone-based pendant** to identify distress cues through **audio analysis**. Both devices connect to the mobile app via Bluetooth, enabling **continuous monitoring** without user action.
+
+Even in **low or no internet** situations, the system continues to function. The wearable devices can still detect danger and trigger **local alerts**. The app sends **SMS alerts**, which work without mobile data, ensuring that police, community responders, and family members receive the victim's location and alert message even in poor connectivity areas.
+
+When a threat is detected, the app sends **automatic SMS**, **push notifications**, and **live location updates** to nearby police stations, community users, and emergency contacts—along with directions to reach the victim. All of this happens completely **hands-free**.
+
+Nirvay Netra also includes a **fail-safe mechanism**: if a false alarm is triggered, the user gets a **30-second window** to cancel it. Once safe, they can mark themselves secure, and the system immediately notifies police and family members.
+
+Nirvay Netra aims to deliver **fast, reliable, and autonomous assistance** in high-stress situations, ensuring help reaches when it's needed the most.`,
+    image: "/thumbnails/nirvaynetra.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["React Native", "IoT", "Bluetooth", "Python", "PostgreSQL", "ESP32", "Real-time Systems"],
+    features: [
+      "Automatic threat detection via wearables",
+      "Pressure-sensitive wristband for struggle detection",
+      "Audio analysis pendant for distress cues",
+      "Works offline with SMS alerts",
+      "Live location sharing with responders",
+      "30-second false alarm cancellation window",
+      "Hands-free emergency activation",
+    ],
+    liveUrl: null,
+    githubUrl: "https://github.com/g-aniket/Nirvay-Netra_Backend",
+    category: "IoT",
+    featured: true,
+    year: "2024",
+  },
+  {
     slug: "web-steganography",
     title: "Web Steganography",
     shortDescription: "Hide and reveal secret messages inside images with optional password protection.",
@@ -25,7 +60,6 @@ Features include optional password encryption for additional security, support f
     category: "Web",
     featured: true,
     year: "2022",
-    role: "Solo Developer",
   },
   {
     slug: "circuit-simulator",
@@ -57,7 +91,6 @@ Pre-built examples include half adders, full adders, counters, and even a simple
     category: "Web",
     featured: true,
     year: "2022",
-    role: "Solo Developer",
   },
   {
     slug: "squid-game",
@@ -92,7 +125,6 @@ Features immersive 3D graphics, atmospheric sound design, and AI opponents that 
     category: "Game",
     featured: true,
     year: "2022",
-    role: "Game Developer",
   },
   {
     slug: "solar-system",
@@ -120,7 +152,6 @@ The simulation includes asteroid belts, planetary moons, and even shows the rela
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "maze-generator",
@@ -148,7 +179,6 @@ Visual animations show exactly how each algorithm explores the maze, making it a
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "game-of-life",
@@ -176,7 +206,6 @@ The simulation includes speed controls, step-by-step mode, and the ability to sa
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "stack-blocks",
@@ -204,7 +233,6 @@ Features smooth 3D graphics, satisfying sound effects, and a high score system t
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "asteroids",
@@ -232,7 +260,6 @@ Power-ups, shields, and special weapons add modern touches while preserving the 
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "tic-tac-toe-ai",
@@ -260,7 +287,6 @@ Multiple difficulty levels let beginners enjoy the game while experts can challe
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "unfair-chat",
@@ -288,7 +314,6 @@ Features include customizable profiles, group chats, emoji reactions, and a beau
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Full Stack Developer",
   },
   {
     slug: "morse-code",
@@ -316,7 +341,6 @@ Features include adjustable speed, frequency control, and the ability to decode 
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "fractal-tree",
@@ -344,7 +368,6 @@ Perfect for understanding recursive algorithms while creating stunning mathemati
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "dino-game",
@@ -372,7 +395,6 @@ Features include score tracking, increasing difficulty, and the same addictive g
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "decode-pattern",
@@ -400,7 +422,6 @@ Features multiple difficulty levels, pattern complexity progression, and score t
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "digital-fireworks",
@@ -428,7 +449,6 @@ Perfect for celebrations, relaxation, or just enjoying beautiful generative art.
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "matrix-solver",
@@ -456,7 +476,6 @@ Features include matrix inversion, transpose, determinant calculation, and suppo
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "favicon-game",
@@ -484,7 +503,6 @@ A unique technical achievement that combines creativity with minimalist design, 
     category: "Game",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
   {
     slug: "circuit-generator",
@@ -512,6 +530,5 @@ Features include truth table input, K-map visualization, boolean expression simp
     category: "Web",
     featured: false,
     year: "2021",
-    role: "Solo Developer",
   },
 ];
