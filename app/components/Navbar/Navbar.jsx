@@ -191,7 +191,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
-              Let's Talk
+              Let&apos;s Talk
             </motion.a>
           )}
 

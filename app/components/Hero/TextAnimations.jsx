@@ -50,7 +50,7 @@ export default function TextAnimations() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
       >
-        <span className="text-light-primary mr-4">I'm</span>
+        <span className="text-light-primary mr-4">I&apos;m</span>
         <motion.span
           className="gradient-text inline-block"
           animate={{

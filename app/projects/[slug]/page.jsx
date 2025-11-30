@@ -464,7 +464,7 @@ export default function ProjectPage() {
             </svg>
           </div>
           <h1 className="text-4xl font-bold text-light-primary mb-4">Project Not Found</h1>
-          <p className="text-light-secondary/60 mb-8">The project you're looking for doesn't exist.</p>
+          <p className="text-light-secondary/60 mb-8">The project you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/projects">
             <motion.button
               className="px-8 py-3 bg-gradient-to-r from-gradient-purple to-gradient-pink rounded-full text-white font-medium"

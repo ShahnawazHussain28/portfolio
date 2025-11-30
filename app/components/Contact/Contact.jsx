@@ -85,7 +85,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="gradient-text">Let's Work Together</span>
+            <span className="gradient-text">Let&apos;s Work Together</span>
           </motion.h2>
 
           <motion.div
@@ -101,7 +101,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Have a project in mind? Let's create something amazing together.
+            Have a project in mind? Let&apos;s create something amazing together.
           </motion.p>
         </motion.div>
 
@@ -129,7 +129,7 @@ export default function Contact() {
                 Get in Touch
               </h3>
               <p className="text-light-secondary/70 leading-relaxed">
-                I'm always open to discussing new projects, creative ideas, or
+                I&apos;m always open to discussing new projects, creative ideas, or
                 opportunities to be part of your visions. Feel free to reach out
                 through any of the platforms below.
               </p>
