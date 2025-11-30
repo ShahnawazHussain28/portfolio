@@ -1,5 +1,5 @@
 "use client";
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 
 export default function ExperienceCard({
@@ -100,28 +100,32 @@ export default function ExperienceCard({
               </p>
 
               {/* Achievements */}
-              {achievements.length > 0 && (
-                <motion.div
-                  className="mb-4"
-                  initial={false}
-                  animate={{ height: isExpanded ? "auto" : 0 }}
-                >
-                  <ul className="space-y-2">
-                    {achievements.map((achievement, idx) => (
-                      <motion.li
-                        key={idx}
-                        className="flex items-start gap-2 text-light-secondary/80 text-sm md:text-base"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
-                        <span className="text-gradient-purple mt-1">▸</span>
-                        <span>{achievement}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
+              <AnimatePresence>
+                {achievements.length > 0 && isExpanded && (
+                  <motion.div
+                    className="mb-4 overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ul className="space-y-2">
+                      {achievements.map((achievement, idx) => (
+                        <motion.li
+                          key={idx}
+                          className="flex items-start gap-2 text-light-secondary/80 text-sm md:text-base"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                        >
+                          <span className="text-gradient-purple mt-1">▸</span>
+                          <span>{achievement}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Technologies */}
               {technologies.length > 0 && (
