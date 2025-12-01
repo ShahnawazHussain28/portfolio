@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { SiGithub, SiLinkedin, SiX, SiInstagram } from "react-icons/si";
+import { SiGithub, SiLinkedin, SiYoutube, SiFacebook } from "react-icons/si";
 
 const socialLinks = [
   {
@@ -13,23 +13,23 @@ const socialLinks = [
   {
     name: "LinkedIn",
     icon: SiLinkedin,
-    url: "https://linkedin.com/in/shahnawaz",
+    url: "https://www.linkedin.com/in/shahnawaz2802",
     color: "#0A66C2",
     hoverColor: "from-blue-500 to-blue-700",
   },
   {
-    name: "X",
-    icon: SiX,
-    url: "https://x.com/shahnawaz",
-    color: "#000",
-    hoverColor: "from-gray-700 to-black",
+    name: "YouTube",
+    icon: SiYoutube,
+    url: "https://www.youtube.com/@codeuniverse9015",
+    color: "#FF0000",
+    hoverColor: "from-red-500 to-red-700",
   },
   {
-    name: "Instagram",
-    icon: SiInstagram,
-    url: "https://instagram.com/shahnawaz",
-    color: "#E4405F",
-    hoverColor: "from-pink-500 to-purple-600",
+    name: "Facebook",
+    icon: SiFacebook,
+    url: "https://www.facebook.com/Shahnawaz.2802",
+    color: "#1877F2",
+    hoverColor: "from-blue-600 to-blue-800",
   },
 ];
 

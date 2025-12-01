@@ -137,7 +137,7 @@ export default function Contact() {
 
             {/* Email */}
             <motion.a
-              href="mailto:shahnawaz@example.com"
+              href="mailto:shahnawazhussain2802@gmail.com"
               className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-gradient-purple/50 transition-all duration-300 group"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -160,7 +160,7 @@ export default function Contact() {
               <div>
                 <p className="text-sm text-light-secondary/60">Email me at</p>
                 <p className="text-light-primary group-hover:text-gradient-purple transition-colors">
-                  shahnawaz@example.com
+                  shahnawazhussain2802@gmail.com
                 </p>
               </div>
             </motion.a>
