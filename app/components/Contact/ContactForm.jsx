@@ -198,17 +198,26 @@ export default function ContactForm() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const formData = new FormData(e.target);
+    formData.append("access_key", "f4cc8bf9-69e2-4172-87dc-7f11541a5f64");
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
 
-    // Reset after showing success
-    setTimeout(() => {
-      setIsSubmitted(false);
-      e.target.reset();
-    }, 3000);
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        e.target.reset();
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
