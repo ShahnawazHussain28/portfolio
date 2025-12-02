@@ -104,7 +104,7 @@ function ImageCarousel({ images, title }) {
                   src={images[activeIndex]}
                   alt={`${title} screenshot ${activeIndex + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   priority
                 />
               </motion.div>

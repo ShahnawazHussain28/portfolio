@@ -14,8 +14,15 @@ When a threat is detected, the app sends **automatic SMS**, **push notifications
 Nirvay Netra also includes a **fail-safe mechanism**: if a false alarm is triggered, the user gets a **30-second window** to cancel it. Once safe, they can mark themselves secure, and the system immediately notifies police and family members.
 
 Nirvay Netra aims to deliver **fast, reliable, and autonomous assistance** in high-stress situations, ensuring help reaches when it's needed the most.`,
-    image: "/thumbnails/nirvaynetra.jpg",
-    images: [],
+    image: "/thumbnails/nirvaynetra.png",
+    images: [
+      "/screenshots/nirvaynetra/nn1.png",
+      "/screenshots/nirvaynetra/nn2.png",
+      "/screenshots/nirvaynetra/nn4.png",
+      "/screenshots/nirvaynetra/nn5.jpg",
+      "/screenshots/nirvaynetra/nn6.jpg",
+      "/screenshots/nirvaynetra/nn10.png",
+    ],
     youtubeId: null,
     technologies: ["React Native", "IoT", "Bluetooth", "Python", "PostgreSQL", "ESP32", "Real-time Systems"],
     features: [
