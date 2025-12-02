@@ -8,7 +8,7 @@ import { HiOutlineCode } from "react-icons/hi";
 export default function ProjectCard({
   slug,
   title,
-  description,
+  shortDescription,
   image,
   technologies = [],
   category,
@@ -168,7 +168,7 @@ export default function ProjectCard({
                   {title}
                 </h3>
                 <p className="text-sm md:text-base text-light-secondary/90 line-clamp-2">
-                  {description}
+                  {shortDescription}
                 </p>
               </div>
 

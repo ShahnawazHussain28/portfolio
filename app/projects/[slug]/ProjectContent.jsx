@@ -561,7 +561,7 @@ export default function ProjectContent({ slug }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              {project.shortDescription || project.description}
+              {project.shortDescription}
             </motion.p>
 
             {/* Action Buttons */}
@@ -628,7 +628,7 @@ export default function ProjectContent({ slug }) {
                 About This Project
               </h2>
               <div className="prose prose-lg prose-invert max-w-none">
-                {(project.longDescription || project.description).split('\n\n').map((paragraph, idx) => {
+                {project.description.split('\n\n').map((paragraph, idx) => {
                   // Parse **bold** markdown syntax
                   const renderWithBold = (text) => {
                     const parts = text.split(/(\*\*.*?\*\*)/g);

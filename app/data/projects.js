@@ -3,8 +3,7 @@ export const projects = [
     slug: "nirvay-netra",
     title: "Nirvay Netra",
     shortDescription: "Autonomous IoT-based women's safety system with automatic threat detection and emergency alerts.",
-    description: "A fully automatic women's safety system using IoT wearables, Bluetooth connectivity, and real-time alert mechanisms.",
-    longDescription: `**Nirvay Netra** is a fully automatic women's safety system built using **IoT wearables**, **Bluetooth connectivity**, and **real-time alert mechanisms**. It eliminates the need for manual SOS activation, ensuring that help is triggered even when the user cannot reach their phone.
+    description: `**Nirvay Netra** is a fully automatic women's safety system built using **IoT wearables**, **Bluetooth connectivity**, and **real-time alert mechanisms**. It eliminates the need for manual SOS activation, ensuring that help is triggered even when the user cannot reach their phone.
 
 The system uses a **pressure-sensitive wristband** to detect struggle, gripping, or abnormal force patterns, and a **microphone-based pendant** to identify distress cues through **audio analysis**. Both devices connect to the mobile app via Bluetooth, enabling **continuous monitoring** without user action.
 
@@ -35,11 +34,41 @@ Nirvay Netra aims to deliver **fast, reliable, and autonomous assistance** in hi
     year: "2024",
   },
   {
+    slug: "snugshopper",
+    title: "SnugShopper",
+    shortDescription: "AI-driven apparel fitting system that won the Oracle APEX Hackathon.",
+    description: `**SnugShopper** is an intelligent apparel-fitting solution designed to reduce e-commerce return rates caused by inconsistent sizing standards. The system automatically extracts garment measurements from seller-uploaded product images using computer vision techniques such as **OpenCV** and **MediaPipe**, eliminating the need for manual measurement entry or reliance on brand-specific sizing charts.
+
+Customers upload their own photos, and SnugShopper calculates key body measurements to generate a **visual fitting analysis**. This report highlights how well a garment matches the user's body dimensions and provides **personalized size recommendations**, helping shoppers make confident, accurate purchase decisions.
+
+Built using **Oracle APEX** for the front-end, **Python + Flask** for backend processing, and **Oracle Database** for secure data storage, SnugShopper aims to create a more inclusive, transparent, and sustainable shopping experience—especially for senior users and those who are not tech-savvy.
+
+By enabling accurate fits before purchase, it helps reduce carbon footprint, improve customer satisfaction, and enhance overall trust in apparel e-commerce.
+
+**🏆 Winner — Oracle APEX Hackathon**`,
+    image: "/thumbnails/snugshopper.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["Oracle APEX", "Python", "Flask", "Oracle Database", "OpenCV", "MediaPipe", "Computer Vision"],
+    features: [
+      "Automatic garment measurement extraction from images",
+      "Body measurement calculation from user photos",
+      "Visual fitting analysis report",
+      "Personalized size recommendations",
+      "Accessible design for all users",
+      "Reduces e-commerce return rates",
+    ],
+    liveUrl: null,
+    githubUrl: "https://github.com/g-aniket/SnugShopper",
+    category: "Web",
+    featured: true,
+    year: "2024",
+  },
+  {
     slug: "web-steganography",
     title: "Web Steganography",
     shortDescription: "Hide and reveal secret messages inside images with optional password protection.",
-    description: "A web-based steganography tool that lets you hide secret messages within images. Features password protection for added security.",
-    longDescription: `A fascinating application of steganography - the art of hiding information in plain sight. This web tool allows users to encode secret messages directly into image pixels without visibly altering the image.
+    description: `A fascinating application of steganography - the art of hiding information in plain sight. This web tool allows users to encode secret messages directly into image pixels without visibly altering the image.
 
 The encoding algorithm manipulates the least significant bits of pixel color values, making changes imperceptible to the human eye while storing your hidden data.
 
@@ -65,8 +94,7 @@ Features include optional password encryption for additional security, support f
     slug: "circuit-simulator",
     title: "Digital Circuit Simulator",
     shortDescription: "Interactive digital circuit simulator with drag-and-drop interface for learning electronics.",
-    description: "Real-time digital circuit simulator with drag-and-drop interface. Build Adder circuits, 7-segment displays, or your own computer design.",
-    longDescription: `An educational tool for learning digital electronics through hands-on experimentation. The simulator provides a virtual breadboard where users can place and connect various digital components.
+    description: `An educational tool for learning digital electronics through hands-on experimentation. The simulator provides a virtual breadboard where users can place and connect various digital components.
 
 Features include basic gates (AND, OR, NOT, XOR), flip-flops, multiplexers, decoders, and 7-segment displays. The real-time simulation engine provides immediate visual feedback as signals propagate through the circuit.
 
@@ -96,8 +124,7 @@ Pre-built examples include half adders, full adders, counters, and even a simple
     slug: "squid-game",
     title: "Squid Game - Survival Island",
     shortDescription: "3D survival game inspired by the hit Netflix series with four intense mini-games.",
-    description: "Play as Player-456 through 4 games: Red Light Green Light, Sugar Honeycomb, Even Odd Marbles, and Glass Bridge.",
-    longDescription: `A thrilling 3D survival game that brings the intense challenges from the popular Netflix series to life. Players take on the role of Player-456 and must survive through four increasingly difficult games.
+    description: `A thrilling 3D survival game that brings the intense challenges from the popular Netflix series to life. Players take on the role of Player-456 and must survive through four increasingly difficult games.
 
 Each mini-game faithfully recreates the tension of the show: timing your movements in Red Light Green Light, carefully carving shapes in Sugar Honeycomb, outsmarting opponents in Even Odd Marbles, and making life-or-death decisions on the Glass Bridge.
 
@@ -130,8 +157,7 @@ Features immersive 3D graphics, atmospheric sound design, and AI opponents that 
     slug: "solar-system",
     title: "Solar System Visualization",
     shortDescription: "Interactive 3D visualization of our Solar System with accurate orbital mechanics.",
-    description: "How does our Solar System work? See the killer visualization with accurate planet sizes, distances, and orbital periods.",
-    longDescription: `An educational and visually stunning representation of our Solar System. This interactive visualization shows all eight planets orbiting the Sun with relatively accurate sizes, distances, and orbital speeds.
+    description: `An educational and visually stunning representation of our Solar System. This interactive visualization shows all eight planets orbiting the Sun with relatively accurate sizes, distances, and orbital speeds.
 
 Users can zoom in and out, click on planets to learn interesting facts, and watch the elegant dance of celestial bodies around our star.
 
@@ -157,8 +183,7 @@ The simulation includes asteroid belts, planetary moons, and even shows the rela
     slug: "maze-generator",
     title: "Maze Generator & Solver",
     shortDescription: "Generate beautiful mazes and watch AI solve them with various pathfinding algorithms.",
-    description: "Generate pleasing mazes and try to solve them yourself or let the program solve using different algorithms.",
-    longDescription: `A fascinating exploration of maze generation and solving algorithms. Watch as perfect mazes are generated using recursive backtracking, then see various pathfinding algorithms race to find the solution.
+    description: `A fascinating exploration of maze generation and solving algorithms. Watch as perfect mazes are generated using recursive backtracking, then see various pathfinding algorithms race to find the solution.
 
 The generator creates solvable mazes of any size with guaranteed single solutions. Choose from multiple solving algorithms including Depth-First Search, Breadth-First Search, and A* to see their different approaches.
 
@@ -184,8 +209,7 @@ Visual animations show exactly how each algorithm explores the maze, making it a
     slug: "game-of-life",
     title: "Conway's Game of Life",
     shortDescription: "Interactive implementation of the famous cellular automaton with custom patterns.",
-    description: "Defined by only 3 simple rules but playing with this is FUN. Create patterns and watch them evolve.",
-    longDescription: `An interactive implementation of John Conway's famous cellular automaton. Despite being governed by just three simple rules, the Game of Life produces incredibly complex and beautiful patterns.
+    description: `An interactive implementation of John Conway's famous cellular automaton. Despite being governed by just three simple rules, the Game of Life produces incredibly complex and beautiful patterns.
 
 Draw your own starting patterns or choose from classic configurations like gliders, spaceships, and oscillators. Watch as your creation evolves through generations, sometimes stabilizing, sometimes creating infinite growth.
 
@@ -211,8 +235,7 @@ The simulation includes speed controls, step-by-step mode, and the ability to sa
     slug: "stack-blocks",
     title: "Stack Blocks 3D",
     shortDescription: "Addictive 3D stacking game - test your timing and see how high you can go!",
-    description: "A full 3D game without installing. Let's see how high you can stack. Perfect timing required!",
-    longDescription: `A simple yet incredibly addictive 3D game that tests your timing and precision. Blocks swing back and forth - tap at the perfect moment to stack them on top of each other.
+    description: `A simple yet incredibly addictive 3D game that tests your timing and precision. Blocks swing back and forth - tap at the perfect moment to stack them on top of each other.
 
 Miss the timing and your block gets trimmed, making subsequent stacks more challenging. The game gets progressively harder as your tower grows taller and the blocks move faster.
 
@@ -238,8 +261,7 @@ Features smooth 3D graphics, satisfying sound effects, and a high score system t
     slug: "asteroids",
     title: "Asteroids",
     shortDescription: "Classic arcade game remake - destroy asteroids with your laser beam!",
-    description: "Destroy the asteroids with laser beam and help the spaceship survive. How long can you last?",
-    longDescription: `A faithful recreation of the classic arcade game that defined a generation. Pilot your spaceship through an asteroid field, blasting rocks into smaller pieces while avoiding collisions.
+    description: `A faithful recreation of the classic arcade game that defined a generation. Pilot your spaceship through an asteroid field, blasting rocks into smaller pieces while avoiding collisions.
 
 The game features authentic physics with momentum-based movement, screen wrapping, and increasingly challenging waves of asteroids.
 
@@ -265,8 +287,7 @@ Power-ups, shields, and special weapons add modern touches while preserving the 
     slug: "tic-tac-toe-ai",
     title: "Tic-Tac-Toe AI",
     shortDescription: "Play against an AI that learns your patterns using machine learning.",
-    description: "Play this nostalgic game with AI pattern detection. The AI learns from your moves!",
-    longDescription: `A modern take on the classic game featuring an AI opponent that uses pattern recognition to learn and adapt to your playing style.
+    description: `A modern take on the classic game featuring an AI opponent that uses pattern recognition to learn and adapt to your playing style.
 
 The AI analyzes your move history and attempts to predict your strategy, becoming more challenging the more you play. It uses a combination of minimax algorithm and pattern matching for optimal play.
 
@@ -292,8 +313,7 @@ Multiple difficulty levels let beginners enjoy the game while experts can challe
     slug: "unfair-chat",
     title: "Unfair Chat",
     shortDescription: "Chat app with a twist - see who your friends are chatting with in real-time.",
-    description: "Full-featured chat app with a twist! See friends' online status and who they're currently talking to.",
-    longDescription: `A unique take on the traditional chat application that adds an element of fun and transparency. While providing all standard messaging features, Unfair Chat lets you peek into your friends' conversations.
+    description: `A unique take on the traditional chat application that adds an element of fun and transparency. While providing all standard messaging features, Unfair Chat lets you peek into your friends' conversations.
 
 See who's online, who they're currently chatting with, and even watch as they type their messages in real-time. It's designed for close friend groups who want a more open and playful communication experience.
 
@@ -319,8 +339,7 @@ Features include customizable profiles, group chats, emoji reactions, and a beau
     slug: "morse-code",
     title: "Morse Code Translator",
     shortDescription: "Translate text to Morse code with audio playback and visual signals.",
-    description: "Use the famous Morse code with tons of functionalities including audio and visual output.",
-    longDescription: `A comprehensive Morse code tool that lets you encode and decode messages using the international Morse code standard.
+    description: `A comprehensive Morse code tool that lets you encode and decode messages using the international Morse code standard.
 
 Type your message and hear it played back as authentic Morse code beeps. The visual display shows dots and dashes in real-time, making it perfect for learning Morse code.
 
@@ -346,8 +365,7 @@ Features include adjustable speed, frequency control, and the ability to decode 
     slug: "fractal-tree",
     title: "Fractal Tree Generator",
     shortDescription: "Generate beautiful recursive fractal trees with customizable parameters.",
-    description: "A completely symmetric tree you want to look at. Can be asymmetric too with adjustable parameters.",
-    longDescription: `Explore the beauty of recursion with this interactive fractal tree generator. Adjust parameters like branch angle, length ratio, and recursion depth to create unique tree patterns.
+    description: `Explore the beauty of recursion with this interactive fractal tree generator. Adjust parameters like branch angle, length ratio, and recursion depth to create unique tree patterns.
 
 Watch in real-time as your adjustments transform the tree from symmetric perfection to wild, organic asymmetry. The color gradient feature adds an extra dimension of beauty to your creations.
 
@@ -373,8 +391,7 @@ Perfect for understanding recursive algorithms while creating stunning mathemati
     slug: "dino-game",
     title: "Dino Game",
     shortDescription: "Classic Chrome dinosaur game recreated for the web browser.",
-    description: "Play this classical Chrome dino game in this website. Jump over obstacles and see how far you can go!",
-    longDescription: `A faithful recreation of the beloved Chrome dinosaur game that appears when you're offline. This browser-based version lets you play anytime, anywhere.
+    description: `A faithful recreation of the beloved Chrome dinosaur game that appears when you're offline. This browser-based version lets you play anytime, anywhere.
 
 The game features the classic endless runner mechanics - jump over cacti and duck under pterodactyls as the speed progressively increases. Simple one-button controls make it accessible to everyone.
 
@@ -400,8 +417,7 @@ Features include score tracking, increasing difficulty, and the same addictive g
     slug: "decode-pattern",
     title: "Decode Pattern",
     shortDescription: "Test your pattern lock skills in this challenging puzzle game.",
-    description: "Do you think you are master of Pattern lock? Play this game and find out!",
-    longDescription: `A unique puzzle game that challenges your spatial memory and pattern recognition skills. Watch a pattern being drawn on a grid and try to replicate it exactly.
+    description: `A unique puzzle game that challenges your spatial memory and pattern recognition skills. Watch a pattern being drawn on a grid and try to replicate it exactly.
 
 The game progressively increases in difficulty, starting with simple patterns and evolving into complex multi-point sequences. It's a great way to train your visual memory and hand-eye coordination.
 
@@ -427,8 +443,7 @@ Features multiple difficulty levels, pattern complexity progression, and score t
     slug: "digital-fireworks",
     title: "Digital Fireworks",
     shortDescription: "Launch beautiful fireworks and watch them explode in stunning particle effects.",
-    description: "Let's launch some fireworks and watch them even if it's not an occasion!",
-    longDescription: `A mesmerizing visual experience that simulates realistic firework explosions using particle physics. Click anywhere on the screen to launch fireworks and watch them burst into colorful particle showers.
+    description: `A mesmerizing visual experience that simulates realistic firework explosions using particle physics. Click anywhere on the screen to launch fireworks and watch them burst into colorful particle showers.
 
 The simulation uses realistic physics for particle trajectories, gravity effects, and fade-out animations. Each firework creates hundreds of particles that scatter and fall naturally.
 
@@ -454,8 +469,7 @@ Perfect for celebrations, relaxation, or just enjoying beautiful generative art.
     slug: "matrix-solver",
     title: "Matrix Solver",
     shortDescription: "Solve matrix operations instantly - addition, multiplication, determinants, and more.",
-    description: "Tired of doing matrix problems? Here is the solution for all your matrix calculations.",
-    longDescription: `A comprehensive matrix calculator that handles all common matrix operations. Input your matrices and get instant results for addition, subtraction, multiplication, determinants, and more.
+    description: `A comprehensive matrix calculator that handles all common matrix operations. Input your matrices and get instant results for addition, subtraction, multiplication, determinants, and more.
 
 The tool supports matrices of various sizes and provides step-by-step solutions to help you understand the calculation process. Perfect for students learning linear algebra or professionals who need quick matrix computations.
 
@@ -481,8 +495,7 @@ Features include matrix inversion, transpose, determinant calculation, and suppo
     slug: "favicon-game",
     title: "Favicon Game",
     shortDescription: "A unique game that plays entirely in your browser's favicon - minimal graphics, maximum fun!",
-    description: "You'll see a completely new level of graphics experience - a game in 16x16 pixels!",
-    longDescription: `An experimental game that pushes the boundaries of where games can be played. The entire game runs in your browser's favicon - that tiny 16x16 pixel icon in your browser tab.
+    description: `An experimental game that pushes the boundaries of where games can be played. The entire game runs in your browser's favicon - that tiny 16x16 pixel icon in your browser tab.
 
 This creative project demonstrates that games don't need high-resolution graphics to be engaging. Navigate through obstacles and challenges, all rendered in the smallest possible display space.
 
@@ -508,8 +521,7 @@ A unique technical achievement that combines creativity with minimalist design, 
     slug: "circuit-generator",
     title: "Circuit Generator",
     shortDescription: "Generate digital circuits from boolean expressions using K-map solver.",
-    description: "Don't know how to make a circuit? Try this K-map solver to generate optimized circuits.",
-    longDescription: `A powerful tool for digital electronics that generates optimized circuit designs from boolean expressions. Input your truth table or boolean function and get the minimized circuit using Karnaugh map (K-map) techniques.
+    description: `A powerful tool for digital electronics that generates optimized circuit designs from boolean expressions. Input your truth table or boolean function and get the minimized circuit using Karnaugh map (K-map) techniques.
 
 The tool automatically simplifies boolean expressions and generates the corresponding logic gate circuit diagram. Perfect for students learning digital electronics or engineers optimizing circuit designs.
 

@@ -8,6 +8,7 @@ export function generateStaticParams() {
   }));
 }
 
-export default function ProjectPage({ params }) {
-  return <ProjectContent slug={params.slug} />;
+export default async function ProjectPage({ params }) {
+  const { slug } = await params;
+  return <ProjectContent slug={slug} />;
 }
