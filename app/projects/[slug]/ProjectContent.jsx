@@ -489,7 +489,7 @@ export default function ProjectContent({ slug }) {
   return (
     <main className="min-h-screen">
       {/* Hero Section with Parallax */}
-      <section ref={heroRef} className="relative h-[80vh] overflow-hidden">
+      <section ref={heroRef} className="relative aspect-[21/9] overflow-hidden">
         {/* Background Image with Parallax */}
         <motion.div
           className="absolute inset-0"
