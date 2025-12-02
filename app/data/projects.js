@@ -56,6 +56,7 @@ By enabling accurate fits before purchase, it helps reduce carbon footprint, imp
     image: "/thumbnails/snugshopper.jpg",
     images: [],
     youtubeId: null,
+    driveVideoId: "1DgXfpBXx_zGTH1OJwy2-rXahG0xRVaea",
     technologies: ["Oracle APEX", "Python", "Flask", "Oracle Database", "OpenCV", "MediaPipe", "Computer Vision"],
     features: [
       "Automatic garment measurement extraction from images",

@@ -381,6 +381,28 @@ function YouTubeEmbed({ videoId, title }) {
   );
 }
 
+// Google Drive Embed Component
+function DriveEmbed({ videoId, title }) {
+  if (!videoId) return null;
+
+  return (
+    <motion.div
+      className="relative aspect-video rounded-2xl overflow-hidden"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <iframe
+        src={`https://drive.google.com/file/d/${videoId}/preview`}
+        title={title}
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+        className="absolute inset-0 w-full h-full"
+      />
+    </motion.div>
+  );
+}
+
 // Feature Card
 function FeatureCard({ feature, index }) {
   return (
@@ -746,6 +768,22 @@ export default function ProjectContent({ slug }) {
                 Demo Video
               </h2>
               <YouTubeEmbed videoId={project.youtubeId} title={project.title} />
+            </motion.div>
+          )}
+
+          {/* Google Drive Video */}
+          {project.driveVideoId && (
+            <motion.div
+              className="mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-light-primary mb-8">
+                Demo Video
+              </h2>
+              <DriveEmbed videoId={project.driveVideoId} title={project.title} />
             </motion.div>
           )}
 
