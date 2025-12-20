@@ -129,7 +129,7 @@ export default function TrophyCard({ achievement, isVisible }) {
       >
         {/* Event Name */}
         <motion.h3
-          className="text-base sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2 leading-tight"
+          className="text-base sm:text-xl md:text-2xl font-bold leading-tight"
           style={{
             background: `linear-gradient(90deg, ${achievement.color.primary}, #fff, ${achievement.color.primary})`,
             backgroundSize: "200% 100%",
@@ -141,33 +141,6 @@ export default function TrophyCard({ achievement, isVisible }) {
         >
           {achievement.event}
         </motion.h3>
-
-        {/* Description */}
-        <motion.p
-          className="text-xs sm:text-sm md:text-base text-light-secondary/70 mb-2 sm:mb-3"
-          initial={{ opacity: 0 }}
-          animate={isVisible ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-        >
-          {achievement.description}
-        </motion.p>
-
-        {/* Year */}
-        <motion.div
-          className="inline-flex items-center gap-2"
-          initial={{ scale: 0 }}
-          animate={isVisible ? { scale: 1 } : {}}
-          transition={{ delay: 0.7, type: "spring" }}
-        >
-          <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-light-secondary/30 to-transparent" />
-          <span
-            className="text-xs sm:text-sm font-medium tracking-wider"
-            style={{ color: achievement.color.primary }}
-          >
-            {achievement.year}
-          </span>
-          <div className="w-6 sm:w-8 h-px bg-gradient-to-r from-transparent via-light-secondary/30 to-transparent" />
-        </motion.div>
       </motion.div>
 
       {/* Horizontal light rays */}

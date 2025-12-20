@@ -3,10 +3,8 @@ export const achievements = [
     id: 1,
     title: "Champion",
     subtitle: "1st Place",
-    event: "Xcelerate 2024",
-    description: "India's Premier Oracle APEX Hackathon",
-    year: "2024",
-    icon: "trophy", // gold trophy
+    event: "India's Premier Oracle APEX Hackathon",
+    icon: "trophy",
     color: {
       primary: "#FFD700",
       secondary: "#FFA500",
@@ -20,18 +18,16 @@ export const achievements = [
   {
     id: 2,
     title: "Finalist",
-    subtitle: "Top 5",
-    event: "Cognizant Digital Nurture Technoverse 2024",
-    description: "National Level Hackathon",
-    year: "2024",
-    icon: "medal", // silver medal
+    subtitle: "Top 3",
+    event: "Cognizant Digital Nurture Technoverse",
+    icon: "medal",
     color: {
       primary: "#C0C0C0",
       secondary: "#A8A8A8",
       glow: "rgba(192, 192, 192, 0.6)",
     },
     stats: {
-      position: 5,
+      position: 3,
       label: "Finalist",
     },
   },

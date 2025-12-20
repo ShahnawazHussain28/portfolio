@@ -86,7 +86,7 @@ export default function Achievements() {
       {/* Spacer section */}
       <section
         ref={containerRef}
-        className="relative bg-dark-primary"
+        className="relative bg-gradient-to-b from-dark-accent from-5% to-dark-primary to-30%"
         style={{ height: "350vh" }}
         id="achievements"
       ></section>
@@ -100,41 +100,8 @@ export default function Achievements() {
           pointerEvents: isInView ? "auto" : "none",
         }}
       >
-        {/* Background - matches Experience section */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to bottom,
-              #2D3561 0%,
-              #1A1F3A 5%,
-              #0A0E27 12%,
-              #0A0E27 100%
-            )`,
-          }}
-        />
-
         {/* Particles - fewer on mobile */}
         <ParticleField stage={currentStage} />
-
-        {/* Light beams behind trophies */}
-        <motion.div
-          className="absolute left-1/2 -translate-x-1/2 md:left-[35%] bottom-0 w-24 sm:w-32 md:w-[200px] h-full"
-          style={{
-            opacity: beam1Opacity,
-            background:
-              "linear-gradient(to top, #FFD70080 0%, #FFD70020 30%, transparent 70%)",
-            filter: "blur(15px)",
-          }}
-        />
-        <motion.div
-          className="absolute left-1/2 -translate-x-1/2 md:left-[65%] md:-translate-x-1/2 bottom-0 w-24 sm:w-32 md:w-[200px] h-full"
-          style={{
-            opacity: beam2Opacity,
-            background:
-              "linear-gradient(to top, #C0C0C080 0%, #C0C0C020 30%, transparent 70%)",
-            filter: "blur(15px)",
-          }}
-        />
 
         {/* Section Title */}
         <motion.div
@@ -233,17 +200,10 @@ export default function Achievements() {
 
         {/* FOG LAYER - at the bottom */}
         <motion.div
-          className="absolute bottom-0 left-0 right-0 h-[35%] sm:h-[40%] pointer-events-none z-20"
+          className="absolute bottom-0 left-0 right-0 h-[50%] sm:h-[55%] pointer-events-none z-20"
           style={{ opacity: fogOpacity, y: fogY }}
         >
-          {/* Multiple fog layers for depth */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to top, #0A0E27 0%, #0A0E27 20%, transparent 100%)",
-            }}
-          />
+          {/* Bright fog layers */}
           <motion.div
             className="absolute inset-0"
             style={{
