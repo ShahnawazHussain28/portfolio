@@ -1,4 +1,5 @@
 import Hero from './components/Hero/Hero';
+import Achievements from './components/Achievements/Achievements';
 import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import Skills from './components/Skills/Skills';
@@ -10,6 +11,9 @@ export default function Home() {
     <main className="relative min-h-screen">
       {/* Hero Section */}
       <Hero profileImage={profileImage} />
+
+      {/* Achievements Section */}
+      <Achievements />
 
       {/* Experience Section */}
       <Experience />
