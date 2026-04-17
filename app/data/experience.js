@@ -2,7 +2,7 @@ export const experiences = [
   {
     company: "VTAKU",
     position: "Software Engineer",
-    period: "July 2024 - Present",
+    period: "September 2024 - February 2026",
     description: "Building innovative solutions from config-driven game engines to data optimization workflows, while leading cross-functional teams.",
     achievements: [
       "Designed a fully config-driven Multiplayer Game Engine enabling non-technical designers to create and publish custom board games",
@@ -15,7 +15,7 @@ export const experiences = [
   {
     company: "Gauge RO",
     position: "Full Stack Developer Intern",
-    period: "July 2023 - July 2024",
+    period: "July 2023 - August 2024",
     description: "Built IoT solutions for smart water purifiers, from automated testing systems to real-time communication infrastructure.",
     achievements: [
       "Developed automated remote testing system for IoT water purifiers, reducing manual testing from 5 hours to zero daily",
