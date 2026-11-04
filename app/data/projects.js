@@ -1,5 +1,38 @@
 export const projects = [
   {
+    slug: "dastaan",
+    title: "Dastaan",
+    shortDescription: "AI audiobook generator that turns any book into a multi-voice audio drama with emotion, pacing and music.",
+    description: `**Dastaan** turns a book into a fully voiced **audio drama**. Upload a **PDF, EPUB or text file**, and it produces chapters where every character has their own voice, every line carries the right emotion, and background music follows the mood of the scene.
+
+Under the hood is a multi-stage **LLM pipeline**. It first **discovers the cast** (name, gender, age and a description of each voice), then rewrites the text into a script where every line is **attributed to a speaker**. A second pass reconciles speakers so dialogue isn't misattributed. A **"director" pass** then gives each line an emotion and pace ("whispered with frantic urgency"), inserts dramatic pauses, and tags scene moods and sound effects.
+
+For voices, **Qwen3-TTS VoiceDesign** creates a reference voice for each character from its text description, and **IndexTTS-2** clones that voice for every line with **emotion conditioning**, so a character sounds the same across the whole book. IndexTTS runs as a **persistent model server** in its own environment, so the model loads once per job instead of once per line.
+
+Each chapter is then **mixed in NumPy/SciPy**: mood-matched background music is looped and crossfaded, and it **automatically ducks under speech**. Optionally, **whisper.cpp** word timings drive karaoke-style subtitles and **ffmpeg** renders a vertical video.
+
+The web app (**FastAPI + Next.js**) shows the pipeline as a set of stages (Scripting → Directing → Voices → Generation) with **live progress over SSE**. Any stage's output can be edited by hand and the pipeline **re-run from that point**, with checkpoints for long GPU jobs.`,
+    image: null,
+    images: [],
+    youtubeId: null,
+    technologies: ["Python", "FastAPI", "Next.js", "LLMs", "IndexTTS-2", "Qwen3-TTS", "whisper.cpp", "ffmpeg", "NumPy"],
+    features: [
+      "Book to multi-voice audio drama (PDF, EPUB, TXT, Markdown)",
+      "LLM cast discovery and speaker-attributed scripting",
+      "Director pass for emotion, pacing, pauses and moods",
+      "Character voices designed from text descriptions",
+      "Emotion-conditioned voice cloning, consistent across chapters",
+      "Background music that ducks under speech",
+      "Live pipeline view with edit and re-run from any stage",
+      "Word-synced subtitles and vertical video export",
+    ],
+    liveUrl: null,
+    githubUrl: null,
+    category: "AI/ML",
+    featured: true,
+    year: "2026",
+  },
+  {
     slug: "nirvay-netra",
     title: "Nirvay Netra",
     shortDescription: "Autonomous IoT-based women's safety system with automatic threat detection and emergency alerts.",
