@@ -3,132 +3,117 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --dark-primary: #0A0E27;
-    --dark-secondary: #1A1F3A;
-    --dark-accent: #2D3561;
-    --light-primary: #F8F9FA;
-    --light-secondary: #E8EAF0;
+  /* Colours are RGB triplets so Tailwind can apply opacity (bg-ink/10). */
+  :root,
+  :root[data-theme="light"] {
+    --paper: 232 234 230;   /* #E8EAE6 cool stone */
+    --surface: 242 243 240; /* #F2F3F0 */
+    --ink: 21 24 28;        /* #15181C */
+    --graphite: 90 96 104;  /* #5A6068 */
+    --rule: 200 204 198;    /* #C8CCC6 */
+    --cobalt: 36 64 240;    /* #2440F0 */
+    color-scheme: light;
   }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  :root[data-theme="dark"] {
+    --paper: 28 31 36;      /* #1C1F24 graphite */
+    --surface: 35 39 45;    /* #23272D */
+    --ink: 230 232 227;     /* #E6E8E3 */
+    --graphite: 154 160 168;/* #9AA0A8 */
+    --rule: 53 58 66;       /* #353A42 */
+    --cobalt: 148 163 255;  /* #94A3FF */
+    color-scheme: dark;
   }
 
   html {
-    scroll-behavior: auto; /* Lenis handles smooth scroll */
-    overflow-x: hidden;
+    background: rgb(var(--paper));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-    background: linear-gradient(to bottom, var(--dark-primary), var(--dark-secondary));
-    color: var(--light-primary);
-    overflow-x: hidden;
-    min-height: 100vh;
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
+  ::selection {
+    background: rgb(var(--cobalt));
+    color: rgb(var(--paper));
   }
 
-  ::-webkit-scrollbar-track {
-    background: var(--dark-primary);
+  :focus-visible {
+    outline: 2px solid rgb(var(--cobalt));
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #8B5CF6, #EC4899);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to bottom, #EC4899, #3B82F6);
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
 @layer components {
-  /* Glassmorphism utility */
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Underline that draws in from the left on hover. */
+  .link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    background-size: 100% 1px;
   }
 
-  .glass-dark {
-    background: rgba(10, 14, 39, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  .link-static {
+    @apply underline decoration-rule underline-offset-[0.25em] transition-colors;
+    text-decoration-thickness: 1px;
   }
-
-  /* Gradient text */
-  .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-gradient-purple via-gradient-pink to-gradient-blue;
-  }
-
-  /* Gradient border animation */
-  .gradient-border {
-    position: relative;
-    background: linear-gradient(var(--dark-secondary), var(--dark-secondary)) padding-box,
-                linear-gradient(90deg, #8B5CF6, #EC4899, #3B82F6) border-box;
-    border: 2px solid transparent;
-    border-radius: 1rem;
-  }
-
-  .gradient-border-animated {
-    position: relative;
-    background: linear-gradient(var(--dark-secondary), var(--dark-secondary)) padding-box,
-                linear-gradient(90deg, #8B5CF6, #EC4899, #3B82F6, #8B5CF6) border-box;
-    border: 2px solid transparent;
-    border-radius: 1rem;
-    background-size: 200% 200%;
-    animation: gradientRotate 3s linear infinite;
-  }
-
-  @keyframes gradientRotate {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 200% 50%;
-    }
+  .link-static:hover {
+    @apply decoration-cobalt text-cobalt;
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Hero name: each line rises out of a mask once, on load. */
+@keyframes rise {
+  from {
+    transform: translateY(105%);
   }
-
-  /* Hide scrollbar but keep functionality */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  to {
+    transform: translateY(0);
   }
-
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
   }
-
-  /* Smooth transitions for interactive elements */
-  .smooth-transition {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  to {
+    opacity: 1;
   }
+}
+.rise {
+  animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.fade-in {
+  animation: fade 0.9s ease both;
+}
 
-  /* Perspective for 3D effects */
-  .perspective-1000 {
-    perspective: 1000px;
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .fade-in {
+    animation: none;
   }
-
-  /* Transform 3D utilities */
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  /* Backdrop blur utilities for better browser support */
-  .backdrop-blur-glass {
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }

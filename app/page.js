@@ -1,30 +1,16 @@
-import Hero from './components/Hero/Hero';
-import Achievements from './components/Achievements/Achievements';
-import Experience from './components/Experience/Experience';
-import Projects from './components/Projects/Projects';
-import Skills from './components/Skills/Skills';
-import Contact from './components/Contact/Contact';
-import profileImage from '@/public/profilepic.jpg';
+import Hero from "./components/site/Hero";
+import Work from "./components/site/Work";
+import Experience from "./components/site/Experience";
+import About from "./components/site/About";
+import Contact from "./components/site/Contact";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
-      {/* Hero Section */}
-      <Hero profileImage={profileImage} />
-
-      {/* Achievements Section */}
-      <Achievements />
-
-      {/* Experience Section */}
+    <main>
+      <Hero />
+      <Work />
       <Experience />
-
-      {/* Projects Section */}
-      <Projects />
-
-      {/* Skills Section */}
-      <Skills />
-
-      {/* Contact Section */}
+      <About />
       <Contact />
     </main>
   );
