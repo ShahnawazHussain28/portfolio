@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { projects } from "@/app/data/projects";
+import { palettes, paletteVars } from "@/app/components/site/palette";
 
 // Descriptions use **bold** for key terms.
 function withBold(text) {
@@ -88,6 +89,7 @@ export default function ProjectContent({ slug }) {
   const hasVideo = project.youtubeId || project.driveVideoId;
 
   return (
+    <div style={paletteVars(palettes[project.slug])} className="bg-paper text-ink">
     <main className="mx-auto max-w-page px-5 pb-24 pt-28 md:px-8 md:pt-36">
       <Link href="/projects" className="link text-sm text-graphite hover:text-ink">
         All projects
@@ -176,5 +178,6 @@ export default function ProjectContent({ slug }) {
         </Link>
       </nav>
     </main>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { whenIntroDone } from "./motion/gsap";
 
 /*
   A photo that turns toward the cursor.
@@ -210,12 +211,13 @@ export default function Portrait({ src, depthSrc, alt }) {
       gl.uniform3fv(u.uPaper, cssColor("paper"));
     };
 
-    let start = 0;
+    // The load-in scan waits for the intro overlay to lift.
+    let start = Infinity;
+    whenIntroDone().then(() => (start = performance.now()));
     const frame = (now) => {
       if (disposed) return;
       raf = requestAnimationFrame(frame);
       if (!visible) return;
-      if (!start) start = now;
 
       // Drift gently when the visitor stops moving, so the portrait feels alive.
       if (!reduce && now - lastMove > 2500) {

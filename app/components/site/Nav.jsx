@@ -16,23 +16,15 @@ export function openPalette() {
 }
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [isMac, setIsMac] = useState(true);
 
   useEffect(() => {
     setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 bg-paper/90 backdrop-blur-[6px] transition-[border-color] duration-300 border-b ${
-        scrolled ? "border-rule" : "border-transparent"
-      }`}
-    >
+    // Difference blending keeps the nav readable over every section colour.
+    <header className="fixed inset-x-0 top-0 z-50 text-white mix-blend-difference">
       <nav className="mx-auto flex h-16 max-w-page items-center gap-6 px-5 md:px-8" aria-label="Main">
         <Link href="/" className="font-display text-[1.05rem] font-semibold tracking-tight">
           Shahnawaz Hussain
@@ -41,7 +33,7 @@ export default function Nav() {
         <ul className="ml-auto hidden items-center gap-7 text-[0.95rem] md:flex">
           {sections.map((s) => (
             <li key={s.href}>
-              <Link href={s.href} className="text-graphite transition-colors hover:text-ink">
+              <Link href={s.href} className="text-white/70 transition-colors hover:text-white">
                 <ScrambleText>{s.label}</ScrambleText>
               </Link>
             </li>
@@ -49,11 +41,11 @@ export default function Nav() {
         </ul>
 
         <div className="ml-auto flex items-center gap-2 md:ml-2">
-          <ThemeToggle />
+          <ThemeToggle className="border-white/40 text-white/80 hover:border-white hover:text-white" />
           <button
             type="button"
             onClick={openPalette}
-            className="flex h-9 items-center gap-2 rounded-full border border-rule px-3 text-sm text-graphite transition-colors hover:border-ink hover:text-ink"
+            className="flex h-9 items-center gap-2 rounded-full border border-white/40 px-3 text-sm text-white/80 transition-colors hover:border-white hover:text-white"
             aria-label="Open command menu"
           >
             <span className="md:hidden">Menu</span>

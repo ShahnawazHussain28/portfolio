@@ -86,9 +86,9 @@ export default function CommandPalette() {
       setQuery("");
       setActive(0);
       requestAnimationFrame(() => inputRef.current?.focus());
-      document.body.style.overflow = "hidden";
+      window.__lenis?.stop();
     } else {
-      document.body.style.overflow = "";
+      window.__lenis?.start();
     }
   }, [open]);
 
@@ -163,7 +163,7 @@ export default function CommandPalette() {
                 aria-controls="palette-list"
                 aria-activedescendant={`palette-item-${active}`}
               />
-              <ul id="palette-list" ref={listRef} role="listbox" className="max-h-[50vh] overflow-y-auto py-2">
+              <ul id="palette-list" ref={listRef} role="listbox" data-lenis-prevent className="max-h-[50vh] overflow-y-auto py-2">
                 {results.length === 0 && (
                   <li className="px-5 py-6 text-sm text-graphite">Nothing matches “{query}”. Try a project name.</li>
                 )}

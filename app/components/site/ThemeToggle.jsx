@@ -1,7 +1,7 @@
 "use client";
 import { toggleTheme, useTheme } from "./theme";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ className = "border-rule text-graphite hover:border-ink hover:text-ink" }) {
   const { theme, source } = useTheme();
   const next = theme === "dark" ? "light" : "dark";
   const title =
@@ -15,7 +15,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       title={title}
       aria-label={title}
-      className="group relative grid h-9 w-9 place-items-center rounded-full border border-rule text-graphite transition-colors hover:border-ink hover:text-ink"
+      className={`group relative grid h-9 w-9 place-items-center rounded-full border transition-colors ${className}`}
     >
       {/* A disc whose shadow slides across: full in light, crescent in dark. */}
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">

@@ -30,9 +30,37 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  /* Custom cursor replaces the system one for mouse users. */
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+  html.has-cursor input,
+  html.has-cursor textarea {
+    cursor: text !important;
+  }
+
+  /* The intro covers the page from first paint; hide it if already seen,
+     and as a failsafe if JavaScript never takes over. */
+  html[data-intro="seen"] #intro {
+    display: none;
+  }
+  #intro {
+    animation: intro-failsafe 0.01s 6s forwards;
+  }
+  @keyframes intro-failsafe {
+    to {
+      visibility: hidden;
+      pointer-events: none;
     }
   }
 

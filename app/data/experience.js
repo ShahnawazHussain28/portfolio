@@ -11,6 +11,9 @@ export const experiences = [
       "Developed complete websites for clients including a London-based college"
     ],
     technologies: ["React", "Node.js", "Python", "Game Development", "Big Data", "Team Leadership"],
+    stats: [
+      { from: 0, to: 5, label: "developers led" },
+    ],
   },
   {
     company: "Gauge RO",
@@ -24,5 +27,9 @@ export const experiences = [
       "Created company website (gauge.ro) for the smart water purifier platform"
     ],
     technologies: ["React", "Node.js", "Python", "IoT", "PWA", "WebSockets", "PostgreSQL"],
+    stats: [
+      { from: 5, to: 0, suffix: " hrs", label: "of manual testing a day, down from 5" },
+      { from: 0, to: 2, label: "PWAs, for customers and technicians" },
+    ],
   },
 ];
