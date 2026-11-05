@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import ToolBox from "./ToolBox";
+import AboutTiles from "./AboutTiles";
 import { recognition, stack } from "@/app/data/profile";
 import { gsap, useGSAP, prefersReducedMotion } from "./motion/gsap";
 
@@ -36,17 +37,7 @@ export default function About() {
           About
         </h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-12">
-          <p className="text-2xl leading-snug md:col-span-7 md:text-3xl">
-            I started out building small browser games and simulators: a digital circuit simulator, a maze solver, a 3D
-            solar system. The habit of building the whole thing myself stuck.
-          </p>
-          <p className="text-lg text-graphite md:col-span-4 md:col-start-9 md:pt-2">
-            At work I&apos;ve built a config-driven multiplayer game engine that designers use without writing code, a
-            remote testing system for IoT water purifiers, and the cloud backend that talks to those devices. On my own
-            time I&apos;ve been going deep on LLM pipelines and speech models.
-          </p>
-        </div>
+        <AboutTiles />
 
         <ul className="mt-24 grid grid-cols-1 gap-12 md:grid-cols-2" aria-label="Recognition">
           {recognition.map((r) => (

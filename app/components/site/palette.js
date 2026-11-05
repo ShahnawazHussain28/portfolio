@@ -9,6 +9,10 @@ export const palettes = {
   "circuit-simulator": { bg: "#F4D03F", fg: "#1B1A12", accent: "#A83200" },
   "squid-game": { bg: "#E0347A", fg: "#1A0712", accent: "#0B5E51" },
   contact: { bg: "#2440F0", fg: "#F2F4FF", accent: "#FFD84D" },
+  "about-place": { bg: "#0F4D34", fg: "#E8F5EC", accent: "#FFC53D" },
+  "about-study": { bg: "#FF7A1A", fg: "#1F0D00", accent: "#1F0D00" },
+  "about-youtube": { bg: "#B9A8FF", fg: "#160F38", accent: "#E5202B" },
+  "about-skate": { bg: "#12B5A6", fg: "#031F1C", accent: "#FFF2B3" },
 };
 
 // Stack areas get colours too (used by the tool blocks).
