@@ -46,6 +46,14 @@ export default function Experience() {
           });
         });
 
+        // Before/after stats: strike through the old value, then bring in the new one.
+        job.querySelectorAll("[data-change]").forEach((el) => {
+          gsap
+            .timeline({ scrollTrigger: { trigger: el, start: "top 85%" } })
+            .from(el.querySelector("[data-strike]"), { scaleX: 0, duration: 0.5, ease: "power3.inOut", delay: 0.2 })
+            .from(el.querySelector("[data-after]"), { opacity: 0, x: -24, duration: 0.7, ease: "expo.out" }, "-=0.1");
+        });
+
         // Numbers count to their value.
         job.querySelectorAll("[data-count]").forEach((el) => {
           const from = Number(el.dataset.from);
@@ -110,15 +118,40 @@ export default function Experience() {
                       <div key={s.label}>
                         <dt className="sr-only">{s.label}</dt>
                         <dd>
-                          <span
-                            className="block font-display font-semibold leading-none tracking-[-0.04em]"
-                            style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-                          >
-                            <span data-count data-from={s.from} data-to={s.to}>
-                              {s.to}
+                          {s.before !== undefined ? (
+                            // Before/after: the old number gets crossed out, then the new one lands.
+                            <span
+                              data-change
+                              className="flex items-baseline gap-[0.18em] font-display font-semibold leading-none tracking-[-0.04em]"
+                              style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
+                            >
+                              <span className="sr-only">
+                                From {s.before} to {s.after} {s.unit}
+                              </span>
+                              <span aria-hidden="true" className="relative text-graphite">
+                                {s.before}
+                                <span
+                                  data-strike
+                                  className="absolute -left-[0.08em] -right-[0.08em] top-[52%] h-[0.09em] origin-left -rotate-12 rounded-full bg-cobalt"
+                                />
+                              </span>
+                              <span aria-hidden="true" data-after className="inline-flex items-baseline gap-[0.18em]">
+                                <span className="text-[0.45em] text-graphite">to</span>
+                                <span className="text-cobalt">{s.after}</span>
+                                <span className="text-[0.45em] tracking-tight">{s.unit}</span>
+                              </span>
                             </span>
-                            {s.suffix && <span className="text-[0.5em] tracking-tight">{s.suffix}</span>}
-                          </span>
+                          ) : (
+                            <span
+                              className="block font-display font-semibold leading-none tracking-[-0.04em]"
+                              style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
+                            >
+                              <span data-count data-from={s.from} data-to={s.to}>
+                                {s.to}
+                              </span>
+                              {s.suffix && <span className="text-[0.5em] tracking-tight">{s.suffix}</span>}
+                            </span>
+                          )}
                           <span aria-hidden="true" className="mt-2 block text-sm text-graphite">
                             {s.label}
                           </span>

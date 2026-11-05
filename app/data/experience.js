@@ -28,7 +28,7 @@ export const experiences = [
     ],
     technologies: ["React", "Node.js", "Python", "IoT", "PWA", "WebSockets", "PostgreSQL"],
     stats: [
-      { from: 5, to: 0, suffix: " hrs", label: "of manual testing a day, down from 5" },
+      { before: 5, after: 0, unit: "hrs", label: "of manual testing a day, after automating it" },
       { from: 0, to: 2, label: "PWAs, for customers and technicians" },
     ],
   },
