@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 /*
   An image drawn with WebGL so it can react: hovering sends a ripple out from
-  the cursor with a slight colour split, and fast scrolling bends it sideways.
+  the cursor, and fast scrolling bends it sideways with a brief colour split.
   Falls back to a plain <img> without WebGL.
 */
 const VERT = `
@@ -38,7 +38,9 @@ void main() {
   // Gentle zoom on hover.
   uv = (uv - 0.5) * (1.0 - 0.05 * uHover) + 0.5;
 
-  float split = (0.004 + abs(uVelocity) * 0.01) * (uHover + abs(uVelocity) * 4.0);
+  // Colour split only while scrolling fast; at rest or on hover the image stays sharp.
+  float speed = abs(uVelocity);
+  float split = smoothstep(0.2, 0.8, speed) * 0.007;
   float r = texture2D(uTex, uv + vec2(split, 0.0)).r;
   float g = texture2D(uTex, uv).g;
   float b = texture2D(uTex, uv - vec2(split, 0.0)).b;
