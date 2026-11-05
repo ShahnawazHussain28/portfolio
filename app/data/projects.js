@@ -3,7 +3,7 @@ export const projects = [
     slug: "incognition",
     title: "Incognition",
     shortDescription: "A live platform that teaches machine learning from zero, with Python that runs right in the browser.",
-    description: `**Incognition** teaches **machine learning from zero**, through interactive lessons, visualisations and coding practice. It's live at **theincognition.com**, with **16 courses, 819 lessons and 1,400+ practice problems**, from basic gradients up to state-of-the-art research papers.
+    description: `**Incognition** teaches **machine learning from zero**, through interactive lessons, visualisations and coding practice. It's live at **theincognition.com**, with **16 courses, 850+ lessons and 1,400+ practice problems**, from basic gradients up to state-of-the-art research papers.
 
 Learners write real Python (**NumPy, pandas, scikit-learn**) without installing anything. Python runs in the browser through **Pyodide (WebAssembly) in a Web Worker**, so there's no setup for learners and no server compute cost.
 
@@ -19,7 +19,7 @@ I lead engineering on Incognition: I designed its architecture and built the pla
     youtubeId: null,
     technologies: ["Next.js", "TypeScript", "PostgreSQL", "Drizzle", "Pyodide", "WebAssembly", "MCP", "Three.js"],
     features: [
-      "16 courses, 819 lessons and 1,400+ practice problems",
+      "16 courses, 850+ lessons and 1,400+ practice problems",
       "Python in the browser with Pyodide, no setup",
       "Practice judge with hidden test cases",
       "About 300 interactive ML visualisations",
