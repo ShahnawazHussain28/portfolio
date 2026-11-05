@@ -54,6 +54,8 @@ export default function DistortImage({ src, alt, className = "" }) {
 
   useEffect(() => {
     const c = canvas.current;
+    const host = wrap.current;
+    let disposed = false;
     const gl = c.getContext("webgl", { antialias: false });
     if (!gl) return setFallback(true);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -86,8 +88,9 @@ export default function DistortImage({ src, alt, className = "" }) {
     const mouse = { x: 0.5, y: 0.5 };
 
     const resize = () => {
+      if (disposed) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const { width, height } = wrap.current.getBoundingClientRect();
+      const { width, height } = host.getBoundingClientRect();
       c.width = Math.max(1, Math.round(width * dpr));
       c.height = Math.max(1, Math.round(height * dpr));
       gl.viewport(0, 0, c.width, c.height);
@@ -136,7 +139,10 @@ export default function DistortImage({ src, alt, className = "" }) {
     const onScroll = () => kick();
 
     const img = new Image();
+    // The image can finish loading after this component has unmounted
+    // (e.g. right after clicking into a project), so check before touching anything.
     img.onload = () => {
+      if (disposed) return;
       imgAspect = img.width / img.height;
       const t = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, t);
@@ -147,7 +153,7 @@ export default function DistortImage({ src, alt, className = "" }) {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       resize();
     };
-    img.onerror = () => setFallback(true);
+    img.onerror = () => !disposed && setFallback(true);
     img.src = src;
 
     const io = new IntersectionObserver(([e]) => {
@@ -156,14 +162,15 @@ export default function DistortImage({ src, alt, className = "" }) {
     });
     io.observe(c);
     const ro = new ResizeObserver(resize);
-    ro.observe(wrap.current);
-    const host = wrap.current;
+    ro.observe(host);
     host.addEventListener("pointerenter", onEnter);
     host.addEventListener("pointerleave", onLeave);
     host.addEventListener("pointermove", onMove);
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      disposed = true;
+      img.onload = img.onerror = null;
       cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();

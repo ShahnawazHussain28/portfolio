@@ -17,7 +17,8 @@ export default function VariableName({ lines, className = "", style }) {
 
   useGSAP(
     () => {
-      const letters = gsap.utils.toArray("[data-letter]", root.current);
+      const el = root.current;
+      const letters = gsap.utils.toArray("[data-letter]", el);
       if (prefersReducedMotion()) return;
 
       gsap.set(letters, { yPercent: 110 });
@@ -28,7 +29,7 @@ export default function VariableName({ lines, className = "", style }) {
           ease: "expo.out",
           stagger: 0.035,
           // The mask is only for the entrance; let letters fly free when scattering.
-          onComplete: () => gsap.set(root.current.querySelectorAll("[data-line]"), { overflow: "visible" }),
+          onComplete: () => gsap.set(el.querySelectorAll("[data-line]"), { overflow: "visible" }),
         })
       );
 
