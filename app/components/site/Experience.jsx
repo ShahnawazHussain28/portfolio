@@ -3,11 +3,12 @@ import { useRef } from "react";
 import { experiences } from "@/app/data/experience";
 import { gsap, useGSAP, SplitText, prefersReducedMotion } from "./motion/gsap";
 
-// "September 2024 - February 2026" -> "Sep 2024 – Feb 2026"
+// "September 2024 - February 2026" -> "Sep 2024 – Feb 2026" ("Present" stays as is)
+const MONTH = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/;
 const shortPeriod = (period) =>
   period
     .split(/\s*-\s*/)
-    .map((part) => part.replace(/^(\w{3})\w*/, "$1"))
+    .map((part) => part.replace(MONTH, "$1"))
     .join(" – ");
 
 export default function Experience() {
@@ -108,6 +109,16 @@ export default function Experience() {
                     {job.position}, <span className="text-cobalt">{job.company}</span>
                   </h3>
                 </div>
+                {(job.org || job.link) && (
+                  <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-graphite">
+                    {job.org && <span>{job.org}</span>}
+                    {job.link && (
+                      <a href={job.link.href} target="_blank" rel="noopener noreferrer" className="link text-ink">
+                        {job.link.label} <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                  </p>
+                )}
                 <p data-split className="mt-4 max-w-prose text-lg text-graphite">
                   {job.description}
                 </p>
@@ -126,10 +137,11 @@ export default function Experience() {
                               style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
                             >
                               <span className="sr-only">
-                                From {s.before} to {s.after} {s.unit}
+                                From {s.before} {s.beforeUnit ?? ""} to {s.after} {s.unit}
                               </span>
                               <span aria-hidden="true" className="relative text-graphite">
                                 {s.before}
+                                {s.beforeUnit && <span className="ml-[0.12em] text-[0.45em] tracking-tight">{s.beforeUnit}</span>}
                                 <span
                                   data-strike
                                   className="absolute -left-[0.08em] -right-[0.08em] top-[52%] h-[0.09em] origin-left -rotate-12 rounded-full bg-cobalt"

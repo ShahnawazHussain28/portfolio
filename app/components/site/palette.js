@@ -2,6 +2,7 @@
 // (--paper, --ink, ...) locally, so every Tailwind colour inside it follows.
 
 export const palettes = {
+  incognition: { bg: "#7B4DF2", fg: "#F5F1FF", accent: "#FFD84D" },
   dastaan: { bg: "#3A0C12", fg: "#F7E9D7", accent: "#FF9F1C" },
   "nirvay-netra": { bg: "#E8462B", fg: "#1C0906", accent: "#FFF1E8" },
   snugshopper: { bg: "#1F3BD1", fg: "#EEF0FF", accent: "#FFD84D" },
@@ -19,7 +20,7 @@ export const palettes = {
 export const areaColors = {
   "Web and backend": { bg: "#2440F0", fg: "#F2F4FF" },
   "AI and audio": { bg: "#FF9F1C", fg: "#2A1600" },
-  "Games and 3D": { bg: "#E0347A", fg: "#1A0712" },
+  "Mobile and 3D": { bg: "#E0347A", fg: "#1A0712" },
   Systems: { bg: "#C8F169", fg: "#14210A" },
 };
 

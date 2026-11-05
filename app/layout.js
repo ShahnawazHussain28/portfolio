@@ -24,7 +24,7 @@ const body = IBM_Plex_Sans({
 export const metadata = {
   title: "Shahnawaz Hussain, software engineer",
   description:
-    "Shahnawaz Hussain builds full-stack products and the AI systems inside them: an LLM pipeline that turns books into voiced audio dramas, IoT safety wearables, and a config-driven multiplayer game engine.",
+    "Shahnawaz Hussain is a full-stack and AI engineer. He leads engineering on Incognition, a platform that teaches machine learning from zero, and builds health apps with on-device AI at Bharathaap Technologies (IIT Hyderabad).",
 };
 
 // Runs before first paint so the page never flashes the wrong theme.

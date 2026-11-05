@@ -1,9 +1,10 @@
 "use client";
-import Link from "next/link";
 import { useRef } from "react";
 import Portrait from "./Portrait";
 import VariableName from "./VariableName";
 import Marquee from "./Marquee";
+import NowBuilding from "./NowBuilding";
+import { palettes, paletteVars } from "./palette";
 import DotField from "./motion/DotField";
 import { profile } from "@/app/data/profile";
 import { projects } from "@/app/data/projects";
@@ -38,6 +39,23 @@ export default function Hero() {
       {/* Own background + dots, so the name's difference blend has something to invert. */}
       <DotField fixed={false} />
       <div className="relative mx-auto max-w-page px-5 md:px-8">
+        <a
+          data-hero-fade
+          href="https://theincognition.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={paletteVars(palettes.incognition)}
+          className="group mb-6 inline-flex max-w-full items-center gap-2.5 rounded-full bg-paper py-1.5 pl-3 pr-4 text-sm text-ink transition-transform duration-300 hover:-rotate-1 md:mb-8 md:text-base"
+        >
+          <span className="rounded-full bg-cobalt px-2 py-0.5 text-xs font-semibold text-[#160F38]">Now building</span>
+          <span className="truncate">
+            <strong className="font-semibold">Incognition</strong>
+            <span className="hidden sm:inline">, learn machine learning from zero</span>
+          </span>
+          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            ↗
+          </span>
+        </a>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-x-8 md:gap-y-0">
           {/* The name runs across the portrait; difference blending inverts the photo inside the letters. */}
           <VariableName
@@ -53,12 +71,8 @@ export default function Hero() {
                 inside them.
               </p>
               <p data-hero-fade>
-                My latest is{" "}
-                <Link href="/projects/dastaan" className="link-static text-ink">
-                  Dastaan
-                </Link>
-                , a pipeline that turns any book into a fully voiced audio drama. Before that I was a software engineer
-                at VTAKU and a full-stack developer at Gauge RO. I&apos;m open to full-stack and AI/ML roles.
+                Right now I&apos;m an AI/ML engineer at Bharathaap Technologies (IIT Hyderabad), building health apps that run
+                AI on the phone itself. Before that I led a team of five at VTAKU. I&apos;m open to full-stack and AI/ML roles.
               </p>
             </div>
 
@@ -79,6 +93,8 @@ export default function Hero() {
                 </li>
               ))}
             </ul>
+
+            <NowBuilding />
           </div>
 
           <figure data-hero-portrait className="md:col-start-8 md:col-end-12 md:row-start-1 md:row-end-3 md:mt-[6vw]">
