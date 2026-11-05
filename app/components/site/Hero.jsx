@@ -3,7 +3,6 @@ import { useRef } from "react";
 import Portrait from "./Portrait";
 import VariableName from "./VariableName";
 import Marquee from "./Marquee";
-import NowBuilding from "./NowBuilding";
 import { palettes, paletteVars } from "./palette";
 import DotField from "./motion/DotField";
 import { profile } from "@/app/data/profile";
@@ -41,9 +40,7 @@ export default function Hero() {
       <div className="relative mx-auto max-w-page px-5 md:px-8">
         <a
           data-hero-fade
-          href="https://theincognition.com"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#work"
           style={paletteVars(palettes.incognition)}
           className="group mb-6 inline-flex max-w-full items-center gap-2.5 rounded-full bg-paper py-1.5 pl-3 pr-4 text-sm text-ink transition-transform duration-300 hover:-rotate-1 md:mb-8 md:text-base"
         >
@@ -52,8 +49,8 @@ export default function Hero() {
             <strong className="font-semibold">Incognition</strong>
             <span className="hidden sm:inline">, learn machine learning from zero</span>
           </span>
-          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            ↗
+          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5">
+            ↓
           </span>
         </a>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-x-8 md:gap-y-0">
@@ -94,7 +91,6 @@ export default function Hero() {
               ))}
             </ul>
 
-            <NowBuilding />
           </div>
 
           <figure data-hero-portrait className="md:col-start-8 md:col-end-12 md:row-start-1 md:row-end-3 md:mt-[6vw]">

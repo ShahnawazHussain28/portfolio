@@ -120,7 +120,7 @@ export default function DastaanStory() {
 
   return (
     <section
-      id="work"
+      id="dastaan"
       ref={root}
       aria-labelledby="dastaan-title"
       style={paletteVars(palettes.dastaan)}
