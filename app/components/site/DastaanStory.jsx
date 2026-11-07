@@ -303,11 +303,11 @@ function ChapterOutput() {
             The Call That Knows, <span className="text-cobalt">chapter 1</span>
           </h3>
           <p data-out-fade className="mt-5 max-w-md text-lg text-graphite">
-            Nobody recorded a word of this. Dastaan read the story, cast and directed it, voiced every line, scored it, and
-            timed the subtitles to each word.
+            Nobody recorded or drew any of this. Dastaan read the story, cast and directed it, voiced every line, painted
+            the scenes, scored it, and timed the subtitles to each word.
           </p>
           <ul data-out-fade className="mt-6 grid max-w-md grid-cols-2 gap-x-6 gap-y-2 text-ink">
-            {["Designed voice", "Directed pacing", "Music under speech", "Word-synced subtitles"].map((t) => (
+            {["Designed voice", "Directed pacing", "Scene images", "Music under speech", "Word-synced subtitles", "Vertical video"].map((t) => (
               <li key={t} className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-cobalt" />
                 {t}

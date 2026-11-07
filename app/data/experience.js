@@ -4,7 +4,7 @@ export const experiences = [
     org: "IIT Hyderabad",
     position: "AI/ML Engineer",
     period: "May 2026 - Present",
-    link: { label: "nimbanaturecure.in", href: "https://nimbanaturecure.in" },
+    link: { label: "nimba.in", href: "https://nimba.in" },
     description:
       "Building the apps behind Nimba Nature Cure: a patient app that runs health tests on the phone itself, and the portal that runs the hospital.",
     achievements: [
