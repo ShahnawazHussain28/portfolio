@@ -48,6 +48,22 @@ function Gallery({ images, title }) {
 }
 
 function Video({ project }) {
+  // A file we host ourselves (e.g. a vertical clip) plays in a native player.
+  if (project.videoSrc) {
+    return (
+      <div className="flex justify-center rounded-[3px] bg-surface py-8">
+        <video
+          src={project.videoSrc}
+          poster={project.videoPoster}
+          controls
+          playsInline
+          preload="metadata"
+          className="max-h-[80vh] w-auto rounded-[1.5rem]"
+          aria-label={`${project.title} sample output`}
+        />
+      </div>
+    );
+  }
   const src = project.youtubeId
     ? `https://www.youtube-nocookie.com/embed/${project.youtubeId}?rel=0`
     : project.driveVideoId
@@ -86,7 +102,7 @@ export default function ProjectContent({ slug }) {
   const prev = projects[(i - 1 + projects.length) % projects.length];
   const next = projects[(i + 1) % projects.length];
   const images = project.images?.length ? project.images : project.image ? [project.image] : [];
-  const hasVideo = project.youtubeId || project.driveVideoId;
+  const hasVideo = project.youtubeId || project.driveVideoId || project.videoSrc;
 
   return (
     <div style={paletteVars(palettes[project.slug])} className="bg-paper text-ink">

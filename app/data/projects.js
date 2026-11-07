@@ -47,6 +47,8 @@ The web app (**FastAPI + Next.js**) shows the pipeline as a set of stages (Scrip
     image: null,
     images: [],
     youtubeId: null,
+    videoSrc: "/video/dastaan-ch01.mp4",
+    videoPoster: "/video/dastaan-ch01.jpg",
     technologies: ["Python", "FastAPI", "Next.js", "LLMs", "IndexTTS-2", "Qwen3-TTS", "whisper.cpp", "ffmpeg", "NumPy"],
     features: [
       "Book to multi-voice audio drama (PDF, EPUB, TXT, Markdown)",

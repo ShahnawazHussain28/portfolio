@@ -51,10 +51,8 @@ function Bars({ from, to }) {
 
 export default function DastaanStory() {
   const root = useRef(null);
-  const audio = useRef(null);
+  const pinned = useRef(null);
   const [stage, setStage] = useState(3);
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   useGSAP(
     () => {
@@ -65,7 +63,7 @@ export default function DastaanStory() {
         const tl = gsap.timeline({
           defaults: { ease: "power2.out" },
           scrollTrigger: {
-            trigger: root.current,
+            trigger: pinned.current,
             start: "top top",
             end: "+=320%",
             pin: true,
@@ -91,41 +89,15 @@ export default function DastaanStory() {
     { scope: root }
   );
 
-  useEffect(() => {
-    const a = audio.current;
-    if (!a) return;
-    const onTime = () => setProgress(a.duration ? a.currentTime / a.duration : 0);
-    const onEnd = () => {
-      setPlaying(false);
-      setProgress(0);
-    };
-    a.addEventListener("timeupdate", onTime);
-    a.addEventListener("ended", onEnd);
-    return () => {
-      a.removeEventListener("timeupdate", onTime);
-      a.removeEventListener("ended", onEnd);
-    };
-  }, []);
-
-  const toggle = () => {
-    const a = audio.current;
-    if (a.paused) {
-      a.play();
-      setPlaying(true);
-    } else {
-      a.pause();
-      setPlaying(false);
-    }
-  };
-
   return (
     <section
       id="dastaan"
       ref={root}
       aria-labelledby="dastaan-title"
       style={paletteVars(palettes.dastaan)}
-      className="relative bg-paper text-ink lg:h-screen"
+      className="relative bg-paper text-ink"
     >
+      <div ref={pinned} className="lg:h-screen">
       <div className="mx-auto grid h-full max-w-page grid-cols-1 gap-12 px-5 py-24 md:px-8 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-0">
         <div className="lg:col-span-5">
           <p className="text-sm text-graphite">Selected work, 2026</p>
@@ -154,27 +126,19 @@ export default function DastaanStory() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
-            <button
-              type="button"
-              onClick={toggle}
-              data-cursor={playing ? "Pause" : "Listen"}
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-cobalt py-2.5 pl-3 pr-5 font-medium text-paper"
+            <a
+              href="#dastaan-output"
+              className="group inline-flex items-center gap-3 rounded-full bg-cobalt py-2.5 pl-3 pr-5 font-medium text-paper"
             >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-paper text-cobalt">
-                {playing ? (
-                  <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1" width="3" height="10" fill="currentColor" /><rect x="7" y="1" width="3" height="10" fill="currentColor" /></svg>
-                ) : (
-                  <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor" /></svg>
-                )}
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor" /></svg>
               </span>
-              {playing ? "Pause" : "Hear a designed voice"}
-              <span className="absolute bottom-0 left-0 h-[3px] bg-paper/70" style={{ width: `${progress * 100}%` }} />
-            </button>
+              Watch a chapter it made
+            </a>
             <Link href="/projects/dastaan" className="link font-medium">
               How Dastaan works
             </Link>
           </div>
-          <audio ref={audio} src="/audio/dastaan-sample.mp3" preload="none" />
         </div>
 
         {/* The "screen": prose turns into a directed, voiced, scored scene. */}
@@ -220,6 +184,139 @@ export default function DastaanStory() {
           </div>
         </div>
       </div>
+      </div>
+
+      <ChapterOutput />
     </section>
+  );
+}
+
+/* ---------- The real output: a chapter Dastaan made, on a phone ---------- */
+
+function ChapterOutput() {
+  const root = useRef(null);
+  const video = useRef(null);
+  const [muted, setMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  // Plays (muted) only while on screen.
+  useEffect(() => {
+    const v = video.current;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(v);
+    const onTime = () => setProgress(v.duration ? v.currentTime / v.duration : 0);
+    v.addEventListener("timeupdate", onTime);
+    return () => {
+      io.disconnect();
+      v.removeEventListener("timeupdate", onTime);
+    };
+  }, []);
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+      // The phone straightens and rises as it scrolls in.
+      gsap.fromTo(
+        "[data-phone]",
+        { rotate: -8, yPercent: 12 },
+        {
+          rotate: 0,
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: { trigger: root.current, start: "top bottom", end: "center center", scrub: true },
+        }
+      );
+      gsap.from("[data-out-fade]", {
+        y: 30,
+        opacity: 0,
+        duration: 0.9,
+        ease: "expo.out",
+        stagger: 0.08,
+        scrollTrigger: { trigger: root.current, start: "top 65%" },
+      });
+    },
+    { scope: root }
+  );
+
+  const sound = () => {
+    const v = video.current;
+    // Turning sound on restarts the chapter, so it's heard from the first line.
+    if (muted) v.currentTime = 0;
+    v.muted = !muted;
+    setMuted(!muted);
+    v.play().catch(() => {});
+  };
+
+  return (
+    <div id="dastaan-output" ref={root} className="mx-auto max-w-page px-5 pb-24 pt-8 md:px-8 md:pb-36 lg:pt-24">
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
+        <div className="flex justify-center md:col-span-5 md:col-start-2">
+          <div data-phone className="relative w-[min(78vw,320px)]">
+            <div className="overflow-hidden rounded-[2.4rem] border-[10px] border-[#140406] bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)]">
+              <video
+                ref={video}
+                src="/video/dastaan-ch01.mp4"
+                poster="/video/dastaan-ch01.jpg"
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="Chapter 1 of The Call That Knows, an audio drama made by Dastaan, with word-by-word subtitles"
+                className="block aspect-[9/16] w-full object-cover"
+              />
+            </div>
+            {/* Notch */}
+            <span aria-hidden="true" className="absolute left-1/2 top-[18px] h-5 w-20 -translate-x-1/2 rounded-full bg-[#140406]" />
+            {/* Progress */}
+            <span aria-hidden="true" className="absolute inset-x-8 bottom-[22px] h-[3px] overflow-hidden rounded-full bg-white/20">
+              <span className="block h-full origin-left bg-cobalt" style={{ transform: `scaleX(${progress})` }} />
+            </span>
+            <button
+              type="button"
+              onClick={sound}
+              data-cursor={muted ? "Sound on" : "Mute"}
+              aria-pressed={!muted}
+              className="absolute -right-4 bottom-16 inline-flex items-center gap-2 rounded-full bg-cobalt px-4 py-2.5 text-sm font-semibold text-paper transition-transform duration-300 hover:-rotate-3 md:-right-10"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5 6 9H2v6h4l5 4z" fill="currentColor" />
+                {muted ? <path d="m22 9-6 6m0-6 6 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" />}
+              </svg>
+              {muted ? "Turn sound on" : "Mute"}
+            </button>
+          </div>
+        </div>
+
+        <div className="md:col-span-5 md:col-start-8">
+          <p data-out-fade className="text-sm text-graphite">What comes out</p>
+          <h3
+            data-out-fade
+            className="mt-2 font-display font-semibold leading-[0.95] tracking-[-0.03em]"
+            style={{ fontSize: "clamp(2.4rem, 5vw, 4.2rem)" }}
+          >
+            The Call That Knows, <span className="text-cobalt">chapter 1</span>
+          </h3>
+          <p data-out-fade className="mt-5 max-w-md text-lg text-graphite">
+            Nobody recorded a word of this. Dastaan read the story, cast and directed it, voiced every line, scored it, and
+            timed the subtitles to each word.
+          </p>
+          <ul data-out-fade className="mt-6 grid max-w-md grid-cols-2 gap-x-6 gap-y-2 text-ink">
+            {["Designed voice", "Directed pacing", "Music under speech", "Word-synced subtitles"].map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-cobalt" />
+                {t}
+              </li>
+            ))}
+          </ul>
+          <p data-out-fade className="mt-6 text-sm text-graphite">Best with headphones. 1 minute.</p>
+        </div>
+      </div>
+    </div>
   );
 }
