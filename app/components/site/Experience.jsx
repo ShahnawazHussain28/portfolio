@@ -52,7 +52,7 @@ export default function Experience() {
           gsap
             .timeline({ scrollTrigger: { trigger: el, start: "top 85%" } })
             .from(el.querySelector("[data-strike]"), { scaleX: 0, duration: 0.5, ease: "power3.inOut", delay: 0.2 })
-            .from(el.querySelector("[data-after]"), { opacity: 0, x: -24, duration: 0.7, ease: "expo.out" }, "-=0.1");
+            .from(el.querySelector("[data-after]"), { opacity: 0, y: 24, duration: 0.7, ease: "expo.out" }, "-=0.1");
         });
 
         // Numbers count to their value.
@@ -124,33 +124,35 @@ export default function Experience() {
                 </p>
 
                 {job.stats && (
-                  <dl className="mt-8 grid max-w-2xl grid-cols-2 gap-6">
+                  <dl className="mt-10 grid max-w-2xl grid-cols-1 items-end gap-x-10 gap-y-8 sm:grid-cols-2">
                     {job.stats.map((s) => (
-                      <div key={s.label}>
+                      <div key={s.label} className="border-l-2 border-rule pl-5">
                         <dt className="sr-only">{s.label}</dt>
                         <dd>
                           {s.before !== undefined ? (
-                            // Before/after: the old number gets crossed out, then the new one lands.
-                            <span
-                              data-change
-                              className="flex items-baseline gap-[0.18em] font-display font-semibold leading-none tracking-[-0.04em]"
-                              style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-                            >
+                            // Before/after: the old value sits small and gets crossed out; the new one is the big number.
+                            <span data-change className="block">
                               <span className="sr-only">
-                                From {s.before} {s.beforeUnit ?? ""} to {s.after} {s.unit}
+                                From {s.before} {s.beforeUnit ?? s.unit} to {s.after} {s.unit}
                               </span>
-                              <span aria-hidden="true" className="relative text-graphite">
-                                {s.before}
-                                {s.beforeUnit && <span className="ml-[0.12em] text-[0.45em] tracking-tight">{s.beforeUnit}</span>}
-                                <span
-                                  data-strike
-                                  className="absolute -left-[0.08em] -right-[0.08em] top-[52%] h-[0.09em] origin-left -rotate-12 rounded-full bg-cobalt"
-                                />
+                              <span aria-hidden="true" className="flex items-center gap-2 text-xl text-graphite">
+                                <span className="relative">
+                                  {s.before} {s.beforeUnit ?? s.unit}
+                                  <span
+                                    data-strike
+                                    className="absolute -inset-x-1 top-1/2 h-[2px] origin-left -translate-y-1/2 rounded-full bg-cobalt"
+                                  />
+                                </span>
+                                <span>→</span>
                               </span>
-                              <span aria-hidden="true" data-after className="inline-flex items-baseline gap-[0.18em]">
-                                <span className="text-[0.45em] text-graphite">to</span>
+                              <span
+                                aria-hidden="true"
+                                data-after
+                                className="mt-1 block font-display font-semibold leading-none tracking-[-0.04em]"
+                                style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
+                              >
                                 <span className="text-cobalt">{s.after}</span>
-                                <span className="text-[0.45em] tracking-tight">{s.unit}</span>
+                                <span className="ml-[0.15em] text-[0.4em] tracking-tight">{s.unit}</span>
                               </span>
                             </span>
                           ) : (
@@ -164,7 +166,7 @@ export default function Experience() {
                               {s.suffix && <span className="text-[0.5em] tracking-tight">{s.suffix}</span>}
                             </span>
                           )}
-                          <span aria-hidden="true" className="mt-2 block text-sm text-graphite">
+                          <span aria-hidden="true" className="mt-3 block text-sm text-graphite">
                             {s.label}
                           </span>
                         </dd>
