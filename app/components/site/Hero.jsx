@@ -55,7 +55,7 @@ export default function Hero() {
                 inside them.
               </p>
               <p data-hero-fade>
-                AI/ML engineer at Bharathaap Technologies (IIT Hyderabad). Open to full-stack and AI/ML roles.
+                AI/ML engineer at Bharathaap Technologies (IIT Hyderabad). Open to <span className="whitespace-nowrap">full-stack</span> and AI/ML roles.
               </p>
             </div>
 

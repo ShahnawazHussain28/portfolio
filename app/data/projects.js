@@ -104,7 +104,7 @@ When a threat is detected, the app sends **automatic SMS**, **push notifications
 Nirvay Netra also includes a **fail-safe mechanism**: if a false alarm is triggered, the user gets a **30-second window** to cancel it. Once safe, they can mark themselves secure, and the system immediately notifies police and family members.
 
 Nirvay Netra aims to deliver **fast, reliable, and autonomous assistance** in high-stress situations, ensuring help reaches when it's needed the most.`,
-    image: "/thumbnails/nirvaynetra.png",
+    image: "/thumbnails/nirvaynetra-app.jpg",
     images: [
       "/screenshots/nirvaynetra/nn1.png",
       "/screenshots/nirvaynetra/nn2.png",
@@ -197,7 +197,7 @@ Features include optional password encryption for additional security, support f
 Features include basic gates (AND, OR, NOT, XOR), flip-flops, multiplexers, decoders, and 7-segment displays. The real-time simulation engine provides immediate visual feedback as signals propagate through the circuit.
 
 Pre-built examples include half adders, full adders, counters, and even a simple CPU design to inspire learners.`,
-    image: "/thumbnails/circuitsim.jpg",
+    image: "/screenshots/circuitsim/circuitsim-3.png",
     images: [
       "/screenshots/circuitsim/circuitsim-1.png",
       "/screenshots/circuitsim/circuitsim-2.png",

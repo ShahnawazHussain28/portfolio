@@ -451,7 +451,7 @@ export default function IncognitionStory() {
       ScrollTrigger.create({
         trigger: stage.current,
         start: "top top",
-        end: "+=320%",
+        end: "+=200%",
         pin: true,
         scrub: true,
         onUpdate: (self) => {
@@ -505,7 +505,7 @@ export default function IncognitionStory() {
                   key={i}
                   data-active={beat === i}
                   aria-hidden={beat !== i}
-                  className="pointer-events-none absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-700 ease-out data-[active=true]:pointer-events-auto data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
+                  className="pointer-events-none absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-200 ease-out data-[active=true]:delay-200 data-[active=true]:duration-700 data-[active=true]:pointer-events-auto data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
                 >
                   <p className="t-headline md:text-7xl">
                     That was one lesson.
@@ -548,7 +548,7 @@ export default function IncognitionStory() {
                   key={i}
                   data-active={beat === i}
                   aria-hidden={beat !== i}
-                  className="absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-700 ease-out data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
+                  className="absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-200 ease-out data-[active=true]:delay-200 data-[active=true]:duration-700 data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
                 >
                   <p className="t-headline md:text-7xl">
                     {b.title}

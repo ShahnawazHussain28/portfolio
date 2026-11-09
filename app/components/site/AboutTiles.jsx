@@ -6,7 +6,7 @@ import { gsap, useGSAP, ScrollTrigger, prefersReducedMotion } from "./motion/gsa
 
 /*
   Four facts about me, each on its own coloured tile with its own bit of motion:
-  a globe with arcs out of Kolkata, a graduation year that counts up, a YouTube
+  a globe lit by where the sun is right now, a graduation year that counts up, a YouTube
   filmstrip, and a skate whose wheels turn as far as it rolls.
 */
 
@@ -43,228 +43,263 @@ export default function AboutTiles() {
   );
 }
 
-/* ---------- Kolkata: dotted globe, arcs to places I'd move to ---------- */
+/* ---------- Kolkata: a real globe, lit by where the sun is right now ---------- */
 
 const HOME = { name: "Kolkata", lat: 22.57, lon: 88.36 };
-const PLACES = [
-  { lat: 12.97, lon: 77.59 }, // Bengaluru
-  { lat: 25.2, lon: 55.27 }, // Dubai
-  { lat: 1.35, lon: 103.82 }, // Singapore
-  { lat: 35.68, lon: 139.69 }, // Tokyo
-  { lat: 52.52, lon: 13.4 }, // Berlin
-  { lat: 51.5, lon: -0.13 }, // London
-  { lat: 37.77, lon: -122.42 }, // San Francisco
-];
 const rad = (d) => (d * Math.PI) / 180;
 const toVec = (lat, lon) => [Math.cos(rad(lat)) * Math.sin(rad(lon)), Math.sin(rad(lat)), Math.cos(rad(lat)) * Math.cos(rad(lon))];
 
-function slerp(a, b, t) {
-  const dot = Math.max(-1, Math.min(1, a[0] * b[0] + a[1] * b[1] + a[2] * b[2]));
-  const w = Math.acos(dot);
-  if (w < 1e-4) return a;
-  const s = Math.sin(w);
-  const k1 = Math.sin((1 - t) * w) / s;
-  const k2 = Math.sin(t * w) / s;
-  return [a[0] * k1 + b[0] * k2, a[1] * k1 + b[1] * k2, a[2] * k1 + b[2] * k2];
+// Where the sun is overhead right now (close enough for a picture).
+function sunVec(date) {
+  const start = Date.UTC(date.getUTCFullYear(), 0, 0);
+  const day = (date - start) / 864e5;
+  const decl = -23.44 * Math.cos(((2 * Math.PI) / 365) * (day + 10));
+  const hours = date.getUTCHours() + date.getUTCMinutes() / 60;
+  return toVec(decl, (12 - hours) * 15);
 }
+
+// Time of day in Kolkata, in words.
+function partOfDay(date) {
+  const h = +new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", hourCycle: "h23" }).format(date);
+  if (h >= 5 && h < 12) return "morning";
+  if (h >= 12 && h < 17) return "afternoon";
+  if (h >= 17 && h < 21) return "evening";
+  return "night";
+}
+
+const VERT = `
+attribute vec2 p;
+varying vec2 uv;
+void main() { uv = p; gl_Position = vec4(p, 0.0, 1.0); }
+`;
+
+// Ray-casts a sphere per pixel: daylight texture on the sunny side, city lights
+// on the dark side, a warm band at dusk, and a thin atmosphere around the edge.
+const FRAG = `
+precision highp float;
+varying vec2 uv;
+uniform sampler2D dayTex;
+uniform sampler2D nightTex;
+uniform mat3 toWorld;
+uniform vec3 sun;      // world space
+uniform vec3 sunView;  // view space
+uniform float scale;   // uv units per globe radius
+uniform float px;      // one pixel in globe radii
+const float PI = 3.14159265;
+
+void main() {
+  vec2 q = uv * scale;
+  float r = length(q);
+  vec3 halo = vec3(0.36, 0.56, 1.0);
+
+  if (r > 1.0) {
+    float facing = clamp(dot(normalize(vec3(q, 0.0)), sunView) * 0.8 + 0.35, 0.0, 1.0);
+    float a = exp(-(r - 1.0) * 30.0) * 0.55 * facing;
+    gl_FragColor = vec4(halo * a, a);
+    return;
+  }
+
+  vec3 n = vec3(q, sqrt(1.0 - r * r));
+  vec3 w = toWorld * n;
+  float lat = asin(clamp(w.y, -1.0, 1.0));
+  float lon = atan(w.x, w.z);
+  vec2 t = vec2(lon / (2.0 * PI) + 0.5, 0.5 - lat / PI);
+
+  vec3 day = texture2D(dayTex, t).rgb;
+  vec3 night = texture2D(nightTex, t).rgb;
+
+  float sl = dot(w, sun);
+  float lit = smoothstep(-0.1, 0.15, sl);
+  vec3 dayCol = day * (0.5 + 0.7 * clamp(sl, 0.0, 1.0));
+  // Moonlit land stays faint; the warm city lights are pulled out and boosted.
+  float warm = clamp((night.r - night.b) * 10.0, 0.0, 1.0);
+  vec3 nightCol = night * 0.6 + vec3(1.0, 0.75, 0.4) * warm * 2.2;
+  vec3 col = mix(nightCol, dayCol, lit);
+  col += vec3(1.0, 0.55, 0.25) * exp(-sl * sl / 0.0025) * 0.12 * (0.3 + day);
+
+  // Atmosphere: bluish rim on the sunny side.
+  float rim = pow(1.0 - n.z, 3.0);
+  col = mix(col, halo, rim * 0.6 * smoothstep(-0.2, 0.3, sl));
+
+  float edge = smoothstep(1.0, 1.0 - 1.5 * px, r);
+  gl_FragColor = vec4(col * edge, edge);
+}
+`;
 
 function PlaceTile() {
   const canvas = useRef(null);
+  const pin = useRef(null);
   const time = useRef(null);
+  const daypart = useRef(null);
 
   useEffect(() => {
     const c = canvas.current;
-    const ctx = c.getContext("2d");
     const reduce = prefersReducedMotion();
-    const css = getComputedStyle(c);
-    const ink = css.getPropertyValue("--ink").trim().split(/\s+/).join(",");
-    const accent = css.getPropertyValue("--cobalt").trim().split(/\s+/).join(",");
+    const gl = c.getContext("webgl", { premultipliedAlpha: true, alpha: true, antialias: false });
 
-    // Evenly spread dots over the sphere.
-    const N = 900;
-    const dots = [];
-    for (let i = 0; i < N; i++) {
-      const y = 1 - (i / (N - 1)) * 2;
-      const r = Math.sqrt(1 - y * y);
-      const th = i * Math.PI * (3 - Math.sqrt(5));
-      dots.push([Math.cos(th) * r, y, Math.sin(th) * r]);
-    }
+    // Kolkata faces us, and the globe sways gently either side of it.
+    const baseRot = -rad(HOME.lon);
+    const tilt = rad(HOME.lat) - 0.25;
     const home = toVec(HOME.lat, HOME.lon);
-    const arcs = PLACES.map((p) => toVec(p.lat, p.lon));
+    let sun = sunVec(new Date());
 
-    let w = 0,
-      h = 0,
-      R = 0,
+    // World -> view rotation as a row-major 3x3.
+    const viewMat = (rot) => {
+      const cr = Math.cos(rot),
+        sr = Math.sin(rot),
+        ct = Math.cos(tilt),
+        st = Math.sin(tilt);
+      return [
+        [cr, 0, sr],
+        [sr * st, ct, -cr * st],
+        [-sr * ct, st, cr * ct],
+      ];
+    };
+    const apply = (m, v) => m.map((row) => row[0] * v[0] + row[1] * v[1] + row[2] * v[2]);
+
+    // Globe size and place inside the tile.
+    let R = 0,
       cx = 0,
       cy = 0;
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const box = c.getBoundingClientRect();
-      w = box.width;
-      h = box.height;
-      c.width = w * dpr;
-      c.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // Wide tile: globe sits right, clear of the title. Narrow: below it.
+    const MARGIN = 1.12; // room for the atmosphere glow
+    const layout = () => {
+      const box = c.parentElement.getBoundingClientRect();
+      const w = box.width,
+        h = box.height;
       const wide = w > 560;
       R = wide ? Math.min(w * 0.3, h * 0.33) : Math.min(w * 0.38, h * 0.28);
       cx = wide ? w - R - w * 0.1 : w * 0.5;
       cy = wide ? h * 0.57 : h * 0.5;
+      const side = R * 2 * MARGIN;
+      Object.assign(c.style, { width: `${side}px`, height: `${side}px`, left: `${cx - side / 2}px`, top: `${cy - side / 2}px` });
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      c.width = c.height = Math.round(side * dpr);
+      if (gl) gl.viewport(0, 0, c.width, c.height);
     };
 
-    // Spin so Kolkata faces us, then sway; dragging adds an offset that springs back.
-    const baseRot = -rad(HOME.lon);
-    const tilt = rad(HOME.lat) - 0.25;
-    let drag = 0,
-      dragV = 0,
-      dragging = false,
-      lastX = 0;
-
-    const project = (v, rot) => {
-      const cr = Math.cos(rot),
-        sr = Math.sin(rot);
-      const x = v[0] * cr + v[2] * sr;
-      const z0 = -v[0] * sr + v[2] * cr;
-      const ct = Math.cos(tilt),
-        st = Math.sin(tilt);
-      const y = v[1] * ct - z0 * st;
-      const z = v[1] * st + z0 * ct;
-      return [cx + x * R, cy - y * R, z];
+    let ready = false;
+    let program = null;
+    let u = {};
+    const setup = () => {
+      const shader = (type, src) => {
+        const sh = gl.createShader(type);
+        gl.shaderSource(sh, src);
+        gl.compileShader(sh);
+        return sh;
+      };
+      program = gl.createProgram();
+      gl.attachShader(program, shader(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(program, shader(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return false;
+      gl.useProgram(program);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(program, "p");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      for (const k of ["dayTex", "nightTex", "toWorld", "sun", "sunView", "scale", "px"]) u[k] = gl.getUniformLocation(program, k);
+      gl.uniform1i(u.dayTex, 0);
+      gl.uniform1i(u.nightTex, 1);
+      return true;
     };
 
-    const draw = (now) => {
-      const t = now / 1000;
-      const rot = baseRot + (reduce ? 0 : Math.sin(t * 0.25) * 0.7) + drag;
-      ctx.clearRect(0, 0, w, h);
-
-      // Outline
-      ctx.strokeStyle = `rgba(${ink},0.25)`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(cx, cy, R, 0, Math.PI * 2);
-      ctx.stroke();
-
-      for (const d of dots) {
-        const [x, y, z] = project(d, rot);
-        if (z < 0) continue;
-        ctx.fillStyle = `rgba(${ink},${0.12 + z * 0.5})`;
-        const s = 1 + z * 1.4;
-        ctx.fillRect(x - s / 2, y - s / 2, s, s);
-      }
-
-      // Arcs out of Kolkata, each one drawing in, holding, then clearing.
-      ctx.lineCap = "round";
-      arcs.forEach((dest, i) => {
-        const phase = reduce ? 0.6 : ((t * 0.22 + i / arcs.length) % 1);
-        const head = Math.min(1, phase / 0.55);
-        const tail = Math.max(0, (phase - 0.7) / 0.3);
-        const SEG = 48;
-        ctx.strokeStyle = `rgb(${accent})`;
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        let pen = false;
-        let end = null;
-        for (let s = 0; s <= SEG; s++) {
-          const k = s / SEG;
-          if (k < tail || k > head) {
-            pen = false;
-            continue;
-          }
-          const v = slerp(home, dest, k);
-          const lift = 1 + Math.sin(Math.PI * k) * 0.22;
-          const [x, y, z] = project([v[0] * lift, v[1] * lift, v[2] * lift], rot);
-          if (z < -0.15) {
-            pen = false;
-            continue;
-          }
-          pen ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-          pen = true;
-          end = [x, y, z];
-        }
-        ctx.stroke();
-        if (end && head < 1 && end[2] > 0) {
-          ctx.fillStyle = `rgb(${accent})`;
-          ctx.beginPath();
-          ctx.arc(end[0], end[1], 2.6, 0, Math.PI * 2);
-          ctx.fill();
-        }
+    const loadTex = (src, unit) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const tex = gl.createTexture();
+          gl.activeTexture(gl.TEXTURE0 + unit);
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          resolve();
+        };
+        img.onerror = reject;
+        img.src = src;
       });
 
-      // Home pin with a ring that keeps spreading out.
-      const [hx, hy, hz] = project(home, rot);
-      if (hz > 0) {
-        const p = reduce ? 0.5 : (t * 0.8) % 1;
-        ctx.strokeStyle = `rgba(${accent},${1 - p})`;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(hx, hy, 6 + p * 26, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.fillStyle = `rgb(${accent})`;
-        ctx.beginPath();
-        ctx.arc(hx, hy, 5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = `rgb(${ink})`;
-        ctx.font = "600 13px var(--font-sans, sans-serif)";
-        ctx.fillText(HOME.name, hx + 12, hy - 10);
+    const draw = (now) => {
+      const rot = baseRot + (reduce ? 0 : Math.sin(now / 1000 / 5) * 0.6);
+      const m = viewMat(rot);
+
+      // Pin follows Kolkata on the turning globe.
+      const [hx, hy, hz] = apply(m, home);
+      if (pin.current) {
+        pin.current.style.transform = `translate(${cx + hx * R}px, ${cy - hy * R}px)`;
+        pin.current.style.opacity = hz > 0.1 ? "1" : "0";
       }
+      if (!ready) return;
+
+      // Inverse of a rotation is its transpose; GLSL wants column-major,
+      // so passing the rows of m as columns gives exactly that.
+      gl.uniformMatrix3fv(u.toWorld, false, new Float32Array(m.flat()));
+      gl.uniform3fv(u.sun, sun);
+      gl.uniform3fv(u.sunView, apply(m, sun));
+      gl.uniform1f(u.scale, MARGIN);
+      gl.uniform1f(u.px, 1 / (R * Math.min(window.devicePixelRatio || 1, 2)));
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
 
     let raf = 0,
-      visible = false;
+      visible = false,
+      started = false;
     const loop = (now) => {
-      if (!dragging) {
-        dragV *= 0.92;
-        drag += dragV;
-        drag *= 0.97; // spring back toward Kolkata
-      }
       draw(now);
       raf = visible && !reduce ? requestAnimationFrame(loop) : 0;
     };
+    const start = () => {
+      if (started || !gl) return;
+      started = true;
+      if (!setup()) return;
+      Promise.all([loadTex("/globe/earth-day.jpg", 0), loadTex("/globe/earth-night.jpg", 1)])
+        .then(() => {
+          ready = true;
+          c.style.opacity = "1";
+          draw(performance.now());
+        })
+        .catch(() => {});
+    };
 
-    const io = new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible && !raf) raf = requestAnimationFrame(loop);
-    });
-    io.observe(c);
+    // Load the textures a little before the tile scrolls in.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visible = e.isIntersecting;
+        if (visible) start();
+        if (visible && !raf) raf = requestAnimationFrame(loop);
+      },
+      { rootMargin: "400px 0px" }
+    );
+    io.observe(c.parentElement);
     const ro = new ResizeObserver(() => {
-      resize();
+      layout();
       draw(performance.now());
     });
-    ro.observe(c);
+    ro.observe(c.parentElement);
 
-    const down = (e) => {
-      dragging = true;
-      lastX = e.clientX;
-      c.setPointerCapture(e.pointerId);
-    };
-    const move = (e) => {
-      if (!dragging) return;
-      const dx = (e.clientX - lastX) / R;
-      lastX = e.clientX;
-      drag += dx;
-      dragV = dx;
-    };
-    const up = () => (dragging = false);
-    c.addEventListener("pointerdown", down);
-    c.addEventListener("pointermove", move);
-    c.addEventListener("pointerup", up);
-    c.addEventListener("pointercancel", up);
-
-    // Local time in Kolkata.
+    // Local time in Kolkata, and the sun moves with it.
     const fmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" });
-    const tick = () => time.current && (time.current.textContent = fmt.format(new Date()));
+    const tick = () => {
+      const now = new Date();
+      sun = sunVec(now);
+      if (time.current) time.current.textContent = fmt.format(now);
+      if (daypart.current) daypart.current.textContent = `It's ${partOfDay(now)} here right now.`;
+      if (reduce) draw(performance.now());
+    };
     tick();
-    const clock = setInterval(tick, 10000);
+    const clock = setInterval(tick, 30000);
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();
       clearInterval(clock);
-      c.removeEventListener("pointerdown", down);
-      c.removeEventListener("pointermove", move);
-      c.removeEventListener("pointerup", up);
-      c.removeEventListener("pointercancel", up);
     };
   }, []);
 
@@ -273,8 +308,15 @@ function PlaceTile() {
       <canvas
         ref={canvas}
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full cursor-grab touch-pan-y active:cursor-grabbing"
+        className="absolute opacity-0 transition-opacity duration-700"
       />
+      <div ref={pin} aria-hidden="true" className="pointer-events-none absolute left-0 top-0 transition-opacity duration-300">
+        <span className="absolute -left-[5px] -top-[5px] h-[10px] w-[10px] rounded-full border-2 border-[#101422] bg-cobalt" />
+        <span className="absolute -left-[5px] -top-[5px] h-[10px] w-[10px] animate-ping rounded-full bg-cobalt/60" />
+        <span className="absolute left-3 top-[-1.6rem] whitespace-nowrap rounded-full bg-[#101422]/85 px-2.5 py-0.5 text-[0.8rem] font-medium text-ink">
+          {HOME.name}
+        </span>
+      </div>
       <div className="pointer-events-none relative flex h-full flex-col justify-between p-7 md:p-9">
         <div>
           <p className={label}>Based in</p>
@@ -283,7 +325,9 @@ function PlaceTile() {
         <div className="flex items-end justify-between gap-6">
           <p className="text-lg">
             Open to relocating.
-            <span className="block text-sm text-graphite">Drag the globe.</span>
+            <span ref={daypart} className="block text-sm text-graphite">
+              Day and night, live.
+            </span>
           </p>
           <p className="text-right text-sm text-graphite">
             <span ref={time} className="t-figure block text-3xl text-ink">

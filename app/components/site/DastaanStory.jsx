@@ -65,7 +65,7 @@ export default function DastaanStory() {
           scrollTrigger: {
             trigger: pinned.current,
             start: "top top",
-            end: "+=320%",
+            end: "+=200%",
             pin: true,
             scrub: 0.6,
             onUpdate: (self) => setStage(Math.min(3, Math.floor(self.progress * 4.2))),
