@@ -4,13 +4,12 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "./motion/gsap";
 import { expandTo } from "./motion/PageTransition";
 import DistortImage from "./DistortImage";
-import { palettes, paletteVars } from "./palette";
 
 /*
   Featured projects on a horizontal track. On desktop the section pins and
-  vertical scrolling moves the track sideways; the whole section takes on the
-  colours of whichever project is centred. On small screens it's a plain stack
-  of colour blocks.
+  vertical scrolling moves the track sideways. On small screens it's a plain
+  stack. The section stays on the page background so the screenshots carry
+  the colour.
 */
 export default function Gallery({ projects, total }) {
   const root = useRef(null);
@@ -23,15 +22,6 @@ export default function Gallery({ projects, total }) {
         const section = root.current;
         const cards = gsap.utils.toArray("[data-card]", section);
         const distance = () => track.current.scrollWidth - window.innerWidth;
-        let current = -1;
-
-        const recolour = (i) => {
-          if (i === current) return;
-          current = i;
-          const vars = i < 0 ? paletteVars(palettes[projects[0].slug]) : paletteVars(palettes[projects[i].slug]);
-          gsap.to(section, { ...vars, duration: 0.7, ease: "power2.out", overwrite: "auto" });
-        };
-
         const scrollTween = gsap.to(track.current, {
           x: () => -distance(),
           ease: "none",
@@ -42,20 +32,6 @@ export default function Gallery({ projects, total }) {
             pin: true,
             scrub: 0.8,
             invalidateOnRefresh: true,
-            onUpdate: () => {
-              const mid = window.innerWidth / 2;
-              let best = 0;
-              let bestDist = Infinity;
-              cards.forEach((c, i) => {
-                const r = c.getBoundingClientRect();
-                const d = Math.abs(r.left + r.width / 2 - mid);
-                if (d < bestDist) {
-                  bestDist = d;
-                  best = i;
-                }
-              });
-              recolour(best);
-            },
           },
         });
 
@@ -91,29 +67,16 @@ export default function Gallery({ projects, total }) {
       href: `/projects/${p.slug}`,
       rect: img.getBoundingClientRect(),
       image: p.image,
-      bg: palettes[p.slug]?.bg,
+      bg: getComputedStyle(document.documentElement).backgroundColor,
     });
   };
-
-  // On small screens each card is its own colour block; on desktop the whole
-  // section is recoloured as you scroll, so cards inherit from it.
-  const mobileColours = `@media (max-width: 1023px) {${projects
-    .map((p) => {
-      const v = paletteVars(palettes[p.slug]);
-      return `[data-pal="${p.slug}"]{${Object.entries(v)
-        .map(([k, val]) => `${k}:${val}`)
-        .join(";")}}`;
-    })
-    .join("")}}`;
 
   return (
     <section
       ref={root}
       aria-labelledby="more-work-title"
-      style={paletteVars(palettes[projects[0].slug])}
       className="relative bg-paper text-ink lg:h-screen lg:overflow-hidden"
     >
-      <style dangerouslySetInnerHTML={{ __html: mobileColours }} />
       <div
         ref={track}
         className="flex flex-col gap-0 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-[5vw] lg:px-[6vw]"
@@ -121,8 +84,7 @@ export default function Gallery({ projects, total }) {
         <div className="px-5 py-20 md:px-8 lg:w-[34vw] lg:shrink-0 lg:px-0 lg:py-0">
           <h2
             id="more-work-title"
-            className="font-display font-semibold leading-[0.88] tracking-[-0.04em]"
-            style={{ fontSize: "clamp(3rem, 6.5vw, 6.5rem)", fontVariationSettings: "'wdth' 80, 'opsz' 96" }}
+            className="t-display"
           >
             More work
           </h2>
@@ -135,8 +97,7 @@ export default function Gallery({ projects, total }) {
           <article
             key={p.slug}
             data-card
-            data-pal={p.slug}
-            className="bg-paper px-5 py-16 text-ink md:px-8 lg:w-[min(64vw,62rem)] lg:shrink-0 lg:bg-transparent lg:px-0 lg:py-0"
+            className="px-5 py-16 md:px-8 lg:w-[min(64vw,62rem)] lg:shrink-0 lg:px-0 lg:py-0"
           >
             <Link href={`/projects/${p.slug}`} onClick={(e) => open(e, p)} data-cursor="View" className="group block">
               <div data-media className="overflow-hidden rounded-[4px]">
@@ -152,8 +113,8 @@ export default function Gallery({ projects, total }) {
                 </p>
                 <h3
                   data-title
-                  className="mt-3 font-display font-semibold leading-none tracking-[-0.035em]"
-                  style={{ fontSize: "clamp(2.25rem, 4.6vw, 4.5rem)", fontVariationSettings: "'wdth' 82, 'opsz' 96" }}
+                  className="t-display mt-3"
+                  style={{ fontSize: "clamp(2.25rem, 4.6vw, 4.5rem)" }}
                 >
                   {p.title}
                 </h3>
@@ -166,8 +127,8 @@ export default function Gallery({ projects, total }) {
         <div className="px-5 py-20 md:px-8 lg:w-[30vw] lg:shrink-0 lg:px-0 lg:py-0">
           <Link
             href="/projects"
-            className="group block font-display font-semibold leading-[0.9] tracking-[-0.035em]"
-            style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", fontVariationSettings: "'wdth' 80, 'opsz' 96" }}
+            className="t-display group block"
+            style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)" }}
           >
             <span className="link">See all {total} projects</span>
           </Link>

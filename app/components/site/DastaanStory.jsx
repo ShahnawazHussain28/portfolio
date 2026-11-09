@@ -19,7 +19,7 @@ const PROSE =
 const LINES = [
   { speaker: "Narrator", color: "rgb(var(--graphite))", text: "The lamp had gone out by the time Meera reached the door.", tag: "low, unhurried", peaks: [0, 30] },
   { speaker: "Meera", color: "rgb(var(--cobalt))", text: "Who’s there?", tag: "afraid, whispered", pause: "0.8s pause", peaks: [30, 50] },
-  { speaker: "Arjun", color: "#FF6B5E", text: "Only me. Open up, it’s cold.", tag: "tired, warm", peaks: [50, 90] },
+  { speaker: "Arjun", color: "#94A3FF", text: "Only me. Open up, it’s cold.", tag: "tired, warm", peaks: [50, 90] },
 ];
 
 // Music bed under the whole scene; it dips wherever someone speaks.
@@ -103,8 +103,8 @@ export default function DastaanStory() {
           <p className="text-sm text-graphite">Selected work, 2026</p>
           <h2
             id="dastaan-title"
-            className="mt-2 font-display font-semibold leading-[0.85] tracking-[-0.04em]"
-            style={{ fontSize: "clamp(3.5rem, 8vw, 7.5rem)", fontVariationSettings: "'wdth' 80, 'opsz' 96" }}
+            className="t-display mt-2"
+            style={{ fontSize: "clamp(3.5rem, 8vw, 7.5rem)" }}
           >
             Dastaan
           </h2>
@@ -144,9 +144,18 @@ export default function DastaanStory() {
         {/* The "screen": prose turns into a directed, voiced, scored scene. */}
         <div className="lg:col-span-7">
           <div className="relative rounded-[6px] bg-surface p-6 md:p-8">
-            <p data-prose className="pointer-events-none absolute inset-6 hidden font-sans text-xl italic leading-relaxed md:inset-8 lg:block">
-              {PROSE}
-            </p>
+            {/* Step 1 fills the panel with the input: one paragraph from a book. */}
+            <div
+              data-prose
+              className="pointer-events-none absolute inset-6 hidden flex-col justify-between md:inset-8 lg:flex"
+            >
+              <span className="text-xs uppercase tracking-[0.14em] text-graphite">The input: a page of a book</span>
+              <p className="font-sans text-[1.65rem] italic leading-snug xl:text-3xl">{PROSE}</p>
+              <span className="flex items-center gap-3 text-sm text-graphite">
+                <span className="h-px w-10 bg-graphite" />
+                No speakers, no voices, no music. Yet.
+              </span>
+            </div>
 
             <ol className="space-y-5">
               {LINES.map((l) => (
@@ -258,7 +267,7 @@ function ChapterOutput() {
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
         <div className="flex justify-center md:col-span-5 md:col-start-2">
           <div data-phone className="relative w-[min(78vw,320px)]">
-            <div className="overflow-hidden rounded-[2.4rem] border-[10px] border-[#140406] bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)]">
+            <div className="overflow-hidden rounded-[2.4rem] border-[10px] border-[#0B0D10] bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)]">
               <video
                 ref={video}
                 src="/video/dastaan-ch01.mp4"
@@ -272,7 +281,7 @@ function ChapterOutput() {
               />
             </div>
             {/* Notch */}
-            <span aria-hidden="true" className="absolute left-1/2 top-[18px] h-5 w-20 -translate-x-1/2 rounded-full bg-[#140406]" />
+            <span aria-hidden="true" className="absolute left-1/2 top-[18px] h-5 w-20 -translate-x-1/2 rounded-full bg-[#0B0D10]" />
             {/* Progress */}
             <span aria-hidden="true" className="absolute inset-x-8 bottom-[22px] h-[3px] overflow-hidden rounded-full bg-white/20">
               <span className="block h-full origin-left bg-cobalt" style={{ transform: `scaleX(${progress})` }} />
@@ -297,8 +306,7 @@ function ChapterOutput() {
           <p data-out-fade className="text-sm text-graphite">What comes out</p>
           <h3
             data-out-fade
-            className="mt-2 font-display font-semibold leading-[0.95] tracking-[-0.03em]"
-            style={{ fontSize: "clamp(2.4rem, 5vw, 4.2rem)" }}
+            className="t-headline mt-2"
           >
             The Call That Knows, <span className="text-cobalt">chapter 1</span>
           </h3>

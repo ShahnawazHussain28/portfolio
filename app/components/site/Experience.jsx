@@ -76,11 +76,10 @@ export default function Experience() {
 
   return (
     <section id="experience" ref={root} aria-labelledby="experience-title" className="relative">
-      <div className="mx-auto max-w-page px-5 py-24 md:px-8 md:py-36">
+      <div className="mx-auto max-w-page px-5 py-24 md:px-8 md:pb-20 md:pt-36">
         <h2
           id="experience-title"
-          className="font-display font-semibold leading-[0.88] tracking-[-0.04em]"
-          style={{ fontSize: "clamp(3rem, 7vw, 6.5rem)", fontVariationSettings: "'wdth' 80, 'opsz' 96" }}
+          className="t-display"
         >
           Experience
         </h2>
@@ -105,7 +104,7 @@ export default function Experience() {
 
               <div className="md:col-span-3 md:pl-12">
                 <div className="overflow-hidden">
-                  <h3 data-role className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                  <h3 data-role className="t-title">
                     {job.position}, <span className="text-cobalt">{job.company}</span>
                   </h3>
                 </div>
@@ -119,73 +118,86 @@ export default function Experience() {
                     )}
                   </p>
                 )}
-                <p data-split className="mt-4 max-w-prose text-lg text-graphite">
-                  {job.description}
-                </p>
+                <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-14">
+                  <div>
+                    <p data-split className="max-w-prose text-lg text-graphite">
+                      {job.description}
+                    </p>
 
-                {job.stats && (
-                  <dl className="mt-10 grid max-w-2xl grid-cols-1 items-end gap-x-10 gap-y-8 sm:grid-cols-2">
-                    {job.stats.map((s) => (
-                      <div key={s.label} className="border-l-2 border-rule pl-5">
-                        <dt className="sr-only">{s.label}</dt>
-                        <dd>
-                          {s.before !== undefined ? (
-                            // Before/after: the old value sits small and gets crossed out; the new one is the big number.
-                            <span data-change className="block">
-                              <span className="sr-only">
-                                From {s.before} {s.beforeUnit ?? s.unit} to {s.after} {s.unit}
-                              </span>
-                              <span aria-hidden="true" className="flex items-center gap-2 text-xl text-graphite">
-                                <span className="relative">
-                                  {s.before} {s.beforeUnit ?? s.unit}
+                    <ul className="mt-6 max-w-prose space-y-3">
+                      {job.achievements.map((a) => (
+                        <li
+                          key={a}
+                          data-split
+                          className="relative pl-5 before:absolute before:left-0 before:top-[0.75em] before:h-px before:w-2.5 before:bg-cobalt"
+                        >
+                          {a}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {/* Numbers and stack sit beside the story, so the right side of the page is used. */}
+                  <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+                    {job.stats && (
+                      <dl className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-1">
+                        {job.stats.map((s) => (
+                          <div key={s.label} className="border-l-2 border-rule pl-5">
+                            <dt className="sr-only">{s.label}</dt>
+                            <dd>
+                              {s.before !== undefined ? (
+                                // Before/after: the old value sits small and gets crossed out; the new one is the big number.
+                                <span data-change className="block">
+                                  <span className="sr-only">
+                                    From {s.before} {s.beforeUnit ?? s.unit} to {s.after} {s.unit}
+                                  </span>
+                                  <span aria-hidden="true" className="flex items-center gap-2 text-xl text-graphite">
+                                    <span className="relative">
+                                      {s.before} {s.beforeUnit ?? s.unit}
+                                      <span
+                                        data-strike
+                                        className="absolute -inset-x-1 top-1/2 h-[2px] origin-left -translate-y-1/2 rounded-full bg-cobalt"
+                                      />
+                                    </span>
+                                    <span>→</span>
+                                  </span>
                                   <span
-                                    data-strike
-                                    className="absolute -inset-x-1 top-1/2 h-[2px] origin-left -translate-y-1/2 rounded-full bg-cobalt"
-                                  />
+                                    aria-hidden="true"
+                                    data-after
+                                    className="t-figure mt-1 block"
+                                    style={{ fontSize: "clamp(3rem, 4.5vw, 4.25rem)" }}
+                                  >
+                                    <span className="text-cobalt">{s.after}</span>
+                                    <span className="ml-[0.15em] text-[0.4em] tracking-tight">{s.unit}</span>
+                                  </span>
                                 </span>
-                                <span>→</span>
+                              ) : (
+                                <span
+                                  className="t-figure block"
+                                  style={{ fontSize: "clamp(3rem, 4.5vw, 4.25rem)" }}
+                                >
+                                  <span data-count data-from={s.from} data-to={s.to}>
+                                    {s.to}
+                                  </span>
+                                  {s.suffix && <span className="text-[0.5em] tracking-tight">{s.suffix}</span>}
+                                </span>
+                              )}
+                              <span aria-hidden="true" className="mt-3 block text-sm text-graphite">
+                                {s.label}
                               </span>
-                              <span
-                                aria-hidden="true"
-                                data-after
-                                className="mt-1 block font-display font-semibold leading-none tracking-[-0.04em]"
-                                style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-                              >
-                                <span className="text-cobalt">{s.after}</span>
-                                <span className="ml-[0.15em] text-[0.4em] tracking-tight">{s.unit}</span>
-                              </span>
-                            </span>
-                          ) : (
-                            <span
-                              className="block font-display font-semibold leading-none tracking-[-0.04em]"
-                              style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-                            >
-                              <span data-count data-from={s.from} data-to={s.to}>
-                                {s.to}
-                              </span>
-                              {s.suffix && <span className="text-[0.5em] tracking-tight">{s.suffix}</span>}
-                            </span>
-                          )}
-                          <span aria-hidden="true" className="mt-3 block text-sm text-graphite">
-                            {s.label}
-                          </span>
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
-
-                <ul className="mt-8 max-w-prose space-y-3">
-                  {job.achievements.map((a) => (
-                    <li
-                      key={a}
-                      data-split
-                      className="relative pl-5 before:absolute before:left-0 before:top-[0.75em] before:h-px before:w-2.5 before:bg-cobalt"
-                    >
-                      {a}
-                    </li>
-                  ))}
-                </ul>
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    <ul className="flex flex-wrap gap-2" aria-label="Technologies">
+                      {job.technologies.map((t) => (
+                        <li key={t} className="rounded-full border border-rule px-3 py-1 text-sm text-graphite">
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                </div>
               </div>
             </li>
           ))}

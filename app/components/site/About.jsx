@@ -13,10 +13,10 @@ export default function About() {
       if (prefersReducedMotion()) return;
       // The placings thicken from hairline to heavy as they scroll through.
       gsap.utils.toArray("[data-place]").forEach((el) => {
-        const state = { w: 200, x: 75 };
+        const state = { w: 200, x: 70 };
         gsap.to(state, {
-          w: 800,
-          x: 100,
+          w: 700,
+          x: 90,
           ease: "none",
           onUpdate: () => (el.style.fontVariationSettings = `'wght' ${state.w}, 'wdth' ${state.x}, 'opsz' 96`),
           scrollTrigger: { trigger: el, start: "top 90%", end: "top 35%", scrub: true },
@@ -28,11 +28,10 @@ export default function About() {
 
   return (
     <section id="about" ref={root} aria-labelledby="about-title" className="relative">
-      <div className="mx-auto max-w-page px-5 py-24 md:px-8 md:py-36">
+      <div className="mx-auto max-w-page px-5 py-24 md:px-8 md:pb-36 md:pt-20">
         <h2
           id="about-title"
-          className="font-display font-semibold leading-[0.88] tracking-[-0.04em]"
-          style={{ fontSize: "clamp(3rem, 7vw, 6.5rem)", fontVariationSettings: "'wdth' 80, 'opsz' 96" }}
+          className="t-display"
         >
           About
         </h2>
@@ -44,8 +43,8 @@ export default function About() {
             <li key={r.event}>
               <span
                 data-place
-                className="block font-display leading-[0.8] tracking-[-0.05em] text-cobalt"
-                style={{ fontSize: "clamp(5.5rem, 15vw, 13rem)", fontVariationSettings: "'wght' 800, 'wdth' 100, 'opsz' 96" }}
+                className="t-figure block leading-[0.8] text-cobalt"
+                style={{ fontSize: "clamp(5.5rem, 15vw, 13rem)", fontWeight: 700 }}
               >
                 {r.place.replace(" place", "")}
               </span>
@@ -58,7 +57,7 @@ export default function About() {
         </ul>
 
         <div className="mt-24">
-          <h3 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">What I build with</h3>
+          <h3 className="t-title">What I build with</h3>
           <p className="mt-2 text-graphite">Grab a block and throw it.</p>
           <div className="mt-8">
             <ToolBox stack={stack} />

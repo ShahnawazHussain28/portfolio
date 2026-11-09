@@ -45,12 +45,12 @@ const STORY_PATH = descend(...START);
 const F_START = f(...START);
 const errorAt = (x, z) => Math.max(0, Math.round(((f(x, z) - F_MIN) / (F_START - F_MIN)) * 92));
 
-// Colours (on the purple section)
-// Height colours: deep indigo valleys, magenta slopes, peach peaks.
+// Colours (on the cobalt section)
+// Height colours: near-black valleys, light-cobalt slopes, stone peaks.
 const STOPS = [
-  [0, [33, 12, 110]],
-  [0.5, [214, 64, 160]],
-  [1, [255, 196, 140]],
+  [0, [10, 14, 52]],
+  [0.5, [120, 138, 255]],
+  [1, [232, 234, 230]],
 ];
 const heightColor = (t) => {
   const i = t < STOPS[1][0] ? 0 : 1;
@@ -60,7 +60,7 @@ const heightColor = (t) => {
   return c0.map((v, q) => v + (c1[q] - v) * k);
 };
 const BALL = "#FFD84D";
-const INK = "#160F38";
+const INK = "#15181C";
 
 const N = 54; // grid cells per side
 const H = 1.0; // height scale
@@ -81,6 +81,7 @@ export default function IncognitionStory() {
   const root = useRef(null);
   const stage = useRef(null);
   const canvas = useRef(null);
+  const textCol = useRef(null);
   const errRef = useRef(null);
   const errBar = useRef(null);
   const api = useRef({});
@@ -148,6 +149,7 @@ export default function IncognitionStory() {
       scale = 1;
     // Turned so the story ball starts on a tall peak at the back and rolls toward you.
     const YAW = 2.35;
+    const SWAY = 0.16; // yaw drifts by this much either way
     let yaw = YAW;
     const pitch = 0.98; // high enough to see down into the valley
     const D = 11;
@@ -182,6 +184,35 @@ export default function IncognitionStory() {
       scale = wide ? Math.min(w * 0.36, h * 0.85) / 6.2 : Math.min(w * 0.9, h * 0.55) / 6.2;
       cx = wide ? w * 0.68 : w * 0.5;
       cy = wide ? h * 0.6 : h * 0.72;
+      if (wide && textCol.current) {
+        // Keep the surface's left edge (across its whole sway) clear of the headline.
+        const clear = textCol.current.getBoundingClientRect().right - r.left + 32;
+        const reach = -leftReach();
+        const maxCx = w * 0.78;
+        if (clear + reach > maxCx) {
+          scale *= (maxCx - clear) / reach;
+          cx = maxCx;
+        } else {
+          cx = Math.max(cx, clear + reach);
+        }
+      }
+    };
+
+    // How far left of its centre the surface reaches, at the current scale.
+    const leftReach = () => {
+      const saved = [cx, yaw];
+      const out = [0, 0, 0, 0];
+      let min = 0;
+      cx = 0;
+      for (const y of [YAW - SWAY, YAW, YAW + SWAY]) {
+        yaw = y;
+        for (let k = 0; k < V * V; k++) {
+          project(wx[k], wy[k], wz[k], out);
+          if (out[0] < min) min = out[0];
+        }
+      }
+      [cx, yaw] = saved;
+      return min;
     };
 
     // State the story sets each frame.
@@ -225,7 +256,7 @@ export default function IncognitionStory() {
       ctx.stroke();
       // Grid lines every third row and column, drawn with their own tile.
       if (q.gi || q.gj) {
-        ctx.strokeStyle = "rgba(22,15,56,0.2)";
+        ctx.strokeStyle = "rgba(21,24,28,0.2)";
         ctx.lineWidth = 0.6;
         ctx.beginPath();
         if (q.gi) ctx.moveTo(sx[a], sy[a]), ctx.lineTo(sx[d], sy[d]);
@@ -252,7 +283,7 @@ export default function IncognitionStory() {
 
     const drawBall = (it) => {
       const k = scale / 90;
-      ctx.fillStyle = "rgba(22,15,56,0.35)";
+      ctx.fillStyle = "rgba(21,24,28,0.35)";
       ctx.beginPath();
       ctx.ellipse(it.gx, it.gy, 14 * it.gs * k, 6 * it.gs * k, 0, 0, Math.PI * 2);
       ctx.fill();
@@ -336,7 +367,7 @@ export default function IncognitionStory() {
 
     const loop = (now) => {
       raf = 0;
-      if (!reduce) yaw = YAW + Math.sin(now / 5200) * 0.16;
+      if (!reduce) yaw = YAW + Math.sin(now / 5200) * SWAY;
       if (freeMode) {
         const t = Math.min(1, (now - freeStart) / 2600);
         dropT = Math.min(1, (now - freeStart) / 600);
@@ -460,14 +491,14 @@ export default function IncognitionStory() {
 
         <div className="pointer-events-none relative mx-auto flex h-full max-w-page flex-col px-5 pb-8 pt-24 md:px-8 md:pb-10 md:pt-28">
           <p className="flex items-center gap-2 text-sm">
-            <span className="rounded-full bg-cobalt px-2.5 py-0.5 text-xs font-semibold text-[#160F38]">Now building</span>
+            <span className="rounded-full bg-cobalt px-2.5 py-0.5 text-xs font-semibold text-[#15181C]">Now building</span>
             <span id="incognition-title" className="font-display text-lg font-semibold tracking-tight">
               Incognition
             </span>
           </p>
 
           {/* Story beats, stacked; the active one is shown. */}
-          <div className="relative mt-6 flex-1 md:mt-10 md:max-w-[34rem]">
+          <div ref={textCol} className="relative mt-6 flex-1 md:mt-10 md:max-w-[33rem]">
             {BEATS.map((b, i) =>
               b.final ? (
                 <div
@@ -476,7 +507,7 @@ export default function IncognitionStory() {
                   aria-hidden={beat !== i}
                   className="pointer-events-none absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-700 ease-out data-[active=true]:pointer-events-auto data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
                 >
-                  <p className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.03em] md:text-6xl">
+                  <p className="t-headline md:text-7xl">
                     That was one lesson.
                     <br />
                     <span className="text-cobalt">Incognition has 852 more.</span>
@@ -493,7 +524,7 @@ export default function IncognitionStory() {
                     ].map(([v, l]) => (
                       <div key={l} className="flex flex-col-reverse">
                         <dt className="text-sm text-graphite">{l}</dt>
-                        <dd className="font-display text-3xl font-semibold tabular-nums">{v}</dd>
+                        <dd className="t-figure text-3xl">{v}</dd>
                       </div>
                     ))}
                   </dl>
@@ -503,7 +534,7 @@ export default function IncognitionStory() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-cursor="Visit"
-                      className="inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-lg font-semibold text-[#160F38] transition-transform duration-300 hover:-rotate-2"
+                      className="inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-lg font-semibold text-[#15181C] transition-transform duration-300 hover:-rotate-2"
                     >
                       Start learning free <span aria-hidden="true">↗</span>
                     </a>
@@ -519,7 +550,7 @@ export default function IncognitionStory() {
                   aria-hidden={beat !== i}
                   className="absolute inset-x-0 top-0 translate-y-6 opacity-0 transition-all duration-700 ease-out data-[active=true]:translate-y-0 data-[active=true]:opacity-100"
                 >
-                  <p className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.03em] md:text-7xl">
+                  <p className="t-headline md:text-7xl">
                     {b.title}
                   </p>
                   <p className="mt-4 text-lg text-graphite md:text-xl">{b.sub}</p>
@@ -532,7 +563,7 @@ export default function IncognitionStory() {
           <div className="flex items-end justify-between gap-6">
             <div className={`transition-opacity duration-500 ${beat >= 1 ? "opacity-100" : "opacity-0"}`}>
               <p className="text-sm text-graphite">How wrong the guess is</p>
-              <p className="font-display text-5xl font-semibold tabular-nums md:text-6xl">
+              <p className="t-figure text-5xl md:text-6xl">
                 <span ref={errRef}>92%</span>
               </p>
               <span className="mt-2 block h-2 w-48 overflow-hidden rounded-full bg-ink/15">

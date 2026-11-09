@@ -1,27 +1,36 @@
-// Bold colour sets. A section using one of these re-defines the theme tokens
-// (--paper, --ink, ...) locally, so every Tailwind colour inside it follows.
+// The whole site uses four colours: stone, ink, cobalt, and a yellow highlight.
+// Only a few sections get a full-colour background (Incognition, Dastaan, Contact);
+// everything else follows the light/dark theme. A section using a palette below
+// re-defines the theme tokens (--paper, --ink, ...) locally, so every Tailwind
+// colour inside it follows.
+
+export const colors = {
+  stone: "#E8EAE6",
+  ink: "#15181C",
+  cobalt: "#2440F0",
+  cobaltLight: "#94A3FF",
+  signal: "#FFD84D",
+  white: "#F2F4FF",
+};
+
+const C = colors;
 
 export const palettes = {
-  incognition: { bg: "#7B4DF2", fg: "#F5F1FF", accent: "#FFD84D" },
-  dastaan: { bg: "#3A0C12", fg: "#F7E9D7", accent: "#FF9F1C" },
-  "nirvay-netra": { bg: "#E8462B", fg: "#1C0906", accent: "#FFF1E8" },
-  snugshopper: { bg: "#1F3BD1", fg: "#EEF0FF", accent: "#FFD84D" },
-  "web-steganography": { bg: "#C8F169", fg: "#14210A", accent: "#2E4A00" },
-  "circuit-simulator": { bg: "#F4D03F", fg: "#1B1A12", accent: "#A83200" },
-  "squid-game": { bg: "#E0347A", fg: "#1A0712", accent: "#0B5E51" },
-  contact: { bg: "#2440F0", fg: "#F2F4FF", accent: "#FFD84D" },
-  "about-place": { bg: "#0F4D34", fg: "#E8F5EC", accent: "#FFC53D" },
-  "about-study": { bg: "#FF7A1A", fg: "#1F0D00", accent: "#1F0D00" },
-  "about-youtube": { bg: "#B9A8FF", fg: "#160F38", accent: "#E5202B" },
-  "about-skate": { bg: "#12B5A6", fg: "#031F1C", accent: "#FFF2B3" },
+  incognition: { bg: C.cobalt, fg: C.white, accent: C.signal },
+  dastaan: { bg: C.ink, fg: C.stone, accent: C.signal },
+  contact: { bg: C.cobalt, fg: C.white, accent: C.signal },
+  "about-place": { bg: C.ink, fg: C.stone, accent: C.signal },
+  "about-study": { bg: C.signal, fg: C.ink, accent: C.ink },
+  "about-youtube": { bg: C.cobalt, fg: C.white, accent: C.signal },
+  "about-skate": { bg: "#D3D7CF", fg: C.ink, accent: C.cobalt },
 };
 
 // Stack areas get colours too (used by the tool blocks).
 export const areaColors = {
-  "Web and backend": { bg: "#2440F0", fg: "#F2F4FF" },
-  "AI and audio": { bg: "#FF9F1C", fg: "#2A1600" },
-  "Mobile and 3D": { bg: "#E0347A", fg: "#1A0712" },
-  Systems: { bg: "#C8F169", fg: "#14210A" },
+  "Web and backend": { bg: C.cobalt, fg: C.white },
+  "AI and audio": { bg: C.signal, fg: C.ink },
+  "Mobile and 3D": { bg: C.cobaltLight, fg: C.ink },
+  Systems: { bg: "#C8CCC6", fg: C.ink },
 };
 
 const hexToRgb = (hex) => {

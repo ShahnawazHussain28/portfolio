@@ -88,6 +88,41 @@
 }
 
 @layer components {
+  /* Type scale. Every heading uses Bricolage. Only the big section names are
+     narrow; headlines, titles and numbers use the normal width. Tailwind text-* utilities can
+     still override the size. */
+  .t-display,
+  .t-headline,
+  .t-title,
+  .t-figure {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 600;
+  }
+  .t-display {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-variation-settings: "wdth" 84, "opsz" 96;
+  }
+  .t-headline {
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-variation-settings: "wdth" 100, "opsz" 96;
+  }
+  .t-title {
+    font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-variation-settings: "wdth" 100, "opsz" 96;
+  }
+  .t-figure {
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    font-variation-settings: "wdth" 100, "opsz" 96;
+  }
+
   /* Underline that draws in from the left on hover. */
   .link {
     background-image: linear-gradient(currentColor, currentColor);
@@ -127,6 +162,31 @@
     opacity: 1;
   }
 }
+/* Hero work cards: a talking waveform and a pulse trace. */
+@keyframes hero-wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.hero-wave {
+  animation: hero-wave 1.3s ease-in-out infinite;
+}
+@keyframes hero-pulse {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.hero-pulse {
+  animation: hero-pulse 2.4s linear infinite;
+}
+
 .rise {
   animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -136,7 +196,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rise,
-  .fade-in {
+  .fade-in,
+  .hero-wave,
+  .hero-pulse {
     animation: none;
   }
   *,

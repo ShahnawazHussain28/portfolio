@@ -51,7 +51,9 @@ void main() {
 
   vec3 photo = texture2D(uImage, uv).rgb;
   float lum = dot(photo, vec3(0.299, 0.587, 0.114));
-  photo = mix(photo, vec3(lum), 0.18);
+  // Grade toward the site palette: ink-cobalt shadows, stone highlights.
+  vec3 duo = mix(vec3(0.05, 0.07, 0.24), vec3(0.95, 0.955, 0.93), smoothstep(0.04, 0.92, lum));
+  photo = mix(mix(photo, vec3(lum), 0.25), duo, 0.42);
 
   // Depth drawn as contour lines, like a topographic map of the face.
   float bands = d * 22.0;

@@ -278,7 +278,7 @@ function PlaceTile() {
       <div className="pointer-events-none relative flex h-full flex-col justify-between p-7 md:p-9">
         <div>
           <p className={label}>Based in</p>
-          <p className="mt-2 font-display text-4xl font-semibold tracking-tight md:text-5xl">Kolkata, India</p>
+          <p className="t-title mt-2 md:text-5xl">Kolkata, India</p>
         </div>
         <div className="flex items-end justify-between gap-6">
           <p className="text-lg">
@@ -286,7 +286,7 @@ function PlaceTile() {
             <span className="block text-sm text-graphite">Drag the globe.</span>
           </p>
           <p className="text-right text-sm text-graphite">
-            <span ref={time} className="block font-display text-3xl font-semibold tabular-nums text-ink">
+            <span ref={time} className="t-figure block text-3xl text-ink">
               --:--
             </span>
             IST, 22.57° N 88.36° E
@@ -314,12 +314,12 @@ function StudyTile() {
         .timeline({ scrollTrigger: { trigger: root.current, start: "top 80%" } })
         .to(st, {
           v: 2025,
-          w: 800,
+          w: 700,
           duration: 2,
           ease: "power2.inOut",
           onUpdate: () => {
             year.textContent = "’" + String(Math.floor(st.v)).slice(2);
-            year.style.fontVariationSettings = `'wght' ${st.w}, 'wdth' 100, 'opsz' 96`;
+            year.style.fontVariationSettings = `'wght' ${st.w}, 'wdth' 90, 'opsz' 96`;
           },
         })
         .to(bars, { scaleX: 1, duration: 0.22, ease: "power2.out", stagger: 0.22 }, 0);
@@ -345,8 +345,8 @@ function StudyTile() {
         <span
           data-year
           aria-label="Class of 2025"
-          className="font-display leading-[0.8] tracking-[-0.05em]"
-          style={{ fontSize: "clamp(4.5rem, 8vw, 7rem)", fontVariationSettings: "'wght' 800, 'wdth' 100, 'opsz' 96" }}
+          className="t-figure leading-[0.8]"
+          style={{ fontSize: "clamp(4.5rem, 8vw, 7rem)", fontWeight: 700 }}
         >
           ’25
         </span>
@@ -413,7 +413,7 @@ function YouTubeTile() {
       <div className="flex items-end justify-between gap-4 p-7 pt-6 md:p-9 md:pt-6">
         <div>
           <p className={label}>On YouTube</p>
-          <p className="mt-2 font-display text-3xl font-semibold tracking-tight">
+          <p className="t-title mt-2">
             Code Universe <span aria-hidden="true">↗</span>
           </p>
           <p className="mt-1 text-graphite">Project demos, and technical things explained simply.</p>
@@ -492,8 +492,8 @@ function SkateTile() {
       <div className="relative p-7 md:p-9">
         <p className={label}>Off screen</p>
         <p
-          className="mt-2 font-display font-semibold leading-[0.9] tracking-[-0.04em]"
-          style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)", fontVariationSettings: "'wdth' 85, 'opsz' 96" }}
+          className="t-display mt-2"
+          style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)" }}
         >
           Rollerblading
         </p>

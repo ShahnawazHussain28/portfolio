@@ -23,19 +23,39 @@ export default function Cursor() {
     const toX = gsap.quickTo(dot, "x", { duration: 0.18, ease: "power3.out" });
     const toY = gsap.quickTo(dot, "y", { duration: 0.18, ease: "power3.out" });
 
-    const onMove = (e) => {
-      toX(e.clientX);
-      toY(e.clientY);
-      gsap.to(dot, { opacity: 1, duration: 0.2, overwrite: "auto" });
-    };
-    const onOver = (e) => {
-      const target = e.target.closest?.("[data-cursor]");
+    const pointer = { x: -1, y: -1 };
+    const read = (el) => {
+      const target = el?.closest?.("[data-cursor]");
       if (target) {
         setLabel(target.dataset.cursor);
         setMode("label");
         return;
       }
-      setMode(e.target.closest?.("a, button, [role=option], input, textarea") ? "link" : "dot");
+      setMode(el?.closest?.("a, button, [role=option], input, textarea") ? "link" : "dot");
+    };
+    const onMove = (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      toX(e.clientX);
+      toY(e.clientY);
+      gsap.to(dot, { opacity: 1, duration: 0.2, overwrite: "auto" });
+    };
+    const onOver = (e) => read(e.target);
+    // Scrolling moves the page under a still pointer without firing pointerover,
+    // so look again at whatever is under it now.
+    let pending = 0;
+    let settle = 0;
+    const recheck = () => read(document.elementFromPoint(pointer.x, pointer.y));
+    const onScroll = () => {
+      if (pointer.x < 0) return;
+      // Once more after scrolling stops: scrubbed sections keep easing for a moment.
+      clearTimeout(settle);
+      settle = setTimeout(recheck, 900);
+      if (pending) return;
+      pending = requestAnimationFrame(() => {
+        pending = 0;
+        recheck();
+      });
     };
     const onLeave = () => gsap.to(dot, { opacity: 0, duration: 0.2 });
     const onDown = () => gsap.to(dot, { scale: 0.8, duration: 0.15 });
@@ -43,6 +63,7 @@ export default function Cursor() {
 
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("pointerover", onOver);
+    window.addEventListener("scroll", onScroll, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeave);
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
@@ -50,6 +71,9 @@ export default function Cursor() {
       document.documentElement.classList.remove("has-cursor");
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerover", onOver);
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(pending);
+      clearTimeout(settle);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp);
