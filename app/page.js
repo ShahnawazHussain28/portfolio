@@ -1,30 +1,23 @@
-import Hero from './components/Hero/Hero';
-import Achievements from './components/Achievements/Achievements';
-import Experience from './components/Experience/Experience';
-import Projects from './components/Projects/Projects';
-import Skills from './components/Skills/Skills';
-import Contact from './components/Contact/Contact';
-import profileImage from '@/public/profilepic.jpg';
+import Hero from "./components/site/Hero";
+import IncognitionStory from "./components/site/IncognitionStory";
+import DastaanStory from "./components/site/DastaanStory";
+import Gallery from "./components/site/Gallery";
+import Experience from "./components/site/Experience";
+import About from "./components/site/About";
+import Contact from "./components/site/Contact";
+import { projects } from "./data/projects";
 
 export default function Home() {
+  const featured = projects.filter((p) => p.featured && !["dastaan", "incognition"].includes(p.slug) && p.image);
+
   return (
-    <main className="relative min-h-screen">
-      {/* Hero Section */}
-      <Hero profileImage={profileImage} />
-
-      {/* Achievements Section */}
-      <Achievements />
-
-      {/* Experience Section */}
+    <main>
+      <Hero />
+      <IncognitionStory />
+      <DastaanStory />
+      <Gallery projects={featured} total={projects.length} />
       <Experience />
-
-      {/* Projects Section */}
-      <Projects />
-
-      {/* Skills Section */}
-      <Skills />
-
-      {/* Contact Section */}
+      <About />
       <Contact />
     </main>
   );

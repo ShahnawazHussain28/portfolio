@@ -1,5 +1,37 @@
 export const projects = [
   {
+    slug: "incognition",
+    title: "Incognition",
+    shortDescription: "A live platform that teaches machine learning from zero, with Python that runs right in the browser.",
+    description: `**Incognition** teaches **machine learning from zero**, through interactive lessons, visualisations and coding practice. It's live at **theincognition.com**, with **16 courses, 850+ lessons and 1,400+ practice problems**, from basic gradients up to state-of-the-art research papers.
+
+Learners write real Python (**NumPy, pandas, scikit-learn**) without installing anything. Python runs in the browser through **Pyodide (WebAssembly) in a Web Worker**, so there's no setup for learners and no server compute cost.
+
+Practice works like LeetCode: a **judge with hidden test cases**, where answers are stripped on the server so they never reach the client.
+
+Around **300 interactive visualisations** show how ML actually works: backpropagation, convolution, attention and more.
+
+Lessons are written with help from AI agents through an **MCP server** that lets them author and publish **schema-validated lessons**. It has produced more than 8,600 lesson steps.
+
+I lead engineering on Incognition: I designed its architecture and built the platform.`,
+    image: "/thumbnails/incognition.jpg",
+    images: [],
+    youtubeId: null,
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Drizzle", "Pyodide", "WebAssembly", "MCP", "Three.js"],
+    features: [
+      "16 courses, 850+ lessons and 1,400+ practice problems",
+      "Python in the browser with Pyodide, no setup",
+      "Practice judge with hidden test cases",
+      "About 300 interactive ML visualisations",
+      "MCP server for AI agents to write lessons",
+    ],
+    liveUrl: "https://theincognition.com",
+    githubUrl: null,
+    category: "AI/ML",
+    featured: true,
+    year: "2026",
+  },
+  {
     slug: "dastaan",
     title: "Dastaan",
     shortDescription: "AI audiobook generator that turns any book into a multi-voice audio drama with emotion, pacing and music.",
@@ -15,6 +47,8 @@ The web app (**FastAPI + Next.js**) shows the pipeline as a set of stages (Scrip
     image: null,
     images: [],
     youtubeId: null,
+    videoSrc: "/video/dastaan-ch01.mp4",
+    videoPoster: "/video/dastaan-ch01.jpg",
     technologies: ["Python", "FastAPI", "Next.js", "LLMs", "IndexTTS-2", "Qwen3-TTS", "whisper.cpp", "ffmpeg", "NumPy"],
     features: [
       "Book to multi-voice audio drama (PDF, EPUB, TXT, Markdown)",
@@ -33,6 +67,29 @@ The web app (**FastAPI + Next.js**) shows the pipeline as a set of stages (Scrip
     year: "2026",
   },
   {
+    slug: "code-universe",
+    title: "Code Universe",
+    shortDescription: "My YouTube channel of tech explainers and project demos, made by a pipeline I automated.",
+    description: `**Code Universe** is my YouTube channel, where I show my projects and explain technical topics simply.
+
+The videos are made by an **automated pipeline**. **Claude agents** write each video's script and its **Remotion** animation code, a **cloned voice** narrates it, and **Whisper** timings line up the captions. Every stage **checks its own output** before handing off to the next.`,
+    image: null,
+    images: [],
+    youtubeId: null,
+    technologies: ["Claude Code", "Remotion", "TTS", "Whisper", "TypeScript"],
+    features: [
+      "Claude agents write scripts and animation code",
+      "Remotion renders the animations",
+      "Cloned-voice narration",
+      "Each stage checks its own output",
+    ],
+    liveUrl: "https://www.youtube.com/@codeuniverse9015",
+    githubUrl: null,
+    category: "AI/ML",
+    featured: false,
+    year: "2026",
+  },
+  {
     slug: "nirvay-netra",
     title: "Nirvay Netra",
     shortDescription: "Autonomous IoT-based women's safety system with automatic threat detection and emergency alerts.",
@@ -47,7 +104,7 @@ When a threat is detected, the app sends **automatic SMS**, **push notifications
 Nirvay Netra also includes a **fail-safe mechanism**: if a false alarm is triggered, the user gets a **30-second window** to cancel it. Once safe, they can mark themselves secure, and the system immediately notifies police and family members.
 
 Nirvay Netra aims to deliver **fast, reliable, and autonomous assistance** in high-stress situations, ensuring help reaches when it's needed the most.`,
-    image: "/thumbnails/nirvaynetra.png",
+    image: "/thumbnails/nirvaynetra-app.jpg",
     images: [
       "/screenshots/nirvaynetra/nn1.png",
       "/screenshots/nirvaynetra/nn2.png",
@@ -140,7 +197,7 @@ Features include optional password encryption for additional security, support f
 Features include basic gates (AND, OR, NOT, XOR), flip-flops, multiplexers, decoders, and 7-segment displays. The real-time simulation engine provides immediate visual feedback as signals propagate through the circuit.
 
 Pre-built examples include half adders, full adders, counters, and even a simple CPU design to inspire learners.`,
-    image: "/thumbnails/circuitsim.jpg",
+    image: "/screenshots/circuitsim/circuitsim-3.png",
     images: [
       "/screenshots/circuitsim/circuitsim-1.png",
       "/screenshots/circuitsim/circuitsim-2.png",
