@@ -89,7 +89,7 @@ function Photo({ award, grow }) {
     >
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img ref={img} src={src} alt={`${award.event}, ${award.year}`} onError={failed} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        <img ref={img} src={src} alt={`${award.event}, ${award.year}`} onError={failed} loading="lazy" className="absolute inset-0 h-full w-full object-cover" style={src === award.photo ? { objectPosition: award.photoPosition } : undefined} />
       ) : (
         <Podium />
       )}

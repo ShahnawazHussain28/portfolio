@@ -16,6 +16,7 @@ export const recognition = [
     note: "National hackathon. Won with SnugShopper, an AI apparel-fitting system.",
     year: "2024",
     photo: "/awards/oracle.jpg",
+    photoPosition: "55% 40%", // the team, trophy and cheque sit right of centre
     fallback: "/thumbnails/snugshopper.jpg",
     href: "/projects/snugshopper",
     linkLabel: "See SnugShopper",
@@ -27,6 +28,7 @@ export const recognition = [
     note: "National finals.",
     year: "2024",
     photo: "/awards/cognizant.jpg",
+    photoPosition: "18% 45%", // keep the presenter in frame when the tile crops square
     palette: "award-top",
   },
 ];
