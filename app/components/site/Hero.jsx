@@ -83,7 +83,7 @@ export default function Hero() {
           </div>
 
           <figure data-hero-portrait className="md:col-start-8 md:col-end-12 md:row-start-1 md:row-end-3 md:mt-[calc(var(--name)*0.78)] md:max-w-[calc((100svh-12rem-var(--name)*0.78)*0.8)]">
-            <Portrait src="/portrait.jpg" alt="Shahnawaz Hussain, wearing glasses and a light blue shirt" />
+            <Portrait src="/portrait.jpg" depthSrc="/portrait-depth.jpg" alt="Illustrated portrait of Shahnawaz Hussain, wearing glasses and a striped black shirt" />
             <figcaption data-hero-fade className="mt-3 text-sm text-graphite">
               Move your cursor and I&apos;ll turn. Hover the photo to see its depth map.
             </figcaption>

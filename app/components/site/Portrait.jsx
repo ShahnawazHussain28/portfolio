@@ -7,11 +7,11 @@ import { whenIntroDone } from "./motion/gsap";
 
   Each pixel is shifted by how close it is to the camera (a depth map), so near
   parts (nose, face) move more than far parts (shoulders, curtain). That parallax
-  reads as the head turning. Hovering the photo shows the depth map itself as
-  contour lines under the cursor.
+  reads as the head turning.
 
-  `depthSrc` is a greyscale image, white = near. Until a real one exists we draw
-  a rough head-and-shoulders depth shape on a canvas (see drawApproxDepth).
+  `depthSrc` is a greyscale image, white = near, cropped to match the photo.
+  Without one we draw a rough head-and-shoulders depth shape on a canvas
+  (see drawApproxDepth).
 */
 
 const VERT = `
@@ -28,17 +28,14 @@ varying vec2 vUv;
 uniform sampler2D uImage;
 uniform sampler2D uDepth;
 uniform vec2 uPointer;   // -1..1, smoothed
-uniform vec2 uLens;      // cursor position in uv space
-uniform float uHover;    // 0..1, how much of the depth lens to show
 uniform float uReveal;   // 0..1, load-in scan from top to bottom
-uniform float uAspect;   // canvas width / height
 uniform vec3 uAccent;
 uniform vec3 uPaper;
 
 void main() {
   // Zoom in slightly so shifted pixels never pull in the image edge.
-  vec2 base = (vUv - 0.5) / 1.06 + 0.5;
-  vec2 shift = uPointer * vec2(0.034, 0.022);
+  vec2 base = (vUv - 0.5) / 1.08 + 0.5;
+  vec2 shift = uPointer * vec2(0.05, 0.032);
 
   // Parallax: re-sample depth at the displaced position a few times so near
   // regions settle over far ones instead of smearing.
@@ -60,22 +57,17 @@ void main() {
   float line = 1.0 - smoothstep(0.0, 0.09, abs(fract(bands) - 0.5) * 2.0 - 0.82);
   vec3 contour = mix(uPaper, uAccent, line * (0.35 + 0.65 * d));
 
-  // Depth lens around the cursor.
-  vec2 lensDelta = (vUv - uLens) * vec2(uAspect, 1.0);
-  float lens = 1.0 - smoothstep(0.17, 0.19, length(lensDelta));
-  vec3 col = mix(photo, contour, lens * uHover);
-
   // Load-in: contour map first, photo scans in from the top behind a thin line.
   float scanY = 1.0 - uReveal * 1.08;
   float shown = smoothstep(scanY - 0.004, scanY + 0.004, vUv.y);
-  col = mix(contour, col, shown);
+  vec3 col = mix(contour, photo, shown);
   float edge = 1.0 - smoothstep(0.0, 0.006, abs(vUv.y - scanY));
   col = mix(col, uAccent, edge * step(uReveal, 0.999));
 
   gl_FragColor = vec4(col, 1.0);
 }`;
 
-// Rough depth for this specific photo (portrait.jpg, 4:5): head, neck, torso.
+// Fallback depth when no depthSrc is given: a generic head, neck and torso (4:5).
 function drawApproxDepth(w = 480, h = 600) {
   const c = document.createElement("canvas");
   c.width = w;
@@ -160,7 +152,7 @@ export default function Portrait({ src, depthSrc, alt }) {
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
     const u = {};
-    ["uImage", "uDepth", "uPointer", "uLens", "uHover", "uReveal", "uAspect", "uAccent", "uPaper"].forEach(
+    ["uImage", "uDepth", "uPointer", "uReveal", "uAccent", "uPaper"].forEach(
       (n) => (u[n] = gl.getUniformLocation(prog, n))
     );
 
@@ -179,9 +171,6 @@ export default function Portrait({ src, depthSrc, alt }) {
     // Pointer state, all in the same -1..1 space.
     const target = { x: 0, y: 0 };
     const current = { x: 0, y: 0 };
-    const lens = { x: 0.5, y: 0.5 };
-    let hoverTarget = 0;
-    let hover = 0;
     let lastMove = 0;
 
     const onMove = (e) => {
@@ -190,13 +179,7 @@ export default function Portrait({ src, depthSrc, alt }) {
       const cy = r.top + r.height / 2;
       target.x = Math.max(-1, Math.min(1, (e.clientX - cx) / (window.innerWidth / 2)));
       target.y = Math.max(-1, Math.min(1, -(e.clientY - cy) / (window.innerHeight / 2)));
-      lens.x = (e.clientX - r.left) / r.width;
-      lens.y = 1 - (e.clientY - r.top) / r.height;
-      hoverTarget = lens.x >= 0 && lens.x <= 1 && lens.y >= 0 && lens.y <= 1 ? 1 : 0;
       lastMove = performance.now();
-    };
-    const onLeave = () => {
-      hoverTarget = 0;
     };
 
     const resize = () => {
@@ -205,7 +188,6 @@ export default function Portrait({ src, depthSrc, alt }) {
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniform1f(u.uAspect, width / height);
     };
 
     const setColors = () => {
@@ -224,20 +206,17 @@ export default function Portrait({ src, depthSrc, alt }) {
       // Drift gently when the visitor stops moving, so the portrait feels alive.
       if (!reduce && now - lastMove > 2500) {
         const t = now / 1000;
-        target.x = Math.sin(t * 0.45) * 0.35;
-        target.y = Math.sin(t * 0.31) * 0.15;
+        target.x = Math.sin(t * 0.45) * 0.4;
+        target.y = Math.sin(t * 0.31) * 0.17;
       }
       const k = reduce ? 1 : 0.07;
       current.x += (target.x - current.x) * k;
       current.y += (target.y - current.y) * k;
-      hover += (hoverTarget - hover) * 0.12;
 
       const reveal = reduce ? 1 : Math.min(Math.max((now - start - 250) / 1500, 0), 1);
       const eased = 1 - Math.pow(1 - reveal, 3);
 
       gl.uniform2f(u.uPointer, current.x, current.y);
-      gl.uniform2f(u.uLens, lens.x, lens.y);
-      gl.uniform1f(u.uHover, hover);
       gl.uniform1f(u.uReveal, eased);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
@@ -259,7 +238,6 @@ export default function Portrait({ src, depthSrc, alt }) {
         ro.observe(wrap);
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
         window.addEventListener("pointermove", onMove, { passive: true });
-        document.documentElement.addEventListener("pointerleave", onLeave);
         raf = requestAnimationFrame(frame);
       })
       .catch(() => setFallback(true));
@@ -271,7 +249,6 @@ export default function Portrait({ src, depthSrc, alt }) {
       ro.disconnect();
       themeObserver.disconnect();
       window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
     };
   }, [src, depthSrc]);
 
