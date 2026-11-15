@@ -11,16 +11,27 @@ export const profile = {
 
 export const recognition = [
   {
-    place: "1st place",
+    place: "1st",
     event: "Xcelerate Oracle APEX hackathon",
-    note: "with SnugShopper, an AI apparel-fitting system",
+    note: "National hackathon. Won with SnugShopper, an AI apparel-fitting system.",
     year: "2024",
+    photo: "/awards/oracle.jpg",
+    post: "https://www.linkedin.com/posts/shahnawaz2802_oracle-oraclapex-inoaug-ugcPost-7234086773495058432-uBD9/",
+    photoPosition: "55% 40%", // the team, trophy and cheque sit right of centre
+    fallback: "/thumbnails/snugshopper.jpg",
+    href: "/projects/snugshopper",
+    linkLabel: "See SnugShopper",
+    palette: "award-first",
   },
   {
     place: "Top 3",
     event: "Cognizant Digital Nurture Technoverse",
-    note: "national finals",
+    note: "National finals.",
     year: "2024",
+    photo: "/awards/cognizant.jpg",
+    post: "https://www.linkedin.com/posts/shahnawaz2802_cognizant-digitalnurture-technoverse2024-ugcPost-7400884671829590016-fUYG/",
+    photoPosition: "50% 45%",
+    palette: "award-top",
   },
 ];
 

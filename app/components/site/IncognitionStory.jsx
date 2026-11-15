@@ -84,6 +84,7 @@ export default function IncognitionStory() {
   const textCol = useRef(null);
   const errRef = useRef(null);
   const errBar = useRef(null);
+  const meter = useRef(null);
   const api = useRef({});
   const [beat, setBeat] = useState(0);
   const [free, setFree] = useState(false);
@@ -184,6 +185,19 @@ export default function IncognitionStory() {
       scale = wide ? Math.min(w * 0.36, h * 0.85) / 6.2 : Math.min(w * 0.9, h * 0.55) / 6.2;
       cx = wide ? w * 0.68 : w * 0.5;
       cy = wide ? h * 0.6 : h * 0.72;
+      if (!wide && textCol.current && meter.current) {
+        // Fit the surface (across its whole sway) into the gap between the
+        // tallest story beat and the error meter, so neither is drawn over.
+        const beats = [...textCol.current.children].slice(0, -1); // the final beat dims the surface instead
+        const textBottom = textCol.current.getBoundingClientRect().top - r.top + Math.max(0, ...beats.map((b) => b.offsetHeight));
+        const top = textBottom + 20;
+        const bottom = meter.current.getBoundingClientRect().top - r.top - 16;
+        const e = extents();
+        const band = Math.max(bottom - top, h * 0.3);
+        scale = Math.min((w - 24) / (e.maxX - e.minX), band / (e.maxY - e.minY));
+        cx = w / 2 - ((e.minX + e.maxX) / 2) * scale;
+        cy = top - e.minY * scale + Math.max(0, (band - (e.maxY - e.minY) * scale) / 2);
+      }
       if (wide && textCol.current) {
         // Keep the surface's left edge (across its whole sway) clear of the headline.
         const clear = textCol.current.getBoundingClientRect().right - r.left + 32;
@@ -196,6 +210,27 @@ export default function IncognitionStory() {
           cx = Math.max(cx, clear + reach);
         }
       }
+    };
+
+    // Screen-space bounds of the surface at scale 1 around (0, 0), across its sway.
+    const extents = () => {
+      const saved = [cx, cy, scale, yaw];
+      const out = [0, 0, 0, 0];
+      const e = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
+      cx = cy = 0;
+      scale = 1;
+      for (const y of [YAW - SWAY, YAW, YAW + SWAY]) {
+        yaw = y;
+        for (let k = 0; k < V * V; k++) {
+          project(wx[k], wy[k], wz[k], out);
+          e.minX = Math.min(e.minX, out[0]);
+          e.maxX = Math.max(e.maxX, out[0]);
+          e.minY = Math.min(e.minY, out[1]);
+          e.maxY = Math.max(e.maxY, out[1]);
+        }
+      }
+      [cx, cy, scale, yaw] = saved;
+      return e;
     };
 
     // How far left of its centre the surface reaches, at the current scale.
@@ -426,6 +461,11 @@ export default function IncognitionStory() {
     });
     ro.observe(c);
     resize();
+    // Text height changes once the display font loads; re-fit around it.
+    document.fonts?.ready.then(() => {
+      resize();
+      draw();
+    });
     if (reduce) {
       dropT = 1;
       progress = 1;
@@ -486,7 +526,7 @@ export default function IncognitionStory() {
         <canvas
           ref={canvas}
           aria-hidden="true"
-          className={`absolute inset-0 h-full w-full ${finalBeat ? "cursor-pointer" : ""}`}
+          className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${finalBeat ? "cursor-pointer max-[900px]:opacity-25" : ""}`}
         />
 
         <div className="pointer-events-none relative mx-auto flex h-full max-w-page flex-col px-5 pb-8 pt-24 md:px-8 md:pb-10 md:pt-28">
@@ -561,7 +601,7 @@ export default function IncognitionStory() {
 
           {/* Error meter + beat dots */}
           <div className="flex items-end justify-between gap-6">
-            <div className={`transition-opacity duration-500 ${beat >= 1 ? "opacity-100" : "opacity-0"}`}>
+            <div ref={meter} className={`transition-opacity duration-500 ${beat >= 1 ? "opacity-100" : "opacity-0"}`}>
               <p className="text-sm text-graphite">How wrong the guess is</p>
               <p className="t-figure text-5xl md:text-6xl">
                 <span ref={errRef}>92%</span>

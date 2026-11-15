@@ -19,13 +19,18 @@ export default function Hero() {
         gsap.to(fades, { opacity: 1, y: 0, duration: 1, ease: "expo.out", stagger: 0.08, delay: 0.35 })
       );
 
-      // Portrait drifts slower than the page as the hero scrolls out.
-      gsap.to("[data-hero-portrait]", {
-        yPercent: 18,
-        scale: 0.94,
-        ease: "none",
-        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+      // Portrait drifts slower than the page as the hero scrolls out. Desktop only:
+      // on phones it sits above the intro text and would slide over it.
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        gsap.to("[data-hero-portrait]", {
+          yPercent: 18,
+          scale: 0.94,
+          ease: "none",
+          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+        });
       });
+      return () => mm.revert();
     },
     { scope: root }
   );
@@ -40,7 +45,7 @@ export default function Hero() {
       {/* Own background + dots, so the name's difference blend has something to invert. */}
       <DotField fixed={false} />
       <div className="relative mx-auto w-full max-w-page px-5 md:px-8">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-x-8 md:gap-y-0">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-8 md:gap-y-0">
           {/* The name runs across the portrait; difference blending inverts the photo inside the letters. */}
           <VariableName
             lines={["Shahnawaz", "Hussain"]}
@@ -48,7 +53,7 @@ export default function Hero() {
             style={{ fontSize: "var(--name)" }}
           />
 
-          <div className="md:col-start-1 md:col-end-8 md:row-start-2">
+          <div className="order-2 md:order-none md:col-start-1 md:col-end-8 md:row-start-2">
             <div className="mt-2 max-w-prose space-y-3 text-lg text-graphite md:mt-5">
               <p data-hero-fade className="text-ink">
                 I build products end to end, from the interface to the server to the device, and lately the AI systems
@@ -82,9 +87,10 @@ export default function Hero() {
             </div>
           </div>
 
-          <figure data-hero-portrait className="md:col-start-8 md:col-end-12 md:row-start-1 md:row-end-3 md:mt-[calc(var(--name)*0.78)] md:max-w-[calc((100svh-12rem-var(--name)*0.78)*0.8)]">
+          {/* Phone: right under the name, small. Desktop: beside the text, under the name. */}
+          <figure data-hero-portrait className="order-1 mx-auto w-[58%] max-w-[15rem] md:order-none md:mx-0 md:w-auto md:col-start-8 md:col-end-12 md:row-start-1 md:row-end-3 md:mt-[calc(var(--name)*0.78)] md:max-w-[calc((100svh-12rem-var(--name)*0.78)*0.8)]">
             <Portrait src="/portrait.jpg" depthSrc="/portrait-depth.jpg" alt="Illustrated portrait of Shahnawaz Hussain, wearing glasses and a striped black shirt" />
-            <figcaption data-hero-fade className="mt-3 text-sm text-graphite">
+            <figcaption data-hero-fade className="mt-3 text-sm text-graphite [@media(hover:none)]:hidden">
               Move your cursor and I&apos;ll turn.
             </figcaption>
           </figure>

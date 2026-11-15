@@ -291,7 +291,7 @@ function ChapterOutput() {
               onClick={sound}
               data-cursor={muted ? "Sound on" : "Mute"}
               aria-pressed={!muted}
-              className="absolute -right-4 bottom-16 inline-flex items-center gap-2 rounded-full bg-cobalt px-4 py-2.5 text-sm font-semibold text-paper transition-transform duration-300 hover:-rotate-3 md:-right-10"
+              className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full bg-cobalt px-3.5 py-2 text-sm font-semibold text-paper transition-transform duration-300 hover:-rotate-3 md:-right-10 md:bottom-16 md:top-auto md:px-4 md:py-2.5"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 5 6 9H2v6h4l5 4z" fill="currentColor" />
