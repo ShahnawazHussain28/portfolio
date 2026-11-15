@@ -34,8 +34,8 @@ uniform vec3 uPaper;
 
 void main() {
   // Zoom in slightly so shifted pixels never pull in the image edge.
-  vec2 base = (vUv - 0.5) / 1.08 + 0.5;
-  vec2 shift = uPointer * vec2(0.05, 0.032);
+  vec2 base = (vUv - 0.5) / 1.07 + 0.5;
+  vec2 shift = uPointer * vec2(0.04, 0.026);
 
   // Parallax: re-sample depth at the displaced position a few times so near
   // regions settle over far ones instead of smearing.
@@ -47,10 +47,6 @@ void main() {
   }
 
   vec3 photo = texture2D(uImage, uv).rgb;
-  float lum = dot(photo, vec3(0.299, 0.587, 0.114));
-  // Grade toward the site palette: ink-cobalt shadows, stone highlights.
-  vec3 duo = mix(vec3(0.05, 0.07, 0.24), vec3(0.95, 0.955, 0.93), smoothstep(0.04, 0.92, lum));
-  photo = mix(mix(photo, vec3(lum), 0.25), duo, 0.42);
 
   // Depth drawn as contour lines, like a topographic map of the face.
   float bands = d * 22.0;
@@ -206,8 +202,8 @@ export default function Portrait({ src, depthSrc, alt }) {
       // Drift gently when the visitor stops moving, so the portrait feels alive.
       if (!reduce && now - lastMove > 2500) {
         const t = now / 1000;
-        target.x = Math.sin(t * 0.45) * 0.4;
-        target.y = Math.sin(t * 0.31) * 0.17;
+        target.x = Math.sin(t * 0.45) * 0.37;
+        target.y = Math.sin(t * 0.31) * 0.16;
       }
       const k = reduce ? 1 : 0.07;
       current.x += (target.x - current.x) * k;
