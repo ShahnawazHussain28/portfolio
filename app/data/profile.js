@@ -11,16 +11,23 @@ export const profile = {
 
 export const recognition = [
   {
-    place: "1st place",
+    place: "1st",
     event: "Xcelerate Oracle APEX hackathon",
-    note: "with SnugShopper, an AI apparel-fitting system",
+    note: "National hackathon. Won with SnugShopper, an AI apparel-fitting system.",
     year: "2024",
+    photo: "/awards/oracle.jpg",
+    fallback: "/thumbnails/snugshopper.jpg",
+    href: "/projects/snugshopper",
+    linkLabel: "See SnugShopper",
+    palette: "award-first",
   },
   {
     place: "Top 3",
     event: "Cognizant Digital Nurture Technoverse",
-    note: "national finals",
+    note: "National finals.",
     year: "2024",
+    photo: "/awards/cognizant.jpg",
+    palette: "award-top",
   },
 ];
 

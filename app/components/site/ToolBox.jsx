@@ -4,35 +4,54 @@ import { areaColors } from "./palette";
 
 /*
   The tools I use, as physical blocks. They drop into the box when it scrolls
-  into view; with a mouse you can grab and throw them. "Shake the box" works
-  everywhere, including touch screens where dragging would fight scrolling.
+  into view; with a mouse you can grab and throw them. On touch screens a tap
+  flicks a block instead, since dragging would fight scrolling. "Shake the box"
+  works everywhere. The box grows to fit the blocks, so narrow screens get a
+  taller box rather than an overflowing one.
 */
+
+// Share of the box the blocks may cover; the rest is air so they can tumble.
+const FILL = 0.62;
+
+function fitHeight(container) {
+  const els = container.querySelectorAll("[data-tool]");
+  let area = 0;
+  els.forEach((el) => (area += el.offsetWidth * el.offsetHeight));
+  const needed = Math.ceil(area / (container.clientWidth * FILL));
+  container.style.height = "";
+  if (needed > container.clientHeight) container.style.height = `${needed}px`;
+}
 export default function ToolBox({ stack }) {
   const box = useRef(null);
   const api = useRef({ shake: () => {} });
 
   useEffect(() => {
     const container = box.current;
+    let engine, raf, Matter;
+    let started = false;
+    let disposed = false;
+    fitHeight(container);
+    // Chip widths change once the display font loads; re-fit while still static.
+    document.fonts?.ready.then(() => !started && !disposed && fitHeight(container));
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return; // blocks stay in their static, wrapped layout
 
-    let engine, runner, raf, Matter;
-    let started = false;
-    let disposed = false;
     const cleanups = [];
 
     const start = async () => {
       started = true;
       Matter = (await import("matter-js")).default;
       if (disposed) return;
-      const { Engine, Bodies, Composite, Body, Mouse, MouseConstraint } = Matter;
+      const { Engine, Bodies, Composite, Body, Mouse, MouseConstraint, Query, Sleeping } = Matter;
 
       const W = container.clientWidth;
       const H = container.clientHeight;
       const els = Array.from(container.querySelectorAll("[data-tool]"));
       container.dataset.live = "true"; // switch blocks to absolute positioning
 
-      engine = Engine.create({ gravity: { y: 1.1 } });
+      // Sleeping lets settled blocks stop being solved, so a resting pile stays put.
+      // Extra iterations keep a tall stack from creeping and twitching.
+      engine = Engine.create({ gravity: { y: 1.1 }, enableSleeping: true, positionIterations: 10, velocityIterations: 8 });
       const wall = { isStatic: true, render: { visible: false } };
       Composite.add(engine.world, [
         Bodies.rectangle(W / 2, H + 50, W * 2, 100, wall),
@@ -48,7 +67,15 @@ export default function ToolBox({ stack }) {
           -60 - i * 38,
           w,
           h,
-          { chamfer: { radius: h / 2 }, restitution: 0.35, friction: 0.25, frictionAir: 0.012, angle: (Math.random() - 0.5) * 0.8 }
+          {
+            chamfer: { radius: h / 2 },
+            restitution: 0.12,
+            friction: 0.6,
+            frictionStatic: 1,
+            frictionAir: 0.02,
+            sleepThreshold: 40,
+            angle: (Math.random() - 0.5) * 0.8,
+          }
         );
         return { el, body, w, h };
       });
@@ -62,20 +89,42 @@ export default function ToolBox({ stack }) {
         mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
         const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
         Composite.add(engine.world, mc);
+      } else {
+        // Touch: a tap flicks the block under the finger up and sideways.
+        const onTap = (e) => {
+          const r = container.getBoundingClientRect();
+          const point = { x: e.clientX - r.left, y: e.clientY - r.top };
+          const [hit] = Query.point(bodies.map((b) => b.body), point);
+          if (!hit) return;
+          const side = point.x < hit.position.x ? 1 : -1;
+          Sleeping.set(hit, false);
+          Body.setVelocity(hit, { x: side * (4 + Math.random() * 6), y: -14 - Math.random() * 6 });
+          Body.setAngularVelocity(hit, side * 0.15);
+        };
+        container.addEventListener("click", onTap);
+        cleanups.push(() => container.removeEventListener("click", onTap));
       }
 
       api.current.shake = () => {
-        bodies.forEach(({ body }) =>
-          Body.setVelocity(body, { x: (Math.random() - 0.5) * 22, y: -12 - Math.random() * 14 })
-        );
+        bodies.forEach(({ body }) => {
+          Sleeping.set(body, false);
+          Body.setVelocity(body, { x: (Math.random() - 0.5) * 22, y: -12 - Math.random() * 14 });
+        });
       };
 
+      // Fixed 60 Hz steps: Matter.js jitters when the step size varies with frame timing.
+      const STEP = 1000 / 60;
       let last = performance.now();
+      let acc = 0;
       const loop = (now) => {
-        const dt = Math.min(now - last, 32);
+        acc += Math.min(now - last, 100);
         last = now;
-        Engine.update(engine, dt);
+        while (acc >= STEP) {
+          Engine.update(engine, STEP);
+          acc -= STEP;
+        }
         for (const { el, body, w, h } of bodies) {
+          if (body.isSleeping) continue;
           el.style.transform = `translate(${body.position.x - w / 2}px, ${body.position.y - h / 2}px) rotate(${body.angle}rad)`;
         }
         raf = requestAnimationFrame(loop);
@@ -115,7 +164,7 @@ export default function ToolBox({ stack }) {
                 <li
                   key={item}
                   data-tool
-                  className="inline-block select-none whitespace-nowrap rounded-full px-5 py-2.5 font-display text-lg font-semibold tracking-tight group-data-[live=true]/box:absolute group-data-[live=true]/box:left-0 group-data-[live=true]/box:top-0 md:text-xl"
+                  className="inline-block select-none whitespace-nowrap rounded-full px-3.5 py-1.5 font-display text-base font-semibold tracking-tight group-data-[live=true]/box:absolute group-data-[live=true]/box:left-0 group-data-[live=true]/box:top-0 md:px-5 md:py-2.5 md:text-xl"
                   style={{ background: c.bg, color: c.fg, fontVariationSettings: "'wdth' 85" }}
                 >
                   {item}

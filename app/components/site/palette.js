@@ -23,6 +23,8 @@ export const palettes = {
   "about-study": { bg: C.signal, fg: C.ink, accent: C.ink },
   "about-youtube": { bg: C.cobalt, fg: C.white, accent: C.signal },
   "about-skate": { bg: "#D3D7CF", fg: C.ink, accent: C.cobalt },
+  "award-first": { bg: C.signal, fg: C.ink, accent: C.cobalt },
+  "award-top": { bg: C.cobalt, fg: C.white, accent: C.signal },
 };
 
 // Stack areas get colours too (used by the tool blocks).

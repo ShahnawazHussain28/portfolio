@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { profile } from "@/app/data/profile";
 import { palettes, paletteVars } from "./palette";
 import { gsap, useGSAP, prefersReducedMotion } from "./motion/gsap";
+import SocialIcons from "./SocialIcons";
 
 /*
   The email address, huge. Letters lean away from the cursor and spring back;
@@ -86,7 +87,7 @@ export default function Contact() {
     >
       <div className="mx-auto max-w-page px-5 pb-24 pt-28 md:px-8 md:pb-32 md:pt-40">
         <h2 id="contact-title" className="overflow-hidden text-xl md:text-2xl">
-          <span data-contact-line className="block">
+          <span data-contact-line className="block text-balance">
             Hiring, or building something? Write to me.
           </span>
         </h2>
@@ -112,15 +113,15 @@ export default function Contact() {
           </a>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-lg">
-          <a href={`mailto:${profile.email}`} className="rounded-full bg-ink px-6 py-3 text-paper transition-transform duration-300 hover:-rotate-2">
+        {/* Phone: the button gets its own full-width row, the icons sit centred under it. */}
+        <div className="mt-10 flex flex-col gap-6 text-lg sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
+          <a
+            href={`mailto:${profile.email}`}
+            className="rounded-full bg-ink px-6 py-3 text-center text-paper transition-transform duration-300 hover:-rotate-2"
+          >
             Open in your email app
           </a>
-          {profile.links.map((l) => (
-            <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="link">
-              {l.label}
-            </a>
-          ))}
+          <SocialIcons links={profile.links} className="justify-center sm:justify-start" />
         </div>
       </div>
     </section>

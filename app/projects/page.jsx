@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import ProjectList from "@/app/components/site/ProjectList";
+import ProjectWall from "@/app/components/site/ProjectWall";
 import { projects } from "@/app/data/projects";
 
 const categories = ["All", ...new Set(projects.map((p) => p.category))];
@@ -15,7 +15,7 @@ export default function ProjectsPage() {
         className="font-display font-semibold leading-[0.9] tracking-[-0.035em]"
         style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", fontVariationSettings: "'wdth' 82, 'opsz' 96" }}
       >
-        Projects
+        Projects <span className="align-top text-xl font-normal tabular-nums text-graphite md:text-2xl">{projects.length}</span>
       </h1>
       <p className="mt-6 max-w-prose text-lg text-graphite">
         Everything from this year&apos;s AI audio work back to the browser games I made while learning to code.
@@ -41,8 +41,8 @@ export default function ProjectsPage() {
         })}
       </div>
 
-      <div className="mt-10">
-        <ProjectList projects={shown} />
+      <div className="mt-16">
+        <ProjectWall projects={shown} />
       </div>
     </main>
   );
