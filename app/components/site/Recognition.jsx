@@ -42,8 +42,10 @@ export default function Recognition() {
             }`}
             style={paletteVars(palettes[r.palette])}
           >
-            <Photo award={r} grow={i > 0} />
-            <div className={`flex flex-col px-4 pb-4 pt-6 md:px-6 md:pb-6 ${i > 0 ? "" : "flex-1"}`}>
+            {/* The narrow tile's photo only stretches to fill when it's the podium stand-in;
+                a real photo keeps a landscape shape and the text area takes the extra height. */}
+            <Photo award={r} grow={i > 0 && !r.photo} narrow={i > 0} />
+            <div className="flex flex-1 flex-col px-4 pb-4 pt-6 md:px-6 md:pb-6">
               <div className="flex items-start justify-between gap-4">
                 <span
                   className="t-figure block leading-[0.85]"
@@ -55,10 +57,19 @@ export default function Recognition() {
               </div>
               <p className="mt-5 text-xl font-medium leading-snug">{r.event}</p>
               <p className="mt-1 text-graphite">{r.note}</p>
-              {r.href && (
-                <Link href={r.href} data-cursor="View" className="link mt-auto self-start pt-6 font-medium">
-                  {r.linkLabel} →
-                </Link>
+              {(r.href || r.post) && (
+                <div className="mt-auto flex flex-wrap gap-x-6 gap-y-2 pt-6 font-medium">
+                  {r.href && (
+                    <Link href={r.href} data-cursor="View" className="link">
+                      {r.linkLabel} →
+                    </Link>
+                  )}
+                  {r.post && (
+                    <a href={r.post} target="_blank" rel="noopener noreferrer" data-cursor="Open" className="link">
+                      See the post on LinkedIn ↗
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           </li>
@@ -69,7 +80,7 @@ export default function Recognition() {
 }
 
 // The photo from the day, or a stand-in until there is one.
-function Photo({ award, grow }) {
+function Photo({ award, grow, narrow }) {
   const img = useRef(null);
   const [src, setSrc] = useState(award.photo);
   const failed = () => setSrc(award.fallback || null);
@@ -84,7 +95,7 @@ function Photo({ award, grow }) {
   return (
     <div
       className={`relative overflow-hidden rounded-[1.25rem] bg-surface ${
-        grow ? "aspect-[16/10] md:aspect-auto md:min-h-[14rem] md:flex-1" : "aspect-[16/10]"
+        grow ? "aspect-[16/10] md:aspect-auto md:min-h-[14rem] md:flex-1" : narrow ? "aspect-[16/10] md:aspect-[4/3]" : "aspect-[16/10]"
       }`}
     >
       {src ? (
